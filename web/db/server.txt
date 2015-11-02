@@ -1,0 +1,4 @@
+AllowOverride All
+    RewriteEngine on 
+    RewriteCond $1 !^(index\.php|images|public|css|scripts|robots\.txt) 
+    RewriteRule ^(.*)$ index.php/$1
