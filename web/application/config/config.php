@@ -505,3 +505,31 @@ $config['rewrite_short_tags'] = FALSE;
 | Array:		array('10.0.1.200', '192.168.5.0/24')
 */
 $config['proxy_ips'] = '';
+
+
+/**
+** 加载自己的配置
+**
+**/
+// if (defined('ENVIRONMENT'))
+// {
+// 	switch (ENVIRONMENT)
+// 	{
+// 		case 'development':
+// 			$config_file = APPPATH . "config/dev_config.php";
+// 		break;
+	
+// 		case 'testing':
+// 			$config_file = APPPATH . "config/testing_config.php";
+// 		break;
+		
+// 		case 'production':
+// 			$config_file = APPPATH . "config/product_config.php";
+// 		break;
+
+// 		default:
+// 			exit('The application environment is not set correctly.');
+// 	}
+// 	require_once $config_file;
+// }
+

@@ -10,8 +10,11 @@ class Admin extends MY_Controller {
         $this->load->library('sessionaccess');
 	}
 	
+	// 显示管理当前用户所属组能够操作的管理后台界面
 	public function index()
 	{
+		$some_data = NULL;
+		echo "" + $some_data['data'];
 		//$this->load->view('welcome_message');
 		if ($this->sessionaccess->check_login()) {
 			$data['title'] = "后台管理系统";
@@ -21,6 +24,7 @@ class Admin extends MY_Controller {
 		}
 	}
 	
+	// 管理后台登陆
 	public function login() {
 		echo $this->db->escape("a'b;");
 		if ($this->sessionaccess->check_login()) {
@@ -49,6 +53,15 @@ class Admin extends MY_Controller {
 		}
 	}
 	
+	// 管理后台注销登陆
+	public function logout() {
+
+	}
+
+	// 用户注册，此处是经纪人注册
+	public function register() {
+
+	}
 
 }
 

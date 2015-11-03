@@ -3,11 +3,13 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class SessionAccess {
-	
+	// 一般用户登录状态中都要含有一些公共信息
+
 	const KEY_USER_INFO = 'user_info';
 	const COOKIE_EXPIRE = 86500;
 	
 	protected $CI;
+	protected $session_user_info;
 	
     // We'll use a constructor, as you can't directly call a function
     // from a property definition.
@@ -15,14 +17,11 @@ class SessionAccess {
     {
         // Assign the CodeIgniter super-object
 		$this->CI =& get_instance();
-		//$this->CI->load->library('session');
-		$this->CI->load->helper('cookie');
-		//$this->CI->load->helper('url');
     }
 
-    public function check_login() {
-		$session_user_info = get_cookie($this::KEY_USER_INFO);
-		if (!$session_user_info) {
+    public function check_login(/*$input = NULL*/) {
+		$session_user_info = get_cookie($this::KEY_USER_INFO, true);
+		if (!isset($session_user_info)) {
 			return FALSE;
 		}
 		return TRUE;
