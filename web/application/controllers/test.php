@@ -8,9 +8,14 @@ class test extends MY_Controller {
 	}
 
 	public function index() {
-		static $apicode;
-		$this->load->helper('user_api');
-		echo json_encode($apicode);
+
+		echo is_login();
+
+		// static $apicode;
+		// $this->load->api('user_api');
+		
+		// echo json_encode($this->user_api->logout());
+		// echo json_encode($this->user_api->test());
 	}
 
 }

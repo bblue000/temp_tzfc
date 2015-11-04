@@ -2,6 +2,22 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+// 快捷的判断是否已经登录
+function is_login() {
+	$CI =& get_instance();
+	return $CI->sessionaccess->check_login();
+}
+
+// 快捷的清除login信息
+function clear_login() {
+	$CI =& get_instance();
+	return $CI->sessionaccess->clear_user_info();
+}
+
+
+/**
+ * User login Session access manager
+ */
 class sessionaccess {
 	// 一般用户登录状态中都要含有一些公共信息
 	const COOKIE_EXPIRE = 86500;
