@@ -1,37 +1,18 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
 /**
  * 用户相关的API，包括登录，注册，修改密码，修改信息；
  */
-class user_model extends MY_Model {
-	
-	// 表名
-	const TABLE_NAME = 'tab_user';
+class user_api extends API {
 	
 	public function __construct() {
 		parent::__construct();
 	}
 
-	$apicode = array(
-
-		// 通用
-		90000 => '用户未登录',
-
-		// 登录时API
-		90001 => '用户名为空',
-		90002 => '密码为空',
-		90003 => '用户名不存在',
-		90004 => '用户名与密码不匹配',
-
-
-
-		90101 => '',
-		90201 => '',
-		90301 => ''
-
+	static $result_login_failed_non_user_name = array(
+		'code' => 90001, 
+		'msg' => '用户名为空'
 	);
-
 	// *************************************
 	// 登录
 	// *************************************
@@ -215,5 +196,6 @@ class user_model extends MY_Model {
 
 	
 }
+
 
 ?>

@@ -55,4 +55,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		return $__result_ok_pair;
 	}
 
+	function apicode_result($code, $data = NULL) {
+		$CI =& get_instance();
+		if (isset($CI->apicode)) {
+			$apicodes = $CI->apicode;
+		} else {
+			$apicodes = array();
+		}
+		return isset($apicodes[$code]) ? common_result($code, $apicodes[$code], $data) : common_result($code, '', $data);
+	}
+
 ?>
