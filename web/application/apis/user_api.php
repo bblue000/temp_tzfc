@@ -18,6 +18,7 @@ class user_api extends API {
 		90101 => '注册信息缺失',
 		90102 => '用户名已存在',
 		90103 => '注册失败',
+		90104 => '至少6位密码',
 
 		90201 => '密码修改失败',
 
@@ -48,7 +49,7 @@ class user_api extends API {
 		if (md5pass($user_pass, $query_user['salt']) != $query_user['password']) {
 			return $this->ex(90004);
 		} else {
-			return $this->ok(createLoginData($query_user));
+			return $this->ok(prepare_user_info($query_user));
 		}
 	}
 
@@ -65,20 +66,23 @@ class user_api extends API {
 		if (!isset($user['password']) || empty($user['password'])) {
 			return $this->ex(90002);
 		}
-
 		// check exist
 		// 检测用户名有没有注册过
-		if ($this->exist_by_name($user['user_name'])) {
+		if ($this->user_model->exist_by_name($user['user_name'])) {
 			return $this->ex(90102);
 		}
-
+		$user_pass = $user['password'];
+		$password = $this->generate_user_pass($user['user_pass']);
+		log_message('info', 'register user_pass = '.$password);
 		// do set new user
-		$insert_result = $this->addData($user);
+		$user['password'] = $password;
+		$insert_result = $this->user_model->add_user($user);
 		if (!$insert_result) {
+			log_message('error', 'register db failed');
 			return $this->ex(90103);
 		}
 		// 如果成功返回login数据
-		return login($user['user_name'], $user['password']);
+		return login($user['user_name'], $user_pass);
 	}
 
 
@@ -92,26 +96,30 @@ class user_api extends API {
 	 * @param	string	$user_pass 用户修改后的密码
 	 * @param	mixed	$user 当前用户信息
 	 */
-	public function change_pass($uid, $user_pass) {
+	public function change_pass($user_pass) {
 		if (!is_login()) {
 			return $this->un_login();
 		}
 		if (!isset($user_pass) || empty($user_pass)) {
 			return $this->ex(90002);
 		}
+		$uid = get_session_uid();
+
+		$password = $this->generate_user_pass($user_pass);
 		// 尝试更新数据库
-		$update_result = $this->update_pass_by_id($uid, $user_pass);
+		$update_result = $this->user_model->update_pass_by_id($uid, $password);
 		if (!$update_result) {
+			log_message('error', 'change_pass db failed');
 			return $this->ex(90201);
 		}
-		return $this->login();
+		return $this->ok(prepare_user_info($this->user_model->get_by_id($uid)));
 	}
 
 
 	// *************************************
 	// 修改个人信息
 	// *************************************
-	public function update_info($uid, $update_pair) {
+	public function update_info($update_pair) {
 		if (!is_login()) {
 			return $this->un_login();
 		}
@@ -119,12 +127,13 @@ class user_api extends API {
 			return $this->ok();
 		}
 		// 更新数据库
-		$this->setTable($this::TABLE_NAME);
-		$update_result = $this->editData(array('uid' => $uid), $update_pair);
-		if ($update_result) {
-			return $this->login();
+		$uid = get_session_uid();
+		$update_result = $this->user_model->update_pass_by_id($uid, $update_pair);
+		if (!$update_result) {
+			log_message('error', 'update_info db failed');
+			return $this->ex(90301);
 		} else {
-			return common_result_use_pair($this::$result_update_info_failed_unknown);
+			return $this->ok(prepare_user_info($this->user_model->get_by_id($uid)));
 		}
 	}
 
@@ -135,17 +144,13 @@ class user_api extends API {
 		clear_login();
 		return $this->ok();
 	}
-	
-	private function createLoginData($query_user) {
-		return array(
-					'user_name' => $query_user['user_name'], 
-					'true_name' => $query_user['true_name'],
-					'email' => $query_user['email'],
-					'true_name' => $query_user['true_name'],
-					'true_name' => $query_user['true_name'],
-					'true_name' => $query_user['true_name'],
-					);
+
+	private function generate_user_pass() {
+		$this->load->helper('string');
+		$salt = random_string('alnum', 6);
+		return md5pass($user['password'], $salt);
 	}
+	
 }
 
 

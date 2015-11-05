@@ -14,6 +14,18 @@ class user_model extends MY_Model {
 	}
 
 	/**
+	 * 根据用户ID获取用户信息
+	 *
+	 * @param	string	$uid 用户ID
+	 * @return	array 	$uid的用户信息，或者空数组
+	 * @see CI_DB_result::result_array
+	 */
+	public function get_by_id($uid) {
+		$this->setTable($this::TABLE_NAME);
+		return $this->getSingle(array('uid'=>$uid));	
+	}
+
+	/**
 	 * 根据用户名获取用户信息
 	 *
 	 * @param	string	$user_name 用户名
@@ -46,7 +58,8 @@ class user_model extends MY_Model {
 	 */
 	public function add_user($user) {
 		$this->setTable($this::TABLE_NAME);
-		return isset($this->addData($user));
+		$result = $this->addData($user);
+		return isset($result);
 	}
 
 	/**

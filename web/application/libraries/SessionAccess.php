@@ -14,6 +14,39 @@ function clear_login() {
 	return $CI->sessionaccess->clear_user_info();
 }
 
+// 尽量少调用
+function get_session_uid() {
+	$CI =& get_instance();
+	return $CI->sessionaccess->get_field('uid');
+}
+
+function set_raw_user_info($user) {
+	$CI =& get_instance();
+	$CI->sessionaccess->set_user_info($user);
+}
+
+function set_user_field($key, $val = NULL) {
+	$CI =& get_instance();
+	$CI->sessionaccess->set_field($key, $val);
+}
+
+function get_user_field($key) {
+	$CI =& get_instance();
+	return $CI->sessionaccess->get_field($key);
+}
+
+// 获取尽可能少的用户信息
+function get_sim_user_info() {
+	$CI =& get_instance();
+	return $CI->sessionaccess->filter_sim();
+}
+
+// 用户登录/注册模块使用
+function prepare_user_info($query_user) {
+	// set raw
+	set_raw_user_info($query_user);
+	return get_sim_user_info();
+}
 
 /**
  * User login Session access manager
@@ -23,6 +56,14 @@ class sessionaccess {
 	const COOKIE_EXPIRE = 86500;
 	
 	protected $CI;
+	protected $sim_info_keys = array(
+			'uid',
+			'user_name', 'true_name',
+			'contact_tel', 'contact_mobile',
+			'qqchat', 'email',
+			'avatar', 
+			'gid'
+	);
 	
     // We'll use a constructor, as you can't directly call a function
     // from a property definition.
@@ -34,8 +75,9 @@ class sessionaccess {
     }
 
     public function check_login(/*$input = NULL*/) {
-		$session_user_id = $this->CI->session->userdata('uid');
-		return (!isset($session_user_id) || empty($session_user_id));
+		$session_uid = $this->CI->session->userdata('uid');
+		echo $session_uid;
+		return (isset($session_uid) && !empty($session_uid));
 	}
 
 	/**
@@ -70,14 +112,15 @@ class sessionaccess {
 	 * 清空用户信息
 	 */
 	public function clear_user_info() {
-		$userdata = array(
-				'uid',
-				'user_name',
-				'true_name',
-				'gid',
-				'group_name'
-		);
-		$this->CI->session->unset_userdata($userdata);
+		$this->CI->session->unset_userdata($this->sim_info_keys);
+	}
+
+	/**
+	 * 获得对外提供的简单信息
+	 */
+	public function filter_sim() {
+		$user_info = $this->get_user_info();
+		return array_filter_by_key($user_info, $this->sim_info_keys);
 	}
 	
 }

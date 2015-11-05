@@ -67,23 +67,25 @@
 			if (self.width)    _width = self.width;
 			if (self.height)    _height = self.height;
 			
-			if (self.title)    _title = "<span class='title'>" + self.title + "</span>";
+			if (self.title)    _title = "<span class='admin-ui-dialog-head-title'>" + self.title + "</span>";
 			else               _title = "";
 			
-			if (self.textContent)    _textContent = "<div class='textContent'>" + self.textContent + "</div>";
+			if (self.textContent)    _textContent = "<div class='admin-ui-dialog-body-textContent'>" + self.textContent + "</div>";
 			else                     _textContent = "";
-									
-			_closeButton = "<span class='closeButton'></span>";
+							
+			if (self.isAlert != false) _isAlert = true;
+
+			_closeButton = "<span class='admin-ui-dialog-head-closeButton'></span>";
 						
 			/* Create Dialog */
 			var htm1, d;
 						
-			htm1 = "<div class='head'>" + _title + _closeButton + "</div><div class='body'>" + _textContent + "</div>",
+			htm1 = "<div class='admin-ui-dialog-head'>" + _title + _closeButton + "</div><div class='admin-ui-dialog-body'>" + _textContent + "</div>",
 			
 			d = document.createElement("div");
 			
-			if (_isAlert)    d.className = 'dialog';
-			else             d.className = 'dialog alert';
+			if (_isAlert)    d.className = 'admin-ui-dialog';
+			else             d.className = 'admin-ui-dialog alert';
 			
 			d.innerHTML = htm1;
 			d.style.display = "block";
@@ -94,15 +96,15 @@
 			/* Create Dialog Shadow */
 			if(self.shadow != false){
 				
-				var htm2 = "<div class='dialog-shadow'></div>",
+				var htm2 = "<div class='admin-ui-dialog-shadow'></div>",
 				    ds = document.createElement("div");
 				
-				ds.className = 'dialog-shadow';
+				ds.className = 'admin-ui-dialog-shadow';
 				ds.innerHTML = htm2;
 				document.body.appendChild(ds);
 			}
 						
-			var dialog = document.getElementsByClassName('dialog')[0],    // 获取对话框
+			var dialog = document.getElementsByClassName('admin-ui-dialog')[0] || document.getElementsByClassName('admin-ui-dialog-alert')[0],    // 获取对话框
 				dialogTop = 0,
 				dialogLeft = 0,
 				viewPortWidth = document.documentElement.clientWidth,
@@ -116,7 +118,7 @@
 			// Show Close Button
 			if (self.closeButton != false) {
 			
-				var cBtn = dialog.getElementsByClassName('closeButton')[0];
+				var cBtn = dialog.getElementsByClassName('admin-ui-dialog-head-closeButton')[0];
 				
 				if (cBtn.addEventListener) {
 					
@@ -133,7 +135,7 @@
 			if (self.elem) {
 			
 				var _elem = document.getElementById(self.elem);
-				dialog.getElementsByClassName('body')[0].appendChild(_elem);
+				dialog.getElementsByClassName('admin-ui-dialog-body')[0].appendChild(_elem);
 				_elem.style.display = "block";
 			}
 
@@ -211,3 +213,20 @@
 		else               return false;
 	};
  
+
+
+function showToast(msg){
+	new ui.Dialog({
+		width:300,
+		textContent : msg,
+		textContentAlign : "center",
+		closeButton : false,
+		shadow : true,
+		autoClose : true,
+		closeDuration : 1000,
+		closeCallBacks: function() {
+			return false;
+		}
+	});
+}
+

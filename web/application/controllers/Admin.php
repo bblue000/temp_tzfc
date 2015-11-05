@@ -9,68 +9,72 @@ class Admin extends MY_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('admin_model');
+		clear_login();
 	}
 	
 	// 显示管理当前用户所属组能够操作的管理后台界面
 	public function index()
 	{
-		echo base_url();
-		echo site_url();
-		echo json_encode($this->sessionaccess->get_user_info());
-		$this->load->helper('user_api');
-		echo $this->apicode[90000];
-		if ($this->sessionaccess->check_login()) {
-			// 如果已经登录，则显示当前用户能够看到的管理界面
-			$this->load->view('admin', $this->sessionaccess->get_user_info());
-		} else {
-			$this->load->view('admin/login');
-		}
+		$this->check_state_common(TRUE, 'GET');
+		// 如果已经登录，则显示当前用户能够看到的管理界面
+		$this->load->view('admin/index', get_sim_user_info());
 	}
 	
 	// 管理后台登陆
 	public function login() {
-		if ($this->sessionaccess->check_login()) {
-			// 直接跳到首页
+		$this->check_state_common(FALSE, 'GET');
+		if (is_login()) {
+			// 如果没有登录
 			redirect(base_url('admin'));
-			return ;
+		} else {
+			// 如果已经登录，则显示当前用户能够看到的管理界面
+			$this->load->view('admin/login', get_sim_user_info());
 		}
+	}
+
+	public function login_ajax() {
+		$this->check_state_api('POST');
 
 		// 获取所有的数据
 		$post = $this->input->post(NULL,TRUE);
+		$user_name = isset($post['user_name']) ? trim($post['user_name']) : NULL;
+		$password = isset($post['password']) ? trim($post['password']) : NULL;
 
-		$user_name = trim($post['username']);
-		$password = trim($post['password']);
-
-		
-		if (!$input_user_name || !$input_user_pwd) {
-			$data['user_name'] = "";
-			if (isset($input_user_name)) {
-				$data['user_name'] = $input_user_name;
-			}
-			$this->load->view('template/template-admin-header', $data);
-			$this->load->view('admin/login', $data);
-			$this->load->view('template/template-admin-footer', $data);
-		} else {
-			$loginResult = $this->admin_model->login(array(
-				'user_name' => $input_user_name,
-				'password' => $input_user_pwd
-			));
-			
-			echo $loginResult;
+		$this->load->api('user_api');
+		$api_result = $this->user_api->login($user_name, $password);
+		if (is_ok_result($api_result)) {
+			$api_result['data'] = base_url('admin');
 		}
+		echo json_encode($api_result);
 	}
-	
-	// 管理后台注销登陆
-	public function logout() {
-		$this->sessionaccess->clear_user_info();
-		$this->load->model('user_model');
-		$this->User_model->logout();
-	}
+
 
 	// 用户注册，此处是经纪人注册
 	public function register() {
+		$this->check_state_common(FALSE, 'GET');
+		$this->load->view('admin/register', get_sim_user_info());
+	}
+	
+	public function register_ajax() {
+		$this->check_state_api('POST');
+
 		// 获取所有的数据
 		$post = $this->input->post(NULL,TRUE);
+
+		$this->load->api('user_api');
+		$api_result = $this->user_api->register($post);
+		if (is_ok_result($api_result)) {
+			$api_result['data'] = base_url('admin');
+		}
+		echo json_encode($api_result);
+	}
+
+	// 管理后台注销登陆
+	public function logout() {
+		$this->load->api('user_api');
+		$this->user_api->logout();
+		// 如果没有登录
+		redirect(base_url('admin/login'));
 	}
 
 	// 加载验证码
