@@ -76,7 +76,6 @@ class sessionaccess {
 
     public function check_login(/*$input = NULL*/) {
 		$session_uid = $this->CI->session->userdata('uid');
-		echo $session_uid;
 		return (isset($session_uid) && !empty($session_uid));
 	}
 

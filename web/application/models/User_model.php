@@ -8,6 +8,11 @@ class user_model extends MY_Model {
 	
 	// 表名
 	const TABLE_NAME = 'tab_user';
+
+	private $COLS = array(
+		'uid', 'user_name', 'true_name', 'password', 'salt', 'sex',
+		'contact_tel', 'contact_mobile', 'qqchat', 'email', 'address', 'avatar'
+	);
 	
 	public function __construct() {
 		parent::__construct();
@@ -46,7 +51,8 @@ class user_model extends MY_Model {
 	 */
 	public function exist_by_name($user_name) {
 		$this->setTable($this::TABLE_NAME);
-		return !empty($this->get_by_name($user_name));
+		$result = $this->get_by_name($user_name);
+		return !empty($result);
 	}
 
 	/**
@@ -57,6 +63,7 @@ class user_model extends MY_Model {
 	 * @see CI_DB_result::insert  db->insert_id()
 	 */
 	public function add_user($user) {
+		$user = array_filter_by_key($user, $this->COLS);
 		$this->setTable($this::TABLE_NAME);
 		$result = $this->addData($user);
 		return isset($result);
@@ -71,19 +78,8 @@ class user_model extends MY_Model {
 	 * @see CI_DB_query_builder::update
 	 */
 	public function update_by_id($uid, $fields) {
-		return $this->editData(array('uid' => $uid), $update_pair);
-	}
-
-	/**
-	 * 修改密码
-	 *
-	 * @param	string	$uid 用户ID
-	 * @param	string	$user_pass 用户修改后的密码
-	 * @return	bool	TRUE on success, FALSE on failure
-	 * @see CI_DB_query_builder::update
-	 */
-	public function update_pass_by_id($uid, $update_pass) {
-		return $this->update_by_id($uid, array('password' => $update_pass));
+		$fields = array_filter_by_key($fields, $this->COLS);
+		return $this->editData(array('uid' => $uid), $fields);
 	}
 	
 }

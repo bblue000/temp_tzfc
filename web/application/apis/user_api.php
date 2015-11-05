@@ -35,17 +35,12 @@ class user_api extends API {
 	 * 用户登录
 	 */
 	public function login($user_name, $user_pass) {
-		if (!isset($user_name)) {
-			return $this->ex(90001);
-		}
-		if (!isset($user_pass)) {
-			return $this->ex(90002);
-		}
+		if (!isset($user_name)) { return $this->ex(90001); }
+		if (!isset($user_pass)) { return $this->ex(90002); }
 
 		$query_user = $this->user_model->get_by_name($user_name);
-		if (empty($query_user)) {
-			return $this->ex(90003);
-		}
+		if (empty($query_user)) { return $this->ex(90003); }
+
 		if (md5pass($user_pass, $query_user['salt']) != $query_user['password']) {
 			return $this->ex(90004);
 		} else {
@@ -57,32 +52,24 @@ class user_api extends API {
 	 * 用户注册
 	 */
 	public function register($user) {
-		if (!isset($user) || empty($user)) {
-			return $this->ex(90101);
-		}
-		if (!isset($user['user_name']) || empty($user['user_name'])) {
-			return $this->ex(90001);
-		}
-		if (!isset($user['password']) || empty($user['password'])) {
-			return $this->ex(90002);
-		}
+		if (!isset($user) || empty($user)) { return $this->ex(90101); }
+		if (!isset($user['user_name']) || empty($user['user_name'])) { return $this->ex(90001); }
+		if (!isset($user['password']) || empty($user['password'])) { return $this->ex(90002); }
 		// check exist
 		// 检测用户名有没有注册过
-		if ($this->user_model->exist_by_name($user['user_name'])) {
-			return $this->ex(90102);
-		}
+		if ($this->user_model->exist_by_name($user['user_name'])) { return $this->ex(90102); }
+		
 		$user_pass = $user['password'];
-		$password = $this->generate_user_pass($user['user_pass']);
-		log_message('info', 'register user_pass = '.$password);
+		$parsed_user = array_merge($user, $this->generate_user_pass($user_pass));
+		log_message('info', 'register user_pass = '.$parsed_user['password']);
 		// do set new user
-		$user['password'] = $password;
-		$insert_result = $this->user_model->add_user($user);
+		$insert_result = $this->user_model->add_user($parsed_user);
 		if (!$insert_result) {
 			log_message('error', 'register db failed');
 			return $this->ex(90103);
 		}
 		// 如果成功返回login数据
-		return login($user['user_name'], $user_pass);
+		return $this->login($parsed_user['user_name'], $user_pass);
 	}
 
 
@@ -97,22 +84,22 @@ class user_api extends API {
 	 * @param	mixed	$user 当前用户信息
 	 */
 	public function change_pass($user_pass) {
-		if (!is_login()) {
-			return $this->un_login();
-		}
-		if (!isset($user_pass) || empty($user_pass)) {
-			return $this->ex(90002);
-		}
+		if (!is_login()) { return $this->un_login(); }
+		if (!isset($user_pass) || empty($user_pass)) { return $this->ex(90002); }
 		$uid = get_session_uid();
 
-		$password = $this->generate_user_pass($user_pass);
+		$update_pair = $this->generate_user_pass($user_pass);
+		log_message('error', 'change_pass update_pair = '.json_encode($update_pair));
 		// 尝试更新数据库
-		$update_result = $this->user_model->update_pass_by_id($uid, $password);
+		$update_result = $this->user_model->update_by_id($uid, $update_pair);
 		if (!$update_result) {
 			log_message('error', 'change_pass db failed');
 			return $this->ex(90201);
 		}
-		return $this->ok(prepare_user_info($this->user_model->get_by_id($uid)));
+
+		$user_after_update = array_merge($this->sessionaccess->get_user_info(), $update_pair);
+		log_message('error', 'change_pass user_after_update = '.json_encode($update_pair));
+		return $this->ok(prepare_user_info($user_after_update));
 	}
 
 
@@ -145,10 +132,17 @@ class user_api extends API {
 		return $this->ok();
 	}
 
-	private function generate_user_pass() {
+	/**
+	 * 根据UI层的密码生成用户密码
+	 */
+	private function generate_user_pass($user_pass) {
 		$this->load->helper('string');
 		$salt = random_string('alnum', 6);
-		return md5pass($user['password'], $salt);
+		$password = md5pass($user_pass, $salt);
+		return array(
+			'password' => $password,
+			'salt' => $salt
+		);
 	}
 	
 }

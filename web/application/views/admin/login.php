@@ -79,7 +79,7 @@
     			return false;
     		}
 
-        if (password.length < 6) {
+        if (password.length < <?php echo PASS_MIN_LEN; ?>) {
           showToast('密码至少6位');
           return false;
         }
@@ -90,9 +90,9 @@
           type: "POST",
           url: "<?php echo site_url('admin/login/ajax');?>",
           dataType: "json",
-          data: "user_name="+user_name+"&password="+user_pass+"&aaaaa="+"/\\*?-_",
+          data: "user_name="+user_name+"&password="+user_pass,
           success: function(data){
-                if (data.status == 200) {
+                if (data.code == 200) {
                     location.href=data.data;
                 } else {
                     showToast(data.msg);
@@ -102,7 +102,7 @@
             
           },
           error:function(XMLHttpRequest, textStatus, errorThrown){
-            
+            showToast("出错了：" + textStatus);
           }
         });
     		return false;

@@ -1,27 +1,25 @@
 <!-- Header -->
 <?php $this->load->view('template/template-admin-header'); ?>
- 
 
+		<title>后台管理系统</title>
 
-	<title>后台管理系统</title>
+		<!-- Local global -->
+		<link href="<?php echo base_url('public/css/global.css'); ?>" rel="stylesheet" type="text/css">
 
-	<!-- Local global -->
-	<link href="<?php echo base_url('public/css/global.css'); ?>" rel="stylesheet" type="text/css">
+		<!-- Bootstrap -->
+		<link href="<?php echo base_url('public/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css">
 
-	<!-- Bootstrap -->
-	<link href="<?php echo base_url('public/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css">
+		<!-- Local admin -->
+		<link href="<?php echo base_url('public/css/admin/admin.common.css'); ?>" rel="stylesheet" type="text/css">
 
-	<!-- Local admin -->
-	<link href="<?php echo base_url('public/css/admin/admin.common.css'); ?>" rel="stylesheet" type="text/css">
-
-	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-	<!--[if lt IE 9]>
-	  <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-	  <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
-	<![endif]-->
-</head>
-<body>
+		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+		  <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+		  <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+	</head>
+	<body>
 
 	<!-- content -->
 	<h1 class="form-sign-h1">后台管理系统</h1>
@@ -36,7 +34,7 @@
 							<label for="inputAvatar">头像</label>
 						</td>
 						<td>
-							<img class="img-thumbnail avator" alt="点击上传头像" onclick="changeAvator();" />
+							<img id="inputAvatar" class="img-thumbnail avator" alt="点击上传头像" onclick="changeAvatar()" />
 						</td>
 					</tr>
 
@@ -140,7 +138,7 @@
 			return false;
 		}
 
-		if (password.length < 6) {
+		if (password.length < <?php echo PASS_MIN_LEN; ?>) {
 			showToast('密码至少6位');
 			return false;
 		}
@@ -177,10 +175,29 @@
 						+ "&qqchat=" + qqchat
 						+ "&email=" + email
 		console.log(postData);
-		console.log(encodeURI(postData));
+
+		$.ajax({
+			type: "POST",
+			url: "<?php echo site_url('admin/register/ajax');?>",
+			dataType: "json",
+			data: postData,
+			success: function(data){
+			    if (data.code == 200) {
+			        location.href=data.data;
+			    } else {
+			        showToast(data.msg);
+			    }
+			},
+			beforeSend:function(){
+
+			},
+			error:function(XMLHttpRequest, textStatus, errorThrown){
+				showToast("出错了：" + textStatus);
+			}
+		});
 	}
 
-	function changeAvator() {
+	function changeAvatar() {
 
 	}
 	</script>
