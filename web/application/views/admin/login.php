@@ -18,6 +18,12 @@
       <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <style type="text/css">
+    #content-container {
+        display: none;
+    }
+    </style>
   </head>
 
 
@@ -25,9 +31,11 @@
 
   	<h1 class="form-sign-h1">后台管理系统</h1>
 
-  	<div class="container">
+  	<div id="content-container" class="container">
   		<div class="form_wrapper">
           	<h2 class="form-sign-heading">用户登录</h2>
+            
+            <div id="formErrTip"></div>
               
               <form id="loginForm" class="form-sign form-signin" action="" onsubmit="return false" method="post">
                   
@@ -56,56 +64,60 @@
         
 
       </div> <!-- /container -->
-
-
       
   	  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
       <script src="<?php echo base_url('public/scripts/jquery.min.js'); ?>"></script>
+      <script src="<?php echo base_url('public/scripts/jquery.validate.min.js'); ?>"></script>
       <!-- Include all compiled plugins (below), or include individual files as needed -->
       <script src="<?php echo base_url('public/scripts/bootstrap.min.js'); ?>"></script>
       <script src="<?php echo base_url('public/scripts/md5.js'); ?>"></script>
       <script src="<?php echo base_url('public/scripts/admin/admin.common.js'); ?>"></script>
+      <script src="<?php echo base_url('public/scripts/admin/admin.validate.js'); ?>"></script>
       
       <script type="application/javascript">
+      $("#content-container").fadeIn(1500);
+      $(document).ready(function() {
+        $("#loginForm").validate(commonSignValidate()) ;
+      });
     	function check_input() {
-        var user_name=$.trim($("#inputUsername").val());
-    		if (user_name == "") {
-    			showToast('请输入用户名');
-    			return false;
-    		}
-    		var password = $("#inputPassword").val();
-    		if (password == "") {
-    			showToast('请输入密码');
-    			return false;
-    		}
+     //    var user_name=$.trim($("#inputUsername").val());
+    	// 	if (user_name == "") {
+    	// 		showToast('请输入用户名');
+    	// 		return false;
+    	// 	}
+    	// 	var password = $("#inputPassword").val();
+    	// 	if (password == "") {
+    	// 		showToast('请输入密码');
+    	// 		return false;
+    	// 	}
 
-        if (password.length < <?php echo PASS_MIN_LEN; ?>) {
-          showToast('密码至少6位');
-          return false;
-        }
+     //    if (password.length < <?php echo PASS_MIN_LEN; ?>) {
+     //      showToast('密码至少6位');
+     //      return false;
+     //    }
 
-        var user_pass = hex_md5(password);
+     //    var user_pass = hex_md5(password);
 
-        $.ajax({
-          type: "POST",
-          url: "<?php echo site_url('admin/login/ajax');?>",
-          dataType: "json",
-          data: "user_name="+user_name+"&password="+user_pass,
-          success: function(data){
-                if (data.code == 200) {
-                    location.href=data.data;
-                } else {
-                    showToast(data.msg);
-                }
-          },
-          beforeSend:function(){
+     //    $.ajax({
+     //      type: "POST",
+     //      url: "<?php echo site_url('admin/login/ajax');?>",
+     //      dataType: "json",
+     //      data: "user_name="+user_name+"&password="+user_pass,
+     //      success: function(data){
+     //            if (data.code == 200) {
+     //                location.href=data.data;
+     //            } else {
+     //                showToast(data.msg);
+     //            }
+     //      },
+     //      beforeSend:function(){
             
-          },
-          error:function(XMLHttpRequest, textStatus, errorThrown){
-            showToast("出错了：" + textStatus);
-          }
-        });
-    		return false;
+     //      },
+     //      error:function(XMLHttpRequest, textStatus, errorThrown){
+     //        showToast("出错了：" + textStatus);
+     //      }
+     //    });
+    		return true;
     	}
     	</script>
 

@@ -18,15 +18,23 @@
 		  <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
 		  <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
 		<![endif]-->
+
+		<style type="text/css">
+		#content-container {
+			display: none;
+		}
+		</style>
 	</head>
 	<body>
 
 	<!-- content -->
 	<h1 class="form-sign-h1">后台管理系统</h1>
-	<div class="container">
+	<div id="content-container" class="container">
 		<div class="form_wrapper">
 			<h2 class="form-sign-heading">用户注册</h2>
-              
+
+            <div id="formErrTip"></div>
+			
 			<form id="registerForm" class="form-sign form-signup" action="" onsubmit="return false" method="post">
 				<table class="table table-striped input-table">
 					<tr>
@@ -120,81 +128,90 @@
 
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	<script src="<?php echo base_url('public/scripts/jquery.min.js'); ?>"></script>
+	<script src="<?php echo base_url('public/scripts/jquery.validate.min.js'); ?>"></script>
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<script src="<?php echo base_url('public/scripts/bootstrap.min.js'); ?>"></script>
 	<script src="<?php echo base_url('public/scripts/md5.js'); ?>"></script>
 	<script src="<?php echo base_url('public/scripts/admin/admin.common.js'); ?>"></script>
+	<script src="<?php echo base_url('public/scripts/admin/admin.validate.js'); ?>"></script>
 
 	<script type="application/javascript">
+	$(document).ready(function() {
+		$("#registerForm").validate(commonSignValidate());
+	});
+
+	$("#content-container").fadeIn(1500);
+	
 	function checkInput() {
-		var user_name=$.trim($("#inputUsername").val());
-		if (user_name == "") {
-			showToast('请输入用户名');
-			return false;
-		}
-		var password = $("#inputPassword").val();
-			if (password == "") {
-			showToast('请输入密码');
-			return false;
-		}
+		return true;
+		// var user_name=$.trim($("#inputUsername").val());
+		// if (user_name == "") {
+		// 	showToast('请输入用户名');
+		// 	return false;
+		// }
+		// var password = $("#inputPassword").val();
+		// 	if (password == "") {
+		// 	showToast('请输入密码');
+		// 	return false;
+		// }
 
-		if (password.length < <?php echo PASS_MIN_LEN; ?>) {
-			showToast('密码至少6位');
-			return false;
-		}
+		// if (password.length < <?php echo PASS_MIN_LEN; ?>) {
+		// 	showToast('密码至少6位');
+		// 	return false;
+		// }
 
-		var user_pass = hex_md5(password);
+		// var user_pass = hex_md5(password);
 
-		var sex = $(':radio[name="inputSex"]:checked').val();
+		// var sex = $(':radio[name="inputSex"]:checked').val();
 
 
-		var true_name=$.trim($("#inputTrueName").val());
-		if (true_name == "") {
-			showToast('请输入姓名');
-			return false;
-		}
+		// var true_name=$.trim($("#inputTrueName").val());
+		// if (true_name == "") {
+		// 	showToast('请输入姓名');
+		// 	return false;
+		// }
 
-		var contact_mobile=$.trim($("#inputMobile").val());
-		if (contact_mobile == "") {
-			showToast('请输入手机号');
-			return false;
-		}
+		// var contact_mobile=$.trim($("#inputMobile").val());
+		// if (contact_mobile == "") {
+		// 	showToast('请输入手机号');
+		// 	return false;
+		// }
 
-		var qqchat=$.trim($("#inputQQ").val());
-		if (qqchat == "") {
-			showToast('请输入QQ号');
-			return false;
-		}
-		var email = $.trim($("#inputMobile").val());
+		// var qqchat=$.trim($("#inputQQ").val());
+		// if (qqchat == "") {
+		// 	showToast('请输入QQ号');
+		// 	return false;
+		// }
+		// var email = $.trim($("#inputMobile").val());
 
-		var postData = "user_name=" + user_name
-						+ "&password=" + user_pass
-						+ "&sex=" + sex
-						+ "&true_name=" + true_name
-						+ "&contact_mobile=" + contact_mobile
-						+ "&qqchat=" + qqchat
-						+ "&email=" + email
-		console.log(postData);
+		// var postData = "user_name=" + user_name
+		// 				+ "&password=" + user_pass
+		// 				+ "&sex=" + sex
+		// 				+ "&true_name=" + true_name
+		// 				+ "&contact_mobile=" + contact_mobile
+		// 				+ "&qqchat=" + qqchat
+		// 				+ "&email=" + email
+		// console.log(postData);
 
-		$.ajax({
-			type: "POST",
-			url: "<?php echo site_url('admin/register/ajax');?>",
-			dataType: "json",
-			data: postData,
-			success: function(data){
-			    if (data.code == 200) {
-			        location.href=data.data;
-			    } else {
-			        showToast(data.msg);
-			    }
-			},
-			beforeSend:function(){
+		// $.ajax({
+		// 	type: "POST",
+		// 	url: "<?php echo site_url('admin/register/ajax');?>",
+		// 	dataType: "json",
+		// 	data: postData,
+		// 	success: function(data){
+		// 	    if (data.code == 200) {
+		// 	        location.href=data.data;
+		// 	    } else {
+		// 	        showToast(data.msg);
+		// 	    }
+		// 	},
+		// 	beforeSend:function(){
 
-			},
-			error:function(XMLHttpRequest, textStatus, errorThrown){
-				showToast("出错了：" + textStatus);
-			}
-		});
+		// 	},
+		// 	error:function(XMLHttpRequest, textStatus, errorThrown){
+		// 		showToast("出错了：" + textStatus);
+		// 	}
+		// });
 	}
 
 	function changeAvatar() {
