@@ -21,7 +21,7 @@ INSERT INTO `tzfc_db`.`Tab_Operation`(`opid`, `op_name`, `min_level`) VALUES (4,
 -- -----------------------------------------------------
 -- Table `tzfc_db`.`Tab_User` data yytest
 -- -----------------------------------------------------
-INSERT INTO `tzfc_db`.`Tab_User`(`uid`, `user_name`, `true_name`, `password`, `contact_mobile`, `qqchat`, `email`, `salt`) VALUES (1, 'admin', 'YY', '3544d4b0fd2d2f47ec793359b3d626a6', '15221543209', '574879667', 'yy15151877621@126.com', '3RzQxs');
+INSERT INTO `tzfc_db`.`Tab_User`(`uid`, `user_name`, `true_name`, `password`, `contact_mobile`, `qqchat`, `email`, `salt`, `sex`) VALUES (1, 'admin', 'YY', '3544d4b0fd2d2f47ec793359b3d626a6', '15221543209', '574879667', 'yy15151877621@126.com', '3RzQxs', '1');
 
 
 -- -----------------------------------------------------

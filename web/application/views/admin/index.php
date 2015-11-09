@@ -13,6 +13,15 @@
 		<!-- Local admin -->
 		<link href="<?php echo base_url('public/css/admin/admin.common.css'); ?>" rel="stylesheet" type="text/css">
 
+
+
+
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script src="<?php echo base_url('public/scripts/jquery.min.js'); ?>"></script>
+		<script src="<?php echo base_url('public/scripts/jquery.validate.min.js'); ?>"></script>
+		<!-- Include all compiled plugins (below), or include individual files as needed -->
+		<script src="<?php echo base_url('public/scripts/bootstrap.min.js'); ?>"></script>
+
 		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 		<!--[if lt IE 9]>
@@ -24,17 +33,16 @@
 
 	<!-- content -->
 
+	<?php $this->load->view('admin/home-header'); ?>
+	<?php $this->load->view('admin/home-sidebar'); ?>
+
+	<div id="content">
+		
+	</div>
 
 
 
 
-
-
-
-	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-	<script src="<?php echo base_url('public/scripts/jquery.min.js'); ?>"></script>
-	<!-- Include all compiled plugins (below), or include individual files as needed -->
-	<script src="<?php echo base_url('public/scripts/bootstrap.min.js'); ?>"></script>
 	<script src="<?php echo base_url('public/scripts/md5.js'); ?>"></script>
 	<script src="<?php echo base_url('public/scripts/admin/admin.common.js'); ?>"></script>
 

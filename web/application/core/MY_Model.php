@@ -117,7 +117,7 @@ class MY_Model extends CI_Model {
     public function editData($datawhere, $data, $table = '')
     {
         $table = $table == '' ? $this->table : $table;
-        $this->trackAction($table,'update id:'.$datawhere);
+        $this->trackAction($table,'update id:'.json_encode($datawhere));
         if (! empty($datawhere)) {
             $this->db->where($datawhere);
         }

@@ -18,6 +18,11 @@ class user_model extends MY_Model {
 		parent::__construct();
 	}
 
+	public function get_all() {
+		$this->setTable($this::TABLE_NAME);
+		return $this->getData();
+	}
+
 	/**
 	 * 根据用户ID获取用户信息
 	 *
@@ -79,7 +84,20 @@ class user_model extends MY_Model {
 	 */
 	public function update_by_id($uid, $fields) {
 		$fields = array_filter_by_key($fields, $this->COLS);
+		$this->setTable($this::TABLE_NAME);
 		return $this->editData(array('uid' => $uid), $fields);
+	}
+
+	/**
+	 * 删除用户
+	 *
+	 * @param	string	$uid 用户ID
+	 * @return	bool	TRUE on success, FALSE on failure
+	 * @see CI_DB_query_builder::delte
+	 */
+	public function del_by_id($uid) {
+		$result = $this->delData($uid, $this::TABLE_NAME, 'uid');
+		return $result === FALSE ? FALSE : TRUE;
 	}
 	
 }

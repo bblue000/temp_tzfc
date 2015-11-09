@@ -34,7 +34,7 @@
   	<div id="content-container" class="container">
   		<div class="form_wrapper">
           	<h2 class="form-sign-heading">用户登录</h2>
-            
+
             <div id="formErrTip"></div>
               
               <form id="loginForm" class="form-sign form-signin" action="" onsubmit="return false" method="post">
@@ -76,48 +76,9 @@
       
       <script type="application/javascript">
       $("#content-container").fadeIn(1500);
-      $(document).ready(function() {
-        $("#loginForm").validate(commonSignValidate()) ;
-      });
+
     	function check_input() {
-     //    var user_name=$.trim($("#inputUsername").val());
-    	// 	if (user_name == "") {
-    	// 		showToast('请输入用户名');
-    	// 		return false;
-    	// 	}
-    	// 	var password = $("#inputPassword").val();
-    	// 	if (password == "") {
-    	// 		showToast('请输入密码');
-    	// 		return false;
-    	// 	}
-
-     //    if (password.length < <?php echo PASS_MIN_LEN; ?>) {
-     //      showToast('密码至少6位');
-     //      return false;
-     //    }
-
-     //    var user_pass = hex_md5(password);
-
-     //    $.ajax({
-     //      type: "POST",
-     //      url: "<?php echo site_url('admin/login/ajax');?>",
-     //      dataType: "json",
-     //      data: "user_name="+user_name+"&password="+user_pass,
-     //      success: function(data){
-     //            if (data.code == 200) {
-     //                location.href=data.data;
-     //            } else {
-     //                showToast(data.msg);
-     //            }
-     //      },
-     //      beforeSend:function(){
-            
-     //      },
-     //      error:function(XMLHttpRequest, textStatus, errorThrown){
-     //        showToast("出错了：" + textStatus);
-     //      }
-     //    });
-    		return true;
+        return commonSignValidate("<?php echo base_url('admin/login/ajax');?>");
     	}
     	</script>
 

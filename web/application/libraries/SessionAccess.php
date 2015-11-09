@@ -59,6 +59,7 @@ class sessionaccess {
 	protected $sim_info_keys = array(
 			'uid',
 			'user_name', 'true_name',
+			'sex',
 			'contact_tel', 'contact_mobile',
 			'qqchat', 'email',
 			'avatar', 

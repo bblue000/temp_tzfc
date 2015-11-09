@@ -8,7 +8,6 @@ class admin extends MY_Controller {
 	
 	public function __construct() {
 		parent::__construct();
-		$this->load->model('admin_model');
 	}
 	
 	// 显示管理当前用户所属组能够操作的管理后台界面
@@ -16,7 +15,7 @@ class admin extends MY_Controller {
 	{
 		$this->check_state_common('GET', TRUE);
 		// 如果已经登录，则显示当前用户能够看到的管理界面
-		$this->load->view('admin/index', get_sim_user_info());
+		$this->load->view('admin/index', $this);
 	}
 	
 	// 管理后台登陆
@@ -27,7 +26,7 @@ class admin extends MY_Controller {
 			redirect(base_url('admin'));
 		} else {
 			// 如果没有登录
-			$this->load->view('admin/login', get_sim_user_info());
+			$this->load->view('admin/login', $this);
 		}
 	}
 
@@ -51,7 +50,7 @@ class admin extends MY_Controller {
 	// 用户注册，此处是经纪人注册
 	public function register() {
 		$this->check_state_common('GET', FALSE);
-		$this->load->view('admin/register', get_sim_user_info());
+		$this->load->view('admin/register', $this);
 	}
 	
 	public function register_ajax() {

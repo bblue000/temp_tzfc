@@ -22,7 +22,10 @@ class user_api extends API {
 
 		90201 => '密码修改失败',
 
-		90301 => '用户信息更新失败'
+		90301 => '用户信息更新失败',
+
+		90401 => '指定删除用户ID',
+		90402 => '删除用户失败'
 
 	);
 
@@ -115,12 +118,29 @@ class user_api extends API {
 		}
 		// 更新数据库
 		$uid = get_session_uid();
-		$update_result = $this->user_model->update_pass_by_id($uid, $update_pair);
+		$update_result = $this->user_model->update_by_id($uid, $update_pair);
 		if (!$update_result) {
 			log_message('error', 'update_info db failed');
 			return $this->ex(90301);
 		} else {
 			return $this->ok(prepare_user_info($this->user_model->get_by_id($uid)));
+		}
+	}
+
+
+	public function del_user($uid) {
+		if (!is_login()) {
+			return $this->un_login();
+		}
+		if (!isset($uid)) {
+			return $this->ex(90401);
+		}
+		$del_result = $this->user_model->del_by_id($uid);
+		if (!$del_result) {
+			log_message('error', 'del_user db failed');
+			return $this->ex(90402);
+		} else {
+			return $this->ok($uid);
 		}
 	}
 

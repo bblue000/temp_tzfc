@@ -12,6 +12,15 @@ class MY_Controller extends CI_Controller {
 		parent::__construct();
 		// 需要base url
         $this->load->helper('url');
+
+        // 将用户信息插入到
+        $user_info = get_sim_user_info();
+        if (isset($user_info) && !empty($user_info)) {
+			foreach ($user_info as $key => $value) {
+	        	$this->$key = $value;
+	        }
+        }
+        
 	}
 
 	public function check_state_common($request_method, $need_login = FALSE) {

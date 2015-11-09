@@ -1,7 +1,7 @@
 <!-- Header -->
 <?php $this->load->view('template/template-admin-header'); ?>
 
-		<title>后台管理系统</title>
+		<title>后台管理系统-注册</title>
 
 		<!-- Local global -->
 		<link href="<?php echo base_url('public/css/global.css'); ?>" rel="stylesheet" type="text/css">
@@ -92,7 +92,7 @@
 							<label for="inputMobile">手机号</label>
 						</td>
 						<td>
-							<input type="text" name="contact_mobile" maxlength="11" id="inputMobile" class="form-control" placeholder="手机号">
+							<input type="text" name="contact_mobile" maxlength="11" id="inputMobile" class="form-control" placeholder="手机号" >
 						</td>
 					</tr>
 
@@ -101,7 +101,7 @@
 							<label for="inputQQ">QQ</label>
 						</td>
 						<td>
-							<input type="text" name="qqchat" id="inputQQ" class="form-control" placeholder="QQ号">
+							<input type="text" name="qqchat" id="inputQQ" class="form-control" placeholder="QQ号" >
 						</td>
 					</tr>
 
@@ -110,7 +110,7 @@
 							<label for="inputEmail">邮箱</label>
 						</td>
 						<td>
-							<input type="text" name="email" id="inputEmail" class="form-control" placeholder="邮箱">
+							<input type="text" name="email" id="inputEmail" class="form-control" placeholder="邮箱" >
 						</td>
 					</tr>
 				</table>
@@ -136,82 +136,10 @@
 	<script src="<?php echo base_url('public/scripts/admin/admin.validate.js'); ?>"></script>
 
 	<script type="application/javascript">
-	$(document).ready(function() {
-		$("#registerForm").validate(commonSignValidate());
-	});
-
 	$("#content-container").fadeIn(1500);
 	
 	function checkInput() {
-		return true;
-		// var user_name=$.trim($("#inputUsername").val());
-		// if (user_name == "") {
-		// 	showToast('请输入用户名');
-		// 	return false;
-		// }
-		// var password = $("#inputPassword").val();
-		// 	if (password == "") {
-		// 	showToast('请输入密码');
-		// 	return false;
-		// }
-
-		// if (password.length < <?php echo PASS_MIN_LEN; ?>) {
-		// 	showToast('密码至少6位');
-		// 	return false;
-		// }
-
-		// var user_pass = hex_md5(password);
-
-		// var sex = $(':radio[name="inputSex"]:checked').val();
-
-
-		// var true_name=$.trim($("#inputTrueName").val());
-		// if (true_name == "") {
-		// 	showToast('请输入姓名');
-		// 	return false;
-		// }
-
-		// var contact_mobile=$.trim($("#inputMobile").val());
-		// if (contact_mobile == "") {
-		// 	showToast('请输入手机号');
-		// 	return false;
-		// }
-
-		// var qqchat=$.trim($("#inputQQ").val());
-		// if (qqchat == "") {
-		// 	showToast('请输入QQ号');
-		// 	return false;
-		// }
-		// var email = $.trim($("#inputMobile").val());
-
-		// var postData = "user_name=" + user_name
-		// 				+ "&password=" + user_pass
-		// 				+ "&sex=" + sex
-		// 				+ "&true_name=" + true_name
-		// 				+ "&contact_mobile=" + contact_mobile
-		// 				+ "&qqchat=" + qqchat
-		// 				+ "&email=" + email
-		// console.log(postData);
-
-		// $.ajax({
-		// 	type: "POST",
-		// 	url: "<?php echo site_url('admin/register/ajax');?>",
-		// 	dataType: "json",
-		// 	data: postData,
-		// 	success: function(data){
-		// 	    if (data.code == 200) {
-		// 	        location.href=data.data;
-		// 	    } else {
-		// 	        showToast(data.msg);
-		// 	    }
-		// 	},
-		// 	beforeSend:function(){
-
-		// 	},
-		// 	error:function(XMLHttpRequest, textStatus, errorThrown){
-		// 		showToast("出错了：" + textStatus);
-		// 	}
-		// });
+		return commonSignValidate("<?php echo base_url('admin/register/ajax');?>");
 	}
 
 	function changeAvatar() {
