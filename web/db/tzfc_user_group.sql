@@ -29,4 +29,3 @@ INSERT INTO `tzfc_db`.`Tab_User`(`uid`, `user_name`, `true_name`, `password`, `c
 -- Table `tzfc_db`.`Tab_UserGroup_has_Tab_User` data
 -- -----------------------------------------------------
 INSERT INTO `tzfc_db`.`Tab_UserGroup_has_Tab_User`(`gid`, `uid`) VALUES (1, 1);
-
