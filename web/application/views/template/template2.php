@@ -45,6 +45,7 @@
 	<script src="<?php echo base_url('public/scripts/md5.js'); ?>"></script>
 	<script src="<?php echo base_url('public/scripts/admin/admin.common.js'); ?>"></script>
 	<script src="<?php echo base_url('public/scripts/admin/admin.validate.js'); ?>"></script>
+	<script src="<?php echo base_url('public/scripts/admin/zxxFile.js'); ?>"></script>
 
 	<script type="application/javascript">
 
