@@ -32,10 +32,18 @@ proguard/
 **/test_sessions/*
 !**/test_sessions/index.html
 
-**/upload/*
-!**/upload/index.html
-!**/upload/avatar/
 
-**/upload/avatar/*
-!**/upload/avatar/index.html
+*/uploads/*
+!*/uploads/index.html
+!*/uploads/avatar/
+
+*/uploads/avatar/*
+!*/uploads/avatar/index.html
+
+**/uploads/*
+!**/uploads/index.html
+!**/uploads/avatar/
+
+**/uploads/avatar/*
+!**/uploads/avatar/index.html
 
