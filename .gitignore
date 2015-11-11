@@ -1,3 +1,5 @@
+.DS_Store
+
 # Built application files
 *.apk
 *.ap_
@@ -25,4 +27,15 @@ proguard/
 
 # Log Files
 *.log
-test_sessions/
+
+
+**/test_sessions/*
+!**/test_sessions/index.html
+
+**/upload/*
+!**/upload/index.html
+!**/upload/avatar/
+
+**/upload/avatar/*
+!**/upload/avatar/index.html
+
