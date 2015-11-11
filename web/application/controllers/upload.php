@@ -19,17 +19,18 @@ class upload extends MY_Controller {
 		$validFormats = array('jpg', 'gif', 'png', 'jpeg');
 		$ext = pathinfo($fn, PATHINFO_EXTENSION);
 		if (!in_array($ext, $validFormats)) {
-			echo common_result(500, '文件格式不支持: '.$ext);
+			echo json_encode(common_result(500, '文件格式不支持: '.$ext));
 			exit(EXIT_USER_INPUT);
 		}
 		unset($validFormats);
 
 	    file_put_contents(
-	        APPPATH.'uploads/avatar/' . $fn,
+	        FCPATH.'uploads/avatar/' . $fn,
 	        file_get_contents('php://input')
 	    );
-	    echo base_url(uploads/$fn;
-	    exit();
+	    echo json_encode(common_result_ok(base_url('uploads/avatar/'.$fn)));
+	    // echo base_url(uploads/$fn;
+	    // exit();
 
 		// echo json_encode($_FILES);
 	}

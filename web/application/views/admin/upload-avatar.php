@@ -11,6 +11,7 @@
 		position: fixed;
 		top: 0;
 		width: 100%;
+		z-index: 100
 	}
 
 	#loadbox {
@@ -20,7 +21,7 @@
 		text-align: center;
 		top: 20%;
 		width: 100%;
-		z-index: 100
+		z-index: 101
 	}
 
 	#loadlayer {
@@ -169,9 +170,9 @@
 	}
 	</style>
 	
-	<div id="overlayer" style="display:none;z-index:999999"></div>
+	<div id="overlayer" style="display:none;"></div>
 
-	<div id="loadbox" style="display:none;z-index:999999">
+	<div id="loadbox" style="display:none;">
 	    <div id="loadlayer">
 	        <a href="javascript:void(0)" class="close" onclick="upload_layer_close();"></a>
             <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
@@ -211,7 +212,7 @@
 
 		function prepare_upload(uploadUrl, funcOnSuccess) {
 			var _myUrl = uploadUrl || $("#uploadForm").attr("action");
-
+			var myJQ = $;
 			var params = {
 				fileInput: $("#fileImage").get(0),
 				dragDrop: $("#fileDragArea").get(0),
@@ -287,7 +288,8 @@
 				  //file控件value置空
 				  $("#fileImage").val("");
 				  showToast("图片上传完毕~");
-				  $("#uploadInf").val("");
+				  $("#uploadInf").html("");
+				  upload_layer_close();
 				}
 			};
 			ZXXFILE = $.extend(ZXXFILE, params);

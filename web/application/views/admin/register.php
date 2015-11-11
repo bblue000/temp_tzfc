@@ -147,7 +147,7 @@
 	}
 
 	prepare_upload(null, function(responseUrl) {
-		$('#inputAvatar').src = responseUrl;
+		$('#inputAvatar').attr('src', responseUrl);
 	});
 
 	</script>

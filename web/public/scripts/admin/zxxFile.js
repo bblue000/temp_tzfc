@@ -17,6 +17,7 @@ var ZXXFILE = {
 	onDragOver: function() {},		//文件拖拽到敏感区域时
 	onDragLeave: function() {},	//文件离开到敏感区域时
 	onProgress: function() {},		//文件上传进度
+	dealResponse: function(xhr) { return false; },		//处理结果，如果返回的值==true，就不进行onSuccess或onFailed
 	onSuccess: function() {},		//文件上传成功时
 	onFailure: function() {},		//文件上传失败时,
 	onComplete: function() {},		//文件全部上传完毕时
@@ -87,12 +88,28 @@ var ZXXFILE = {
 					// 文件上传成功或是失败
 					xhr.onreadystatechange = function(e) {
 						if (xhr.readyState == 4) {
-							if (xhr.status == 200) {
-								self.onSuccess(file, xhr.responseText);
+							if (self.dealResponse(xhr)) {
 								self.funDeleteFile(file);
 								if (!self.fileFilter.length) {
 									//全部完毕
 									self.onComplete();	
+								}
+								return ;
+							}
+							if (xhr.status == 200) {
+								// ***************************
+								// 这边是我自己的处理
+								// ***************************
+								var myJsonResult = JSON.parse(xhr.responseText);
+								if (myJsonResult.code == 200) {
+									self.onSuccess(file, myJsonResult.data);
+									self.funDeleteFile(file);
+									if (!self.fileFilter.length) {
+										//全部完毕
+										self.onComplete();	
+									}
+								} else {
+									self.onFailure(file, myJsonResult.msg);	
 								}
 							} else {
 								self.onFailure(file, xhr.responseText);		

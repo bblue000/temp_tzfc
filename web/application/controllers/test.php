@@ -20,6 +20,8 @@ class test extends MY_Controller {
 		echo $salt;
 		echo '<br/>';
 		echo md5pass($data, $salt);
+		echo SELF;
+		echo FCPATH;
 		// echo phpinfo();
 		// echo get_user_field('yytest').'haha';
 		// static $apicode;
