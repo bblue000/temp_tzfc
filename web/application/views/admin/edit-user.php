@@ -47,7 +47,7 @@
 							<label for="inputAvatar">头像</label>
 						</td>
 						<td>
-							<img id="inputAvatar" class="img-thumbnail avator" alt="点击上传头像" onclick="changeAvatar()" />
+							<img id="inputAvatar" class="img-thumbnail avator" alt="点击上传头像" onclick="changeAvatar()" <?php if(isset($avatar) && !empty($avatar)) echo ' src="'.$avatar.'" '; ?> />
 						</td>
 					</tr>
 
@@ -113,6 +113,9 @@
 	<script src="<?php echo base_url('public/scripts/md5.js'); ?>"></script>
 	<script src="<?php echo base_url('public/scripts/admin/admin.common.js'); ?>"></script>
 	<script src="<?php echo base_url('public/scripts/admin/admin.validate.js'); ?>"></script>
+	<script type="text/javascript" src="public/scripts/admin/zxxFile.js"></script>
+
+	<?php $this->load->view('admin/upload-avatar'); ?>
 
 	<script type="application/javascript">
 	function checkInput() {
@@ -120,8 +123,13 @@
 	}
 
 	function changeAvatar() {
-
+		upload_layer_show();
 	}
+
+	prepare_upload(null, function(responseUrl) {
+		$('#inputAvatar').attr('src', responseUrl);
+		$('#inputAvatar').data('src', responseUrl);
+	});
 	</script>
 
 <!-- Footer -->

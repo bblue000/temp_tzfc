@@ -230,4 +230,35 @@ body.menu {
 .menu dd.curr a{color:#f10180;}
 
 
+/* ---------- admin house ---------- */
+#house-container {
+    clear:both; width:100%; padding:25px 28px; background-color:#fff; min-height: 100%;
+    font-size: 16px;
+}
+#house-list-container, #house-cat-container, #house-keyword-container, #house-result-lable {
+    margin-top: 10px;
+}
 
+#house-list-container table {
+  table-layout: fixed;
+}
+#house-list-container table thead, #house-list-container table thead tr th {
+  font-size: 18px;
+  text-align: center;
+  font-weight: bold;
+}
+.house-op {
+  font-size: 10px;
+  padding: 1px 6px;
+}
+.house-op-delete {
+}
+.house-op-edit {
+}
+
+.house-col-1 {
+  max-width: 25%;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}

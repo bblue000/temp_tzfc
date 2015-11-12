@@ -46,6 +46,7 @@ jQuery.extend($.validator.messages, {
 });
 
 
+var avatar = $('#inputAvatar');
 var user_name = $("#inputUsername");
 var password = $("#inputPassword");
 var password2 = $("#inputPassword2");
@@ -139,6 +140,12 @@ function commonSignValidate(postUrl) {
 				return false;
 			}
 			result += "&email=" + val;
+		}
+	}
+
+	if (avatar && avatar.length > 0) {
+		if (val = avatar.data('src')) {
+			result += "&avatar=" + val;
 		}
 	}
 

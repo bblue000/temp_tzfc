@@ -50,6 +50,14 @@ class MY_Controller extends CI_Controller {
 		}
 	}
 
+	public function check_param($param_name) {
+		$val = $this->input->get_post($param_name);
+		if (!isset($val)) {
+			ishow_error('No param \''.$param_name.'\'', 'You should provide \''.$param_name.'\' as a parameter', 400);
+		}
+		return $this->input->get_post($param_name);
+	}
+
 }
 
 ?>

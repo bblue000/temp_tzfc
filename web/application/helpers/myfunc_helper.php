@@ -23,6 +23,17 @@ function ishow_404($message=NULL, $page = '', $log_error = TRUE) {
 	}
 }
 
+function ishow_error($heading, $message, $code, $page = '', $log_error = TRUE) {
+	// By default we log this, but allow a dev to skip it
+	if ($log_error)
+	{
+		log_message('error', $heading.': '.$page);
+	}
+	$_error =& load_class('Exceptions', 'core');
+	echo $_error->show_error($heading, $message, 'error_general', $code);
+	exit(EXIT_ERROR); // EXIT_UNKNOWN_FILE
+}
+
 // 过滤字段
 function array_filter_by_key($key_values, $filter_keys) {
 	if (empty($key_values)) {

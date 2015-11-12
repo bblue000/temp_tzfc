@@ -6,7 +6,7 @@
 		<a href="<?php echo base_url("adminuser/edit"); ?>" class="ico-nav" >修改资料</a>
 	</nav>
 	<nav class="sub-nav" id="sn-house">
-		<dd><a href="<?php echo base_url("adminhouse/list"); ?>">房源列表</a></dd>
+		<dd><a href="<?php echo base_url("adminhouse/index"); ?>">房源列表</a></dd>
 		<dd><a href="<?php echo base_url("adminhouse/add"); ?>">添加房源</a></dd>
 	</nav>
 </aside>

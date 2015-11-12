@@ -22,6 +22,18 @@ class test extends MY_Controller {
 		echo md5pass($data, $salt);
 		echo SELF;
 		echo FCPATH;
+
+
+		$this->load->helper('string');
+		$salt = random_string('alnum', 6);
+		echo '<br/>';
+		echo $salt;
+		$salt = random_string('alnum', 6);
+		echo '<br/>';
+		echo $salt;
+
+		echo '<br/>';
+		echo 'tmp-'.date('Y-m-d', time()).'-';
 		// echo phpinfo();
 		// echo get_user_field('yytest').'haha';
 		// static $apicode;
