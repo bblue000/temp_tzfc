@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 // api基类，API是一种特殊的controller
 class API {
 
-	protected static $common_apicode = array(
+	protected $common_apicode = array(
 		90000 => '用户未登录'
 	);
 

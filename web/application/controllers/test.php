@@ -10,30 +10,9 @@ class test extends MY_Controller {
 	public function index() {
 		$data = '1ed2d2efb09d3bc21f924dde909720b5';
 		
-		echo substr($data, 0, 10);
-		echo '<br/>';
-		echo substr($data, 10, 100);
-		echo '<br/>';
+		$this->load->api('house_attrs_api');
+		echo json_encode($this->house_attrs_api->get_all());
 
-		$this->load->helper('string');
-		$salt = random_string('alnum',6);
-		echo $salt;
-		echo '<br/>';
-		echo md5pass($data, $salt);
-		echo SELF;
-		echo FCPATH;
-
-
-		$this->load->helper('string');
-		$salt = random_string('alnum', 6);
-		echo '<br/>';
-		echo $salt;
-		$salt = random_string('alnum', 6);
-		echo '<br/>';
-		echo $salt;
-
-		echo '<br/>';
-		echo 'tmp-'.date('Y-m-d', time()).'-';
 		// echo phpinfo();
 		// echo get_user_field('yytest').'haha';
 		// static $apicode;
