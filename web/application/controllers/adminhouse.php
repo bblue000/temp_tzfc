@@ -64,6 +64,10 @@ class adminhouse extends MY_Controller {
 		$this->load->view('admin/add-house', $this);
 	}
 
+	public function add_sell() {
+		$this->check_state_common('GET', TRUE);
+		$this->load->view('admin/house-add-sell', $this);
+	}
 }
 
 ?>

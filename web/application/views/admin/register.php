@@ -14,7 +14,6 @@
 
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 		<script type="text/javascript" src="public/scripts/jquery.min.js"></script>
-		<script type="text/javascript" src="public/scripts/jquery.validate.min.js"></script>
 		<!-- Include all compiled plugins (below), or include individual files as needed -->
 		<script type="text/javascript" src="public/scripts/bootstrap.min.js"></script>
 		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->

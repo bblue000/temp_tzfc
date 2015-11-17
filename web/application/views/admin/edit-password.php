@@ -18,7 +18,6 @@
 
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	<script src="<?php echo base_url('public/scripts/jquery.min.js'); ?>"></script>
-	<script src="<?php echo base_url('public/scripts/jquery.validate.min.js'); ?>"></script>
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<script src="<?php echo base_url('public/scripts/bootstrap.min.js'); ?>"></script>
 

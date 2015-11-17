@@ -188,7 +188,7 @@ body {
 
 /* Content
 ----------------------------------*/
-#content{position:fixed; z-index:0; top:50px; bottom:0; left:100px; right:0; overflow:auto;}
+#content{position:fixed; z-index:0; top:50px; bottom:0; left:100px; right:0; overflow:auto; min-width: 750px}
 
 /* ---------- Menu ---------- */
 
@@ -261,4 +261,96 @@ body.menu {
   overflow: hidden;
   text-overflow:ellipsis;
   white-space: nowrap;
+}
+
+.house-edit-container, .house-edit-container table {
+  table-layout: fixed;
+}
+
+.house-edit-container th {
+  width: 200px;
+  text-align: right;
+}
+
+.house-edit-container td {
+
+}
+
+.house-edit-input-container {
+  /*min-width: 1500px;*/
+}
+
+.house-tooltip {
+    margin: 1px 0px 0px -10px; 
+    overflow-y: auto; 
+    overflow-x: hidden; 
+    border: 1px solid rgb(204, 204, 204); 
+    position: absolute; 
+    z-index: 487; 
+    width: 411px; 
+    top: 34px; left: 10px; display: none;
+    -moz-box-shadow: 2px 2px 1px 1px #f0f0f0,4px 4px 2px 2px #fafafa;
+    -webkit-box-shadow: 2px 2px 1px 1px #f0f0f0,4px 4px 2px 2px #fafafa;
+            box-shadow: 2px 2px 1px 1px #f0f0f0,4px 4px 2px 2px #fafafa;
+}
+
+.house-autoCompleteul {
+  margin:0; padding:0; display:block; width: 100%;
+}
+
+.house-related-long {
+  width: 395px;
+}
+
+.house-related-short {
+  width: 95px;
+}
+
+.house-input_text_wrap {
+  float: left;
+  border: 1px solid #e0e0e0;
+  border-radius: 3px;
+  margin-right: 5px;
+  font-size: 14px;
+  padding: 0 8px;
+}
+
+.house-input_text_wrap input {
+  width: 525px;
+  height: 34px;
+  border: 0;
+  text-align: left;
+}
+
+.house-input_text_wrap span {
+    color: #a6a6a6;
+}
+
+.house-input_text_wrap input, .house-input_text_wrap span {
+  float: left;
+  line-height: 34px;
+  text-align: center;
+}
+
+.house-input_text_wrap input:focus {
+  /*outline-offset: -2px;*/
+  outline: 0;
+  border: 0;
+}
+
+#inputHouseTitle, #inputDetail {
+  width: 395px;
+}
+
+.house-input_text_wrap input.house-related-short {
+  width: 95px;
+}
+.house-input_text_wrap input.house-related-long {
+  width: 395px;
+}
+
+
+.house-edit-container th small, .house-input_text_wrap span small {
+  font-size: 0.5em;
+  color:#e74c3c;
 }
