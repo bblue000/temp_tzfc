@@ -199,6 +199,10 @@
 	    </div>
 	</div>
 
+
+
+	<script type="text/javascript" src="public/scripts/admin/zxxFile.js"></script>
+	
 	<script type="text/javascript">
 		function upload_layer_show() {
 			$("#loadbox").show();

@@ -130,15 +130,14 @@
 	<script type="text/javascript" src="public/scripts/md5.js"></script>
 	<script type="text/javascript" src="public/scripts/admin/admin.common.js"></script>
 	<script type="text/javascript" src="public/scripts/admin/admin.validate.js"></script>
-	<script type="text/javascript" src="public/scripts/admin/zxxFile.js"></script>
 
-	<?php $this->load->view('admin/upload-avatar'); ?>
+	<?php $this->load->view('admin/user/upload-avatar'); ?>
 
 	<script type="text/javascript">
 	$("#content-container").fadeIn(1500);
 	
 	function checkInput() {
-		return commonSignValidate("<?php echo base_url('admin/register/ajax');?>");
+		return commonSignValidate("<?php echo base_url('admin/register/ajax'); ?>");
 	}
 
 	function changeAvatar() {

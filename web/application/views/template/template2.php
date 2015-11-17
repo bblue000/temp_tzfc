@@ -36,10 +36,8 @@
 
 
 
-	<script type="text/javascript" src="public/scripts/md5.js"></script>
 	<script type="text/javascript" src="public/scripts/admin/admin.common.js"></script>
 	<script type="text/javascript" src="public/scripts/admin/admin.validate.js"></script>
-	<script type="text/javascript" src="public/scripts/admin/zxxFile.js"></script>
 
 	<script type="text/javascript">
 

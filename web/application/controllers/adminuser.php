@@ -10,7 +10,7 @@ class adminuser extends MY_Controller {
 
 	public function edit() {
 		$this->check_state_common('GET', TRUE);
-		$this->load->view('admin/edit-user', $this);
+		$this->load->view('admin/user/edit-user', $this);
 	}
 
 	public function edit_ajax() {
@@ -28,7 +28,7 @@ class adminuser extends MY_Controller {
 
 	public function edit_password() {
 		$this->check_state_common('GET', TRUE);
-		$this->load->view('admin/edit-password', $this);
+		$this->load->view('admin/user/edit-password', $this);
 	}
 
 	public function edit_password_ajax() {

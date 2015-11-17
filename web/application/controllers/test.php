@@ -20,6 +20,7 @@ class test extends MY_Controller {
 		
 		// echo json_encode($this->user_api->logout());
 		// echo json_encode($this->user_api->test());
+		$this->load->view('welcome_message');
 	}
 
 }

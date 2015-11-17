@@ -77,7 +77,7 @@
       $("#content-container").fadeIn(1500);
 
       function check_input() {
-        return commonSignValidate("<?php echo base_url('admin/login/ajax');?>");
+        return commonSignValidate("<?php echo base_url('admin/login/ajax'); ?>");
       }
       </script>
 

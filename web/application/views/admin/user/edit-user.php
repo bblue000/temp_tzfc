@@ -6,20 +6,20 @@
 	<title>后台管理系统-修改用户信息</title>
 
 	<!-- Local global -->
-	<link href="<?php echo base_url('public/css/global.css'); ?>" rel="stylesheet" type="text/css">
+	<link href="public/css/global.css" rel="stylesheet" type="text/css">
 
 	<!-- Bootstrap -->
-	<link href="<?php echo base_url('public/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css">
+	<link href="public/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 
 	<!-- Local admin -->
-	<link href="<?php echo base_url('public/css/admin/admin.common.css'); ?>" rel="stylesheet" type="text/css">
+	<link href="public/css/admin/admin.common.css" rel="stylesheet" type="text/css">
 
 	
 
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-	<script src="<?php echo base_url('public/scripts/jquery.min.js'); ?>"></script>
+	<script type="text/javascript" src="public/scripts/jquery.min.js"></script>
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
-	<script src="<?php echo base_url('public/scripts/bootstrap.min.js'); ?>"></script>
+	<script type="text/javascript" src="public/scripts/bootstrap.min.js"></script>
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -109,16 +109,15 @@
 
 
 
-	<script src="<?php echo base_url('public/scripts/md5.js'); ?>"></script>
-	<script src="<?php echo base_url('public/scripts/admin/admin.common.js'); ?>"></script>
-	<script src="<?php echo base_url('public/scripts/admin/admin.validate.js'); ?>"></script>
-	<script type="text/javascript" src="public/scripts/admin/zxxFile.js"></script>
+	<script type="text/javascript" src="public/scripts/md5.js"></script>
+	<script type="text/javascript" src="public/scripts/admin/admin.common.js"></script>
+	<script type="text/javascript" src="public/scripts/admin/admin.validate.js"></script>
 
-	<?php $this->load->view('admin/upload-avatar'); ?>
+	<?php $this->load->view('admin/user/upload-avatar'); ?>
 
-	<script type="application/javascript">
+	<script type="text/javascript">
 	function checkInput() {
-		return commonSignValidate("<?php echo base_url('adminuser/edit/ajax');?>");
+		return commonSignValidate("<?php echo base_url('adminuser/edit/ajax'); ?>");
 	}
 
 	function changeAvatar() {

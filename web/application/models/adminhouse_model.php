@@ -99,8 +99,8 @@ class adminhouse_model extends MY_Model {
 	 * @return	bool	TRUE on success, FALSE on failure
 	 * @see CI_DB_query_builder::delte
 	 */
-	public function del_by_id($uid) {
-		$result = $this->delData($uid, $this::TABLE_NAME, 'uid');
+	public function del_by_id($hid) {
+		$result = $this->delData($uid, $this::TABLE_NAME, 'hid');
 		return $result === FALSE ? FALSE : TRUE;
 	}
 	

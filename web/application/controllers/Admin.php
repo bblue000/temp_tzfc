@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class admin extends MY_Controller {
 	
 	// 后台的管理登录界面
-	const ADMIN_LOGIN = 'admin/login';
+	const ADMIN_LOGIN = 'admin/user/login';
 	
 	public function __construct() {
 		parent::__construct();
@@ -26,7 +26,7 @@ class admin extends MY_Controller {
 			redirect(base_url('admin'));
 		} else {
 			// 如果没有登录
-			$this->load->view('admin/login', $this);
+			$this->load->view($this::ADMIN_LOGIN, $this);
 		}
 	}
 
@@ -50,7 +50,7 @@ class admin extends MY_Controller {
 	// 用户注册，此处是经纪人注册
 	public function register() {
 		$this->check_state_common('GET', FALSE);
-		$this->load->view('admin/register', $this);
+		$this->load->view('admin/user/register', $this);
 	}
 	
 	public function register_ajax() {
