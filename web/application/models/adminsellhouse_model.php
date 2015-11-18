@@ -4,10 +4,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * 用户相关的API，包括登录，注册，修改密码，修改信息；
  */
-class adminhouse_model extends MY_Model {
+class adminsellhouse_model extends MY_Model {
 	
 	// 表名
-	const TABLE_NAME = 'tab_house';
+	const TABLE_NAME = 'tab_sellhouse';
 
 	private $COLS = array(
 		'uid', 'user_name', 'true_name', 'password', 'salt', 'sex',

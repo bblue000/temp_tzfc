@@ -138,6 +138,11 @@ class MY_Model extends CI_Model {
         return $this->db->delete($table);
     }
 
+    public function delAll($table = '') {
+        $table = $table == '' ? $this->table : $table;
+        return $this->db->delete($table);
+    }
+
     /**
      * result array
      */

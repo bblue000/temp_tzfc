@@ -34,6 +34,12 @@ function ishow_error($heading, $message, $code, $page = '', $log_error = TRUE) {
 	exit(EXIT_ERROR); // EXIT_UNKNOWN_FILE
 }
 
+function ishow_error_msg($message) {
+	$_error =& load_class('Exceptions', 'core');
+	echo $_error->show_error('出错啦', $message, 'error_general', 500);
+	exit(EXIT_ERROR); // EXIT_UNKNOWN_FILE
+}
+
 // 过滤字段
 function array_filter_by_key($key_values, $filter_keys) {
 	if (empty($key_values)) {

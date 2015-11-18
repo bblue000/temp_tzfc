@@ -46,8 +46,9 @@
 				</label>
 			</div>
 
-			<div id="house-keyword-container">
+			<div id="house-keyword-container" class="form-inline">
 				<input id="house-keyword-input" type="text" class="form-control" placeholder="输入关键字">
+				<a class="btn btn-default" href="javascript:void(0);" onclick="return searchHouse(this);" target="_self">搜索</a>
 			</div>
 
 			<div id="house-result-lable"><strong>搜索结果：</strong></div>
@@ -82,13 +83,34 @@
 
 
 
-	<script type="text/javascript" src="public/scripts/md5.js"></script>
 	<script type="text/javascript" src="public/scripts/admin/admin.common.js"></script>
 	<script type="text/javascript" src="public/scripts/admin/admin.validate.js"></script>
-	<script type="text/javascript" src="public/scripts/admin/zxxFile.js"></script>
 
 	<script type="text/javascript">
+	var kwInput = $('#house-keyword-input');
+	function searchHouse (self) {
+		var typeRG = $('input[name="house_cat"]:checked');
+		$(self).attr('href', '<?php echo base_url("adminhouse/search/ajax/"); ?>' + '?type=' + typeRG.val() + '&kw=' + kwInput.val());
+		return true;
+		// $.ajax({
+		// 	type: "GET",
+		// 	url: <?php echo base_url("adminhouse/search/ajax"); ?> + "?type=" + typeRG.val() + "&kw=" + kwInput.val();
+		// 	dataType: "json",
+		// 	success: function(data){
+		// 		if (data.code == 200) {
+		// 			location.href=data.data;
+		// 		} else {
+		// 			showToast(data.msg);
+		// 		}
+		// 	},
+		// 	beforeSend:function(){
 
+		// 	},
+		// 	error:function(XMLHttpRequest, textStatus, errorThrown){
+		// 		showToast("出错了：" + textStatus);
+		// 	}
+		// });
+	}
 	</script>
 
 <!-- Footer -->
