@@ -102,8 +102,10 @@
 				<tr>
 					<th>房源标题(<small>*可自动生成</small>)</th>
 					<td>
-						<div class="house-edit-input-container">
-							<input type="text" tabindex="8" id="inputHouseTitle" maxlength="50" class="form-control house-related-long">
+						<div class="house-edit-input-container form-inline">
+							<input type="text" tabindex="8" id="inputHouseTitle" maxlength="50" class="form-control house-related-long" disabled>
+
+							<button class="btn btn-warning" onclick="enableTitle(this);">编辑</button>
 						</div>
 					</td>
 				</tr>
@@ -129,14 +131,53 @@
 				<tr>
 					<th>类型</th>
 					<td>
-						<div class="house-edit-input-container">
-							<div class="house-input_text_wrap">
-								<input type="text" tabindex="11" name="house_type" id="inputHouseType" class="house-related-short">
+						<div class="house-edit-input-container clearfix">
+							<div class="house-selectordef" tabindex="11">
+								<div class="title">
+									<span class="seled" id="inputHouseType">普通住宅</span>
+									<div class="arrow"></div>
+								</div>
+								<div class="house-optiondef" style="display:none;" >
+									<ul>
+										<li val="">请选择类别</li>
+										<li val="1">平房</li>
+										<li val="2">普通住宅</li>
+										<li val="3">公寓</li>
+										<li val="4">别墅</li>
+									</ul>
+								</div>
 							</div>
-							<div class="house-input_text_wrap">
-								<span>共</span>
-								<input type="text" tabindex="12" name="house_decor" id="inputHouseDecor" class="house-related-short">
-								<span>层</span>
+
+							<div class="house-selectordef" tabindex="12">
+								<div class="title">
+									<span class="seled" id="inputHouseDecor">请选择装修情况</span>
+									<div class="arrow"></div>
+								</div>
+								<div class="house-optiondef" style="display:none;" >
+									<ul>
+										<li val="">请选择类别</li>
+										<li val="1">平房</li>
+										<li val="2">普通住宅</li>
+										<li val="3">公寓</li>
+										<li val="4">别墅</li>
+									</ul>
+								</div>
+							</div>
+
+							<div class="house-selectordef" tabindex="13">
+								<div class="title">
+									<span class="seled" id="inputHouseOrientation">请选择朝向</span>
+									<div class="arrow"></div>
+								</div>
+								<div class="house-optiondef" style="display:none;" >
+									<ul>
+										<li val="">请选择类别</li>
+										<li val="1">平房</li>
+										<li val="2">普通住宅</li>
+										<li val="3">公寓</li>
+										<li val="4">别墅</li>
+									</ul>
+								</div>
 							</div>
 
 						</div>
@@ -146,15 +187,42 @@
 					<th>产权</th>
 					<td>
 						<div class="house-edit-input-container">
-							<div class="house-input_text_wrap">
-								<span>第</span>
-								<input type="text" tabindex="13" id="inputHouseRights" class="house-related-short">
-								<span>层(<small>地下室用负数，例：-3</small>）</span>
+							<div class="house-selectordef" tabindex="14">
+								<div class="title">
+									<span class="seled" id="inputHouseRightsLen">请选择产权年限</span>
+									<div class="arrow"></div>
+								</div>
+								<div class="house-optiondef" style="display:none;" >
+									<ul>
+										<li val="">请选择类别</li>
+										<li val="1">平房</li>
+										<li val="2">普通住宅</li>
+										<li val="3">公寓</li>
+										<li val="4">别墅</li>
+									</ul>
+								</div>
 							</div>
+
+
+							<div class="house-selectordef" tabindex="15">
+								<div class="title">
+									<span class="seled" id="inputHouseRights">请选择产权</span>
+									<div class="arrow"></div>
+								</div>
+								<div class="house-optiondef" style="display:none;" >
+									<ul>
+										<li val="">请选择类别</li>
+										<li val="1">平房</li>
+										<li val="2">普通住宅</li>
+										<li val="3">公寓</li>
+										<li val="4">别墅</li>
+									</ul>
+								</div>
+							</div>
+
 							<div class="house-input_text_wrap">
-								<span>共</span>
-								<input type="text" tabindex="14" id="inputHouseTotalFloor" class="house-related-short">
-								<span>层</span>
+								<input type="text" tabindex="16" name="rights_from" id="inputHouseRightsFrom" class="house-related-short" placeholder="建筑年代">
+								<span>年</span>
 							</div>
 						</div>
 					</td>
@@ -190,7 +258,7 @@
 					<th></th>
 					<td>
 						<div class="house-edit-input-container">
-							<button class="btn btn-lg btn-primary btn-block login-btn house-related-short" type="submit" onClick="return check_input()">提交</button>
+							<button class="btn btn-lg btn-primary btn-block login-btn house-related-short" type="submit" onClick="return checkInput()">提交</button>
 						</div>
 					</td>
 				</tr>
@@ -204,10 +272,22 @@
 	<script type="text/javascript" src="public/scripts/md5.js"></script>
 	<script type="text/javascript" src="public/scripts/admin/admin.common.js"></script>
 	<script type="text/javascript" src="public/scripts/admin/admin.validate.js"></script>
-	<script type="text/javascript" src="public/scripts/admin/zxxFile.js"></script>
 
 	<script type="text/javascript">
+	function enableTitle(self) {
+		var inputHouseTitle = $('#inputHouseTitle');
+		if (inputHouseTitle.attr("disabled")) {
+			inputHouseTitle.removeAttr("disabled");
+			$(self).text('完成');
+		} else {
+			inputHouseTitle.attr("disabled", "disabled");
+			$(self).text('编辑');
+		}
+	}
 
+	function checkInput() {
+		return commonHouseValidate("<?php echo base_url('adminhouse/add_sell/ajax'); ?>");
+	}
 	</script>
 
 <!-- Footer -->

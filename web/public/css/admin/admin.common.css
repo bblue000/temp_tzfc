@@ -354,3 +354,89 @@ body.menu {
   font-size: 0.5em;
   color:#e74c3c;
 }
+
+.house-selectordef {
+  position: relative;
+  cursor: pointer;
+  outline: 0;
+  float: left;
+  margin-right: 5px;
+  width: 150px;
+}
+
+.house-selectordef, .house-selectordef * {
+  -webkit-box-sizing: content-box;
+     -moz-box-sizing: content-box;
+          box-sizing: content-box;
+}
+
+.house-selectordef .title {
+  height: 34px;
+  border: solid 1px #e0e0e0;
+  outline: 0;
+  border-radius: 3px;
+  position: relative;
+  line-height: 190%;
+}
+
+
+.house-selectordef .title span {
+  padding: 6px;
+  height: 16px;
+  display: block;
+  overflow: hidden;
+  float: left;
+  line-height: 24px;
+  font-size: 14px;
+}
+
+.house-selectordef .title .seled {
+    width: 70%;
+}
+
+.house-selectordef .title div.arrow {
+  margin-top: 16px;
+  margin-right: 12px;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #2f2f2f;
+  font-size: 0;
+  line-height: 0;
+  float: right;
+  position: static;
+}
+
+.house-optiondef {
+  position: relative;
+  width: 147px;
+  height: 0px;
+}
+
+.house-optiondef ul {
+  width: 147px;
+  max-height: 300px;
+  overflow: auto;
+  top: -1px;
+  left: -2px;
+  position: relative;
+  border: 1px solid #CCC;
+  box-shadow: 2px 2px 1px 1px #f0f0f0,4px 4px 2px 2px #fafafa;
+  list-style: none;
+}
+
+.house-selectordef .house-optiondef ul li {
+  background-color: #FFF;
+  height: 33px;
+  overflow: hidden;
+  padding-left: 6px;
+  color: gray;
+  font-size: 14px;
+  line-height: 33px;
+}
+.house-selectordef .house-optiondef ul li:hover, .house-selectordef .house-optiondef ul li:focus {
+  background-color: #ececec;
+  color: #000;
+}
+

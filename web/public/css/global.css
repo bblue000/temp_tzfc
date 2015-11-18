@@ -18,6 +18,10 @@ body {
   font-family:"Microsoft YaHei", "微软雅黑"; 
 }
 
+div {
+  margin: 0 auto;
+}
+
 ul, li {
   list-style-type:none;
 }
