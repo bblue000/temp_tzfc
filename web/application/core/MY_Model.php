@@ -146,7 +146,7 @@ class MY_Model extends CI_Model {
     /**
      * result array
      */
-    public function getData($getwhere = "", $order = '', $pagenum = "0", $exnum = "0", $table = '')
+    public function getData($getwhere = '', $order = '', $pagenum = '0', $exnum = '0', $table = '')
     {
         $table = $table == '' ? $this->table : $table;
         if ($getwhere) {
@@ -162,7 +162,7 @@ class MY_Model extends CI_Model {
         return $data;
     }
 
-    public function getSingle($getwhere = "", $table = '')
+    public function getSingle($getwhere = '', $table = '')
     {
         $table = $table == '' ? $this->table : $table;
         if ($getwhere) {

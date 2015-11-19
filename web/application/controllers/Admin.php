@@ -69,6 +69,8 @@ class admin extends MY_Controller {
 
 	// 管理后台注销登陆
 	public function logout() {
+		$this->check_state_common('GET', FALSE);
+		
 		$this->load->api('user_api');
 		$this->user_api->logout();
 		// 如果没有登录

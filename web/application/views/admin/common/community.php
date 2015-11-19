@@ -37,6 +37,8 @@
 			
 			<hr/>
 
+			<button type="button" class="btn btn-primary" onclick="addCommunity()">&nbsp;&nbsp;&nbsp;添&nbsp;&nbsp;&nbsp;&nbsp;加&nbsp;&nbsp;&nbsp;</button>
+
 			<div id="house-list-container">
 				<table class="table table-bordered table-hover table-striped">
 					<tbody>
@@ -48,8 +50,8 @@
 								<?php endif; ?>
 									<td class="house-col-1" title="<?php echo $community['cname']; ?>"><?php echo $community['cname']; ?></td>
 									<td>
-										<a class="btn btn-warning house-op house-op-edit" href="admincommon/community/edit?cid=<?php echo $community['cid']; ?>" onclick="return true;">编辑</a>
-										<a class="btn btn-danger house-op house-op-delete" href="admincommon/community/del?cid=<?php echo $community['cid']; ?>" onclick="return confirm('确认要删除吗？');">删除</a>
+										<a class="btn btn-warning house-op house-op-edit" data-cid="<?php echo $community['cid']; ?>" data-cname="<?php echo $community['cname']; ?>" href="javascript:void(0);" onclick="editCommunity(this);">编辑</a>
+										<a class="btn btn-danger house-op house-op-delete" data-cid="<?php echo $community['cid']; ?>" href="admincommon/community/del?cid=<?php echo $community['cid']; ?>" onclick="return confirm('确认要删除吗？');">删除</a>
 									</td>
 								<?php if ($myIndex % 2 == 1) : ?>
 								</tr>
@@ -62,6 +64,8 @@
 			</div>
 
 		</div>
+
+		<?php $this->load->view('admin/common/edit'); ?>
 	</div>
 
 
@@ -70,7 +74,18 @@
 	<script type="text/javascript" src="public/scripts/admin/admin.validate.js"></script>
 
 	<script type="text/javascript">
+	function addCommunity () {
+		add_layer_show("<?php echo base_url('admincommon/community/add/ajax'); ?>");
+	}
 
+	function editCommunity(self) {
+		var selfAjax = $(self);
+		edit_layer_show({
+			id: selfAjax.data('cid'),
+			name: selfAjax.data('cname'),
+			url: "<?php echo base_url('admincommon/community/edit/ajax'); ?>"
+		});
+	}
 	</script>
 
 <!-- Footer -->

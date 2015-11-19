@@ -126,7 +126,7 @@ body {
 	float:right; 
 	display:none; 
 	width:24px; height:24px; margin-top:8px; 
-	background:url(../../img/admin/icon/pop_delete.png) no-repeat center; 
+	background:url(../../img/admin/pop_delete.png) no-repeat center; 
 	cursor:pointer;
 }
 .admin-ui-dialog-body {
@@ -412,6 +412,7 @@ body.menu {
   position: relative;
   width: 147px;
   height: 0px;
+  z-index: 100;
 }
 
 .house-optiondef ul {

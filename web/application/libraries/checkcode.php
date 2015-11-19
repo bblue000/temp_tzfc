@@ -15,7 +15,7 @@ class checkcode
       
     public function show($callback = NULL)  
     {  
-        Header("Content-type: image/gif");  
+        Header('Content-type: image/gif');  
         /*  
         * 初始化  
         */  
@@ -24,9 +24,9 @@ class checkcode
         $w = $this->width; //图片宽度  
         $h = $this->height; //图片高度  
         $fontsize = 5; //字体大小  
-        $alpha = "abcdefghijkmnopqrstuvwxyz"; //验证码内容1:字母  
-        $number = "023456789"; //验证码内容2:数字  
-        $randcode = ""; //验证码字符串初始化  
+        $alpha = 'abcdefghijkmnopqrstuvwxyz'; //验证码内容1:字母  
+        $number = '023456789'; //验证码内容2:数字  
+        $randcode = ''; //验证码字符串初始化  
         srand((double)microtime()*1000000); //初始化随机数种子  
           
         $im = ImageCreate($w, $h); //创建验证图片  

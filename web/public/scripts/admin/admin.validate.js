@@ -7,6 +7,7 @@ var sex = $('input[name="inputSex"]');
 var contact_mobile = $("#inputMobile");
 var qqchat = $("#inputQQ");
 var email = $("#inputEmail");
+var postIsProgressing = false;
 function commonSignValidate(postUrl) {
 	var result = "";
 	if (user_name && user_name.length > 0) {
@@ -107,6 +108,12 @@ function commonSignValidate(postUrl) {
 	}
 	console.log(result);
 
+	// 如果正在进行，则直接返回咯
+	if (postIsProgressing) {
+		return false;
+	}
+
+	postIsProgressing = true;
 	var postData = result;
 	$.ajax({
 		type: "POST",
@@ -115,16 +122,17 @@ function commonSignValidate(postUrl) {
 		data: postData,
 		success: function(data){
 			if (data.code == 200) {
-				location.href=data.data;
+				(top || window).location.href = data.data;
 			} else {
 				showToast(data.msg);
 			}
+			postIsProgressing = false;
 		},
 		beforeSend:function(){
-
 		},
 		error:function(XMLHttpRequest, textStatus, errorThrown){
 			showToast("出错了：" + textStatus);
+			postIsProgressing = false;
 		}
 	});
 

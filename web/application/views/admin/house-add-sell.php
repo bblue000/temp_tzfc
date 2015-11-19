@@ -35,7 +35,7 @@
 			<h3>房源管理 <small>添加二手房源</small></h3>
 
 			<table class="table table-bordered table-striped house-edit-container">
-				<tr class="danger">
+				<tr>
 					<th><label>小区</label></th>
 					<td>
 						<div class="house-edit-input-container">
@@ -132,20 +132,20 @@
 					<th>类型</th>
 					<td>
 						<div class="house-edit-input-container clearfix">
-							<div class="house-selectordef" tabindex="11">
+							<div class="house-selectordef" tabindex="11" onclick="showSelOptions(this);">
 								<div class="title">
-									<span class="seled" id="inputHouseType">普通住宅</span>
+									<span class="seled" id="inputHouseType">请选择类型</span>
 									<div class="arrow"></div>
 								</div>
-								<div class="house-optiondef" style="display:none;" >
-									<ul>
-										<li val="">请选择类别</li>
-										<li val="1">平房</li>
-										<li val="2">普通住宅</li>
-										<li val="3">公寓</li>
-										<li val="4">别墅</li>
-									</ul>
-								</div>
+								<?php if (isset($house_types)) : ?>
+									<div class="house-optiondef" style="display:none;" >
+										<ul>
+											<?php foreach ($house_types as $key => $value) : ?>
+												<li data-id="<?php echo $key; ?>" data-name="<?php echo $value; ?>"><?php echo $value; ?></li>
+											<?php endforeach; ?>
+										</ul>
+									</div>
+								<?php endif; ?>
 							</div>
 
 							<div class="house-selectordef" tabindex="12">
@@ -153,15 +153,15 @@
 									<span class="seled" id="inputHouseDecor">请选择装修情况</span>
 									<div class="arrow"></div>
 								</div>
-								<div class="house-optiondef" style="display:none;" >
-									<ul>
-										<li val="">请选择类别</li>
-										<li val="1">平房</li>
-										<li val="2">普通住宅</li>
-										<li val="3">公寓</li>
-										<li val="4">别墅</li>
-									</ul>
-								</div>
+								<?php if (isset($house_decors)) : ?>
+									<div class="house-optiondef" style="display:none;" >
+										<ul>
+											<?php foreach ($house_decors as $key => $value) : ?>
+												<li data-id="<?php echo $key; ?>" data-name="<?php echo $value; ?>"><?php echo $value; ?></li>
+											<?php endforeach; ?>
+										</ul>
+									</div>
+								<?php endif; ?>
 							</div>
 
 							<div class="house-selectordef" tabindex="13">
@@ -169,15 +169,15 @@
 									<span class="seled" id="inputHouseOrientation">请选择朝向</span>
 									<div class="arrow"></div>
 								</div>
-								<div class="house-optiondef" style="display:none;" >
-									<ul>
-										<li val="">请选择类别</li>
-										<li val="1">平房</li>
-										<li val="2">普通住宅</li>
-										<li val="3">公寓</li>
-										<li val="4">别墅</li>
-									</ul>
-								</div>
+								<?php if (isset($house_orientations)) : ?>
+									<div class="house-optiondef" style="display:none;" >
+										<ul>
+											<?php foreach ($house_orientations as $key => $value) : ?>
+												<li data-id="<?php echo $key; ?>" data-name="<?php echo $value; ?>"><?php echo $value; ?></li>
+											<?php endforeach; ?>
+										</ul>
+									</div>
+								<?php endif; ?>
 							</div>
 
 						</div>
@@ -192,15 +192,15 @@
 									<span class="seled" id="inputHouseRightsLen">请选择产权年限</span>
 									<div class="arrow"></div>
 								</div>
-								<div class="house-optiondef" style="display:none;" >
-									<ul>
-										<li val="">请选择类别</li>
-										<li val="1">平房</li>
-										<li val="2">普通住宅</li>
-										<li val="3">公寓</li>
-										<li val="4">别墅</li>
-									</ul>
-								</div>
+								<?php if (isset($rights_lens)) : ?>
+									<div class="house-optiondef" style="display:none;" >
+										<ul>
+											<?php foreach ($rights_lens as $key => $value) : ?>
+												<li data-id="<?php echo $key; ?>" data-name="<?php echo $value; ?>"><?php echo $value; ?></li>
+											<?php endforeach; ?>
+										</ul>
+									</div>
+								<?php endif; ?>
 							</div>
 
 
@@ -209,15 +209,15 @@
 									<span class="seled" id="inputHouseRights">请选择产权</span>
 									<div class="arrow"></div>
 								</div>
-								<div class="house-optiondef" style="display:none;" >
-									<ul>
-										<li val="">请选择类别</li>
-										<li val="1">平房</li>
-										<li val="2">普通住宅</li>
-										<li val="3">公寓</li>
-										<li val="4">别墅</li>
-									</ul>
-								</div>
+								<?php if (isset($rights_types)) : ?>
+									<div class="house-optiondef" style="display:none;" >
+										<ul>
+											<?php foreach ($rights_types as $key => $value) : ?>
+												<li data-id="<?php echo $key; ?>" data-name="<?php echo $value; ?>"><?php echo $value; ?></li>
+											<?php endforeach; ?>
+										</ul>
+									</div>
+								<?php endif; ?>
 							</div>
 
 							<div class="house-input_text_wrap">
@@ -269,7 +269,6 @@
 
 
 
-	<script type="text/javascript" src="public/scripts/md5.js"></script>
 	<script type="text/javascript" src="public/scripts/admin/admin.common.js"></script>
 	<script type="text/javascript" src="public/scripts/admin/admin.validate.js"></script>
 
@@ -287,6 +286,11 @@
 
 	function checkInput() {
 		return commonHouseValidate("<?php echo base_url('adminhouse/add_sell/ajax'); ?>");
+	}
+
+	function showSelOptions(self) {
+		var ajaxSelf = $(self);
+		ajaxSelf.find('.house-optiondef').show();
 	}
 	</script>
 
