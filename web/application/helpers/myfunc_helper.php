@@ -55,4 +55,17 @@ function array_filter_by_key($key_values, $filter_keys) {
 	return $result;
 }
 
+function arrayofmap_to_keymap($arrmap, $key) {
+	if (empty($arrmap) || !is_array($arrmap)) {
+		return array();
+	}
+	$result = array();
+	foreach ($arrmap as $map) {
+		if (is_array($map) && isset($map[$key])) {
+			$result[$map[$key]] = $map;
+		}
+	}
+	return $result;
+}
+
 ?>

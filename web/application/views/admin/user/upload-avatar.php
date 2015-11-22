@@ -35,12 +35,18 @@
 	}
 
 	#loadlayer .close {
-		background: url("<?php echo base_url('public/img/admin/close.png'); ?>") no-repeat scroll 0 0 rgba(0,0,0,0);
-		height: 10px;
-		position: absolute;
-		right: 20px;
-		top: 10px;
-		width: 10px
+			position: absolute;
+			right: 20px;
+			top: 10px;
+			font-size: 20px;
+			line-height: 20px;
+			opacity: .5;
+			filter: alpha(opacity=50);
+		}
+
+	#loadlayer .close img {
+		height: 20px;
+		width: 20px
 	}
 
 
@@ -174,7 +180,9 @@
 
 	<div id="loadbox" style="display:none;">
 	    <div id="loadlayer">
-	        <a href="javascript:void(0)" class="close" onclick="upload_layer_close();"></a>
+	        <a href="javascript:void(0)" class="close" onclick="upload_layer_close();">
+	        	<img src="public/img/admin/close.png" />
+	        </a>
             <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
                 <div class="upload_box">
                     <div class="upload_main">

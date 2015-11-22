@@ -54,29 +54,41 @@
 			<div id="house-result-lable"><strong>搜索结果：</strong></div>
 
 			<div id="house-list-container">
+				<?php if (isset($houses) && !empty($houses)) : ?>
 				<table class="table table-bordered table-hover table-striped">
 					<thead>
 						<tr>
+							<th class="check"><input type="checkbox" onclick="checkAll(this,'id[]')" /></th>
 							<th>标题</th>
 							<th>户型</th>
-							<th>上传日期</th>
+							<th>更新时间</th>
 							<th>操作</th>
 						</tr>
 					</thead>
-					<tbody>
-						<?php foreach ($houses as $house) : ?>
+					<tbody> <form id="delForm" action="adminhouse/del" method="post">
+						<?php 
+							$myIndex = 0;
+							foreach ($houses as $house) : ?>
 							<tr>
+								<td class="check"><input type="checkbox" id="<?php echo "hid$myIndex";?>" name="id[]" value="<?php echo $house['hid'];?>" /></td></td>
 								<td class="house-col-1" title="<?php echo $house['title']; ?>"><?php echo $house['title']; ?></td>
-								<td><?php echo $house['house_type']; ?></td>
-								<td><?php echo $house['create_time']; ?></td>
+								<td>
+									<?php 
+										echo to_room_type($house); 
+									?>
+								</td>
+								<td><?php echo $house['update_time']; ?></td>
 								<td>
 									<a class="btn btn-warning house-op house-op-edit" href="adminhouse/edit?hid=<?php echo $house['hid']; ?>" onclick="return true;">编辑</a>
-									<a class="btn btn-danger house-op house-op-delete" href="adminhouse/del?hid=<?php echo $house['hid']; ?>" onclick="return confirm('确认要删除吗？');">删除</a>
+									<a class="btn btn-danger house-op house-op-delete" data-inputid="<?php echo "hid$myIndex";?>" onclick="return delBatch(this);">删除</a>
 								</td>
 							</tr>
+							<?php $myIndex++; ?>
 						<?php endforeach;?>
+					</form>
 					</tbody>
 				</table>
+				<?php endif; ?>
 			</div>
 		</div>
 	</div>
@@ -84,32 +96,32 @@
 
 
 	<script type="text/javascript" src="public/scripts/admin/admin.common.js"></script>
-	<script type="text/javascript" src="public/scripts/admin/admin.validate.js"></script>
 
 	<script type="text/javascript">
 	var kwInput = $('#house-keyword-input');
+	var delForm = $('#delForm');
 	function searchHouse (self) {
 		var typeRG = $('input[name="house_cat"]:checked');
-		$(self).attr('href', '<?php echo base_url("adminhouse/search/ajax/"); ?>' + '?type=' + typeRG.val() + '&kw=' + kwInput.val());
+		console.log($('input[name="id[]"]:checked').val());
+		// $(self).attr('href', '<?php echo base_url("adminhouse/search/ajax/"); ?>' + '?type=' + typeRG.val() + '&kw=' + kwInput.val());
 		return true;
-		// $.ajax({
-		// 	type: "GET",
-		// 	url: <?php echo base_url("adminhouse/search/ajax"); ?> + "?type=" + typeRG.val() + "&kw=" + kwInput.val();
-		// 	dataType: "json",
-		// 	success: function(data){
-		// 		if (data.code == 200) {
-		// 			location.href=data.data;
-		// 		} else {
-		// 			showToast(data.msg);
-		// 		}
-		// 	},
-		// 	beforeSend:function(){
+	}
 
-		// 	},
-		// 	error:function(XMLHttpRequest, textStatus, errorThrown){
-		// 		showToast("出错了：" + textStatus);
-		// 	}
-		// });
+	function delBatch(o) {
+		var inputCheckbox = $('#' + $(o).data('inputid'));
+		var tcheck = inputCheckbox.is(':checked');
+		if (!tcheck) {
+			inputCheckbox.prop('checked', true);
+		}
+		var r = confirm('确认要删除吗？');
+		if (!r) {
+			if (!tcheck) {
+				inputCheckbox.prop('checked', false);
+			}
+		} else {
+			delForm.submit();
+		}
+		return r;
 	}
 	</script>
 

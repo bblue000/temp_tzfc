@@ -39,6 +39,7 @@ DROP TABLE IF EXISTS `tzfc_db`.`Tab_Community` ;
 CREATE TABLE IF NOT EXISTS `tzfc_db`.`Tab_Community` (
   `cid` INT UNIQUE NOT NULL AUTO_INCREMENT COMMENT '小区ID',
   `cname` VARCHAR(45) NULL COMMENT '小区名',
+  `pinyin` VARCHAR(45) NULL COMMENT '拼音首字母',
   `create_time` DATETIME NULL,
   `update_time` DATETIME NULL,
   PRIMARY KEY (`cid`));

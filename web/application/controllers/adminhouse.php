@@ -6,6 +6,7 @@ class adminhouse extends MY_Controller {
 
 	public function __construct() {
 		parent::__construct();
+		$this->load->helper('house');
 	}
 
 	public function index() {
@@ -15,20 +16,29 @@ class adminhouse extends MY_Controller {
 			array(
 				'hid' => 1,
 				'title' => '我是中国人，我爱中国，思密达',
-				'house_type' => '三室一厅',
-				'create_time' => '2015-10-12 21:21:23'
+				'rooms' => '3',
+				'halls' => '1',
+				'bathrooms' => '1',
+				'create_time' => '2015-10-12 21:21:23',
+				'update_time' => '2015-10-12 21:21:23',
 			),
 			array(
 				'hid' => 2,
 				'title' => '我是中国人，我爱中国，思密达; 我是中国人，我爱中国，思密达',
-				'house_type' => '三室一厅',
-				'create_time' => '2015-10-12 21:21:23'
+				'rooms' => '3',
+				'halls' => '1',
+				'bathrooms' => '1',
+				'create_time' => '2015-10-12 21:21:23',
+				'update_time' => '2015-10-12 21:21:23'
 			),
 			array(
 				'hid' => 3,
 				'title' => '我是中国人，我爱中国，思密达; 我是中国人，我爱中国，思密达; 我是中国人，我爱中国，思密达',
-				'house_type' => '三室一厅',
-				'create_time' => '2015-10-12 21:21:23'
+				'rooms' => '3',
+				'halls' => '1',
+				'bathrooms' => '1',
+				'create_time' => '2015-10-12 21:21:23',
+				'update_time' => '2015-10-12 21:21:23'
 			)
 		);
 		$this->houses = $houses;
@@ -50,13 +60,17 @@ class adminhouse extends MY_Controller {
 	}
 
 	public function del() {
-		$this->check_state_common('GET', TRUE);
-		$hid = $this->check_param('hid');
+		$this->check_state_common('POST', TRUE);
+		$hid = $this->check_param('id');
+		if (is_array($hid)) {
+
+		}
+		print_r($hid);
 
 		// 删除数据
 
 
-		$this->load->view('admin/del-house', $this);
+		// $this->load->view('admin/del-house', $this);
 	}
 
 	public function add() {
@@ -70,17 +84,25 @@ class adminhouse extends MY_Controller {
 		$this->load->view('admin/house-add-sell', $this);
 	}
 
+	public function add_sell_ajax() {
+		$this->check_state_api('POST');
+		// 获取所有的数据
+		$post = $this->input->post(NULL,TRUE);
+
+
+	}
+
 
 	private function loadCommonInfos() {
 		$this->load->api('admincommon_api');
 		$communitys_result = $this->admincommon_api->community_list();
 		if (is_ok_result($communitys_result)) {
-			$this->communitys = $communitys_result['data'];
+			$this->communitys = arrayofmap_to_keymap($communitys_result['data'], 'cid');
 		}
 
 		$areas_result = $this->admincommon_api->area_list();
 		if (is_ok_result($areas_result)) {
-			$this->areas = $areas_result['data'];
+			$this->areas = arrayofmap_to_keymap($areas_result['data'], 'aid');
 		}
 
 		$this->house_types = array(
@@ -120,10 +142,10 @@ class adminhouse extends MY_Controller {
 
 		$this->rights_types = array(
 			1 => '商品房',
-			2 => '经济适用房',
-			3 => '公房',
+			2 => '商住两用',
+			3 => '经济适用房',
 			4 => '使用权',
-			5 => '商住两用'
+			5 => '公房'
 		);
 
 	}

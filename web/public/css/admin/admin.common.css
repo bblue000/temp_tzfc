@@ -247,6 +247,14 @@ body.menu {
   text-align: center;
   font-weight: bold;
 }
+
+#house-list-container table th.check {
+  width: 50px;
+}
+#house-list-container table td.check {
+  text-align: center;
+}
+
 .house-op {
   font-size: 10px;
   padding: 1px 6px;

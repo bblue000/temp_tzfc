@@ -65,7 +65,6 @@
 
 
 	<script type="text/javascript" src="public/scripts/admin/admin.common.js"></script>
-	<script type="text/javascript" src="public/scripts/admin/admin.validate.js"></script>
 
 	<script type="text/javascript">
 	function addArea() {

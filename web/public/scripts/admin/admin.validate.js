@@ -115,23 +115,12 @@ function commonSignValidate(postUrl) {
 
 	postIsProgressing = true;
 	var postData = result;
-	$.ajax({
-		type: "POST",
-		url: postUrl,
-		dataType: "json",
-		data: postData,
-		success: function(data){
-			if (data.code == 200) {
-				(top || window).location.href = data.data;
-			} else {
-				showToast(data.msg);
-			}
+
+	simplePost(postUrl, postData, {
+		success : function(data) {
 			postIsProgressing = false;
 		},
-		beforeSend:function(){
-		},
-		error:function(XMLHttpRequest, textStatus, errorThrown){
-			showToast("出错了：" + textStatus);
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
 			postIsProgressing = false;
 		}
 	});

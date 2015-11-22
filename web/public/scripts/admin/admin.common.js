@@ -231,6 +231,81 @@ function showToast(msg){
 }
 
 
+function simpleGet(reqUrl, callbackFuncs) {
+	$.ajax({
+		type: "GET",
+		url: reqUrl,
+		dataType: "json",
+		success: function(data){
+			if (data.code == 200) {
+				if (callbackFuncs && callbackFuncs.ok) {
+					callbackFuncs.ok(data);
+				} else {
+					(top || window).location.href = data.data;
+				}
+			} else {
+				showToast(data.msg);
+			}
+			if (callbackFuncs && callbackFuncs.success) {
+				callbackFuncs.success(data);
+			}
+		},
+		beforeSend:function(){
 
+		},
+		error:function(XMLHttpRequest, textStatus, errorThrown){
+			showToast("出错了：" + textStatus);
+			if (callbackFuncs && callbackFuncs.error) {
+				callbackFuncs.error(XMLHttpRequest, textStatus, errorThrow);
+			}
+		}
+	});
+}
 
+function simplePost(postUrl, postData, callbackFuncs) {
+	$.ajax({
+		type: "POST",
+		url: postUrl,
+		dataType: "json",
+		data: postData,
+		success: function(data){
+			if (data.code == 200) {
+				if (callbackFuncs && callbackFuncs.ok) {
+					callbackFuncs.ok(data);
+				} else {
+					(top || window).location.href = data.data;
+				}
+			} else {
+				showToast(data.msg);
+			}
+			if (callbackFuncs && callbackFuncs.success) {
+				callbackFuncs.success(data);
+			}
+		},
+		beforeSend:function(){
+		},
+		error:function(XMLHttpRequest, textStatus, errorThrown){
+			showToast("出错了：" + textStatus);
+			if (callbackFuncs && callbackFuncs.error) {
+				callbackFuncs.error(XMLHttpRequest, textStatus, errorThrown);
+			}
+		}
+	});
+}
 
+function checkAll(t, tname){
+	tname = tname?tname:'optid[]';
+	var tcheck = $(t).is(':checked');
+	$("input[name='"+tname+"']").prop('checked', tcheck);
+}
+
+/** 
+ * Define Confirm
+ */
+var defConfirm = function(o, msg) {
+	
+	var r = confirm(msg);
+	
+	if (r === true)    o.form.submit();
+	else               return false;
+};
