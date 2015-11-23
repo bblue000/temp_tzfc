@@ -89,7 +89,8 @@ class adminhouse extends MY_Controller {
 		// 获取所有的数据
 		$post = $this->input->post(NULL,TRUE);
 
-
+		print_r($post['community']);
+		print_r($post['details']);
 	}
 
 

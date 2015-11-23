@@ -309,3 +309,59 @@ var defConfirm = function(o, msg) {
 	if (r === true)    o.form.submit();
 	else               return false;
 };
+
+
+
+
+
+
+
+function __isNumber(val) {
+	return /^-?(?:\d+|\d{1,3}(?:,\d{3})+)?(?:\.\d+)?$/.test(val);
+}
+
+function __isUnsignedNumber(val) {
+	return /^(?:\d+|\d{1,3}(?:,\d{3})+)?(?:\.\d+)?$/.test(val);
+}
+
+function __isPositiveNumber(val) {
+	return __isUnsignedNumber(val) && val > 0;
+}
+
+function __isEmail(val) {
+	return /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))$/i.test(val);
+}
+
+function __isInt (val) {
+	return /^-?(?:\d+)$/.test(val);
+}
+
+function __isUnsignedInt (val) {
+	return /^(?:\d+)$/.test(val);
+}
+
+function __isPositiveInt (val) {
+	return __isUnsignedInt(val) && val > 0;
+}
+
+function __isNumberLimitScale (val, maxScale) {
+	var re = new RegExp('^-?(?:\\d+|\\d{1,3}(?:,\\d{3})+)?(?:\\.\\d{1,' + maxScale + '})?$'); 
+	return re.test(val);
+}
+
+function __isUnsignedNumberLimitScale (val, maxScale) {
+	var re = new RegExp('^(?:\\d+|\\d{1,3}(?:,\\d{3})+)?(?:\\.\\d{1,' + maxScale + '})?$'); 
+	return re.test(val);
+}
+
+function __isPositiveNumberLimitScale (val, maxScale) {
+	return __isUnsignedNumberLimitScale(val, maxScale) && val > 0;
+}
+
+
+/**
+ * small helper function to urlencode strings
+ */
+if (!$.urlencode) {
+	$.urlencode = encodeURIComponent;
+}

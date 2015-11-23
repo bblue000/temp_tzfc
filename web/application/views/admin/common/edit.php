@@ -117,7 +117,8 @@
 	    		showToast("请输入信息");
 	    		return false;
 	    	}
-	    	var postData = "name=" + val;
+	    	var postData = "name=" + $.urlencode(val);
+	    	console.log(postData);
 			$.ajax({
 				type: "POST",
 				url: inputAddCommonDoWhat,
@@ -172,7 +173,7 @@
 	    		showToast("你没有做任何修改");
 	    		return false;
 	    	}
-	    	var postData = "id=" + inputEditCommonDoWhat['id'] + "&name=" + val;
+	    	var postData = "id=" + inputEditCommonDoWhat['id'] + "&name=" + $.urlencode(val);
 			$.ajax({
 				type: "POST",
 				url: inputEditCommonDoWhat['url'],

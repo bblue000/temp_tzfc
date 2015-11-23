@@ -17,7 +17,7 @@ function commonSignValidate(postUrl) {
 			user_name.focus();
 			return false;
 		}
-		result = "user_name=" + val;
+		result = "user_name=" + $.urlencode(val);
 	}
 	var pwdVal;
 	if (password && password.length > 0) {
@@ -50,7 +50,7 @@ function commonSignValidate(postUrl) {
 			true_name.focus();
 			return false;
 		}
-		result += "&true_name=" + val;
+		result += "&true_name=" + $.urlencode(val);
 	}
 
 	var sex = $('input[name="inputSex"]:checked');
@@ -66,7 +66,7 @@ function commonSignValidate(postUrl) {
 			contact_mobile.focus();
 			return false;
 		}
-		if (val.length != 11 || !__is_number(val)) {
+		if (val.length != 11 || !__isUnsignedNumber(val)) {
 			showToast("手机号必须为11位纯数字");
 			contact_mobile.focus();
 			return false;
@@ -76,7 +76,7 @@ function commonSignValidate(postUrl) {
 	if (qqchat && qqchat.length > 0) {
 		var val = $.trim(qqchat.val());
 		if (val != "") {
-			if (!__is_number(val)) {
+			if (!__isUnsignedNumber(val)) {
 				showToast("QQ号必须为纯数字");
 				qqchat.focus();
 				return false;
@@ -87,7 +87,7 @@ function commonSignValidate(postUrl) {
 	if (email && email.length > 0) {
 		var val = $.trim(email.val());
 		if (val != "") {
-			if (!__is_email(val)) {
+			if (!__isEmail(val)) {
 				showToast("请输入正确的邮箱");
 				email.focus();
 				return false;
@@ -116,6 +116,8 @@ function commonSignValidate(postUrl) {
 	postIsProgressing = true;
 	var postData = result;
 
+	console.log(postData);
+
 	simplePost(postUrl, postData, {
 		success : function(data) {
 			postIsProgressing = false;
@@ -127,14 +129,3 @@ function commonSignValidate(postUrl) {
 
 	return true;
 }
-
-function __is_number(val) {
-	return /^-?(?:\d+|\d{1,3}(?:,\d{3})+)?(?:\.\d+)?$/.test(val);
-}
-
-function __is_email(val) {
-	return /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))$/i.test(val);
-}
-
-
-
