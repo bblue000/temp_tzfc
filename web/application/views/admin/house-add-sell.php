@@ -44,15 +44,8 @@
 	<script type="text/javascript" src="public/scripts/admin/admin.common.js"></script>
 
 	<script type="text/javascript">
-	function enableTitle(self) {
-		var inputHouseTitle = $('#inputHouseTitle');
-		if (inputHouseTitle.attr("disabled")) {
-			inputHouseTitle.removeAttr("disabled");
-			$(self).text('完成');
-		} else {
-			inputHouseTitle.attr("disabled", "disabled");
-			$(self).text('编辑');
-		}
+	function doWhatYouWant(postData) {
+		simplePost("<?php echo base_url('adminhouse/add_sell/ajax'); ?>", postData);
 	}
 	</script>
 

@@ -1,27 +1,42 @@
 			<?php $tabIndex = 1; ?>
 			<table class="table table-bordered table-striped house-edit-container">
 				<tr>
-					<th><label>小区</label></th>
+					<th><small>*</small><label>小区</label></th>
 					<td>
 						<div class="house-edit-input-container">
-							
+							<div class="house-selectordef" style="width:160px" tabindex="<?php echo $tabIndex++; ?>">
+								<div class="title">
+									<span id="inputArea" class="seled" data-field="aid" data-trtitle="1">选择区域(非必选)</span>
+									<div class="arrow"></div>
+								</div>
+								<?php if (isset($areas)) : ?>
+									<div class="house-optiondef" style="display:none; width:172px" >
+										<ul>
+											<li data-id="0">请选择区域</li>
+											<?php foreach ($areas as $key => $value) : ?>
+												<li data-id="<?php echo $key; ?>"><?php echo $value['area_name']; ?></li>
+											<?php endforeach; ?>
+										</ul>
+									</div>
+								<?php endif; ?>
+							</div>
+
 							<input type="text" name="community" id="inputComm" class="form-control house-related-long" placeholder="只填写小区名，例财富广场, cfgc" tabindex="<?php echo $tabIndex++; ?>" autofocus>
 							
-							<div class="house-tooltip">
+							<div class="house-tooltip" style="display: none;">
 								<ul class="house-autoCompleteul">
-									<li r="11383" m="5512" k="山水华庭" valueid="1882" class="">
-										<b>山水</b>华庭<cite>长江中路99号（长江路与向阳路交汇处往南100米）</cite>
-									</li>
-									<li r="16" m="11863" k="山水森林" valueid="315550" class="">
-										<b>山水</b>森林<cite>马鞍山路与鹿城路交汇处</cite>
-									</li>
+									<?php if (isset($communitys)) : ?>
+									<?php foreach ($communitys as $key => $value) : ?>
+									<li data-id="<?php echo $key; ?>" data-pinyin="<?php echo $value['pinyin']; ?>"><?php echo $value['cname']; ?></li>
+									<?php endforeach; ?>
+									<?php endif; ?>
 								</ul>
 							</div>
 						</div>
 					</td>
 				</tr>
 				<tr>
-					<th>房屋户型</th>
+					<th><small>*</small>房屋户型</th>
 					<td>
 						<div class="house-edit-input-container">
 							<div class="house-input_text_wrap">
@@ -50,7 +65,7 @@
 					<td>
 						<div class="house-edit-input-container">
 							<div class="house-input_text_wrap">
-								<span>总价</span>
+								<span><small>*</small>总价</span>
 								<input type="text" name="price" id="inputHousePrice" class="house-related-short" tabindex="<?php echo $tabIndex++; ?>">
 								<span>万(<small>*支持两位小数</small>)</span>
 							</div>
@@ -65,7 +80,7 @@
 				
 
 				<tr>
-					<th>房源标题(<small>*可自动生成</small>)</th>
+					<th><small>*</small>房源标题(<small>*可自动生成</small>)</th>
 					<td>
 						<div class="house-edit-input-container form-inline">
 							<input type="text" name="title" id="inputHouseTitle" maxlength="50" class="form-control house-related-long" tabindex="<?php echo $tabIndex++; ?>" disabled>
@@ -118,7 +133,7 @@
 
 							<div class="house-selectordef" tabindex="<?php echo $tabIndex++; ?>">
 								<div class="title">
-									<span class="seled" data-field="decor">请选择装修情况</span>
+									<span id="inputDecor" class="seled" data-field="decor" data-trtitle="1">请选择装修情况</span>
 									<div class="arrow"></div>
 								</div>
 								<?php if (isset($house_decors)) : ?>
@@ -245,6 +260,19 @@
 
 
 			<script type="text/javascript">
+			function enableTitle(self) {
+				var inputHouseTitle = $('#inputHouseTitle');
+				if (inputHouseTitle.attr("disabled")) {
+					inputHouseTitle.removeAttr("disabled");
+					$(self).text('自动生成');
+				} else {
+					inputHouseTitle.attr("disabled", "disabled");
+					$(self).text('手动编辑');
+					generateTitle();
+				}
+			}
+
+
 			function registerListeners(myTarget) {
 				var selLabel = myTarget.find('.seled');
 				var optiondef = myTarget.find('.house-optiondef');
@@ -254,6 +282,9 @@
 						optiondef.show();
 					}).blur(function() {
 						optiondef.hide();
+						if (selLabel.data('trtitle')) {
+							generateTitle();
+						}
 					});
 					optiondefLi.click(function() {
 						var who = $(this);
@@ -266,6 +297,7 @@
 						}
 
 						optiondef.hide();
+						myTarget.blur();
 					});
 				} 
 			}
@@ -277,6 +309,7 @@
 
 
 			// 验证
+			var inputArea = $('#inputArea');
 			var inputComm = $('#inputComm');
 
 			var inputHouseRooms = $('#inputHouseRooms');
@@ -292,6 +325,7 @@
 			var inputHouseFloor = $('#inputHouseFloor');
 			var inputHouseTotalFloor = $('#inputHouseTotalFloor');
 
+			var inputDecor = $('#inputDecor');
 			var inputHouseRightsFrom = $('#inputHouseRightsFrom');
 
 			var inputPrimary = $('#inputPrimary');
@@ -360,7 +394,8 @@
 				}
 
 				console.log(postData);
-				// simplePost("<?php echo base_url('adminhouse/add_sell/ajax'); ?>", postData);
+
+				doWhatYouWant(postData);
 				return true;
 			}
 
@@ -431,6 +466,7 @@
 				return true;
 			}
 
+			// 检查值是否为空，不为空则填充
 			function __checkIfSet (o, target) {
 				var val = $.trim(o.val());
 				if (val != '') {
@@ -441,13 +477,45 @@
 
 			// 自动生成房源标题
 			function generateTitle () {
-				if () {
-
+				if (!inputHouseTitle.attr("disabled")) {
+					return;
 				}
+				var myTitle = '';
+
+				if (inputArea.data('valueid')) {
+					myTitle += '[' + inputArea.text() + '] ';
+				}
+				if (inputComm.val() != '') {
+					myTitle += inputComm.val() + ' ';
+				}
+
+				myTitle += '(';
+				if (__isPositiveInt(inputHouseRooms.val())) {
+					myTitle += inputHouseRooms.val() + '室';
+				}
+				if (__isPositiveInt(inputHouseHalls.val())) {
+					myTitle += inputHouseHalls.val() + '厅';
+				}
+				if (__isPositiveInt(inputHouseBathrooms.val())) {
+					myTitle += inputHouseBathrooms.val() + '卫';
+				}
+
+				if (inputDecor.data('valueid')) {
+					myTitle += ' ' + inputDecor.text();
+				}
+
+				myTitle += ') ';
+
+				if (inputHouseSize.val() != '' && __isUnsignedNumberLimitScale(inputHouseSize.val(), 2)) {
+					myTitle += inputHouseSize.val() + '㎡ ';
+				}
+				inputHouseTitle.val(myTitle);
 			}
 			inputComm.blur(generateTitle) ;
 			inputHouseRooms.blur(generateTitle) ;
 			inputHouseHalls.blur(generateTitle) ;
 			inputHouseBathrooms.blur(generateTitle) ;
 			inputHouseSize.blur(generateTitle) ;
+
+
 			</script>
