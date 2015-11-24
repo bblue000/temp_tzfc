@@ -65,7 +65,7 @@
 							<th>操作</th>
 						</tr>
 					</thead>
-					<tbody> <form id="delForm" action="adminhouse/del" method="post">
+					<tbody> <form id="delForm" action="adminhouse/del_" method="post">
 						<?php 
 							$myIndex = 0;
 							foreach ($houses as $house) : ?>
@@ -79,7 +79,7 @@
 								</td>
 								<td><?php echo $house['update_time']; ?></td>
 								<td>
-									<a class="btn btn-warning house-op house-op-edit" href="adminhouse/edit?hid=<?php echo $house['hid']; ?>" onclick="return true;">编辑</a>
+									<a class="btn btn-warning house-op house-op-edit" href="adminhouse/edit_?hid=<?php echo $house['hid']; ?>" onclick="return true;">编辑</a>
 									<a class="btn btn-danger house-op house-op-delete" data-inputid="<?php echo "hid$myIndex";?>" onclick="return delBatch(this);">删除</a>
 								</td>
 							</tr>

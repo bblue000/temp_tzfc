@@ -293,17 +293,34 @@ body.menu {
     overflow-y: auto; 
     overflow-x: hidden; 
     border: 1px solid rgb(204, 204, 204); 
-    position: absolute; 
+    position: relative; 
     z-index: 487; 
-    width: 411px; 
-    top: 34px; left: 10px; display: none;
+    width: 100%; 
+    left: 10px; display: none;
     -moz-box-shadow: 2px 2px 1px 1px #f0f0f0,4px 4px 2px 2px #fafafa;
     -webkit-box-shadow: 2px 2px 1px 1px #f0f0f0,4px 4px 2px 2px #fafafa;
             box-shadow: 2px 2px 1px 1px #f0f0f0,4px 4px 2px 2px #fafafa;
 }
 
 .house-autoCompleteul {
-  margin:0; padding:0; display:block; width: 100%;
+  margin:0; padding:0; display:block; width: 100%; background: #fff;
+}
+
+.house-autoCompleteul li {
+    color: #333;
+  cursor: pointer;
+  display: block;
+  font-size: 14px;
+  height: 30px;
+  line-height: 30px;
+  text-decoration: none;
+  text-indent: 7px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.house-autoCompleteul li:hover {
+  background: #f0f0f0;
 }
 
 .house-related-long {

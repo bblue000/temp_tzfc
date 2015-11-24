@@ -10,8 +10,28 @@ class adminsellhouse_model extends MY_Model {
 	const TABLE_NAME = 'tab_sellhouse';
 
 	private $COLS = array(
-		'uid', 'user_name', 'true_name', 'password', 'salt', 'sex',
-		'contact_tel', 'contact_mobile', 'qqchat', 'email', 'address', 'avatar'
+		'hid',
+		'community', 'cid', 'aid', 
+		'rooms', 'halls', 'bathrooms', 'size',
+		'price', 'unit_price',
+		'title',
+		'floors', 'floors_total', 
+		'rights_len', 'rights_type', 'rights_from', 
+		'house_type', 'decor', 'orientation',
+		'primary_school', 'junior_school', 'details',
+		'uid'
+	);
+
+	private $INSERT_COLS = array(
+		'community', 'cid', 'aid', 
+		'rooms', 'halls', 'bathrooms', 'size',
+		'price', 'unit_price',
+		'title',
+		'floors', 'floors_total', 
+		'rights_len', 'rights_type', 'rights_from', 
+		'house_type', 'decor', 'orientation',
+		'primary_school', 'junior_school', 'details',
+		'uid'
 	);
 	
 	public function __construct() {
@@ -24,83 +44,30 @@ class adminsellhouse_model extends MY_Model {
 	}
 
 	public function get_by_uid($uid) {
-		$this->setTable($this->_table);
+		$this->setTable($this::TABLE_NAME);
+		return $this->getData(array('uid'=>$uid));	
 	}
 
-	/**
-	 * 根据用户ID获取用户信息
-	 *
-	 * @param	string	$uid 用户ID
-	 * @return	array 	$uid的用户信息，或者空数组
-	 * @see CI_DB_result::result_array
-	 */
-	public function get_by_id($uid) {
+	public function get_by_id($shid) {
 		$this->setTable($this::TABLE_NAME);
-		return $this->getSingle(array('uid'=>$uid));	
+		return $this->getSingle(array('hid'=>$shid));	
 	}
 
-	/**
-	 * 根据用户名获取用户信息
-	 *
-	 * @param	string	$user_name 用户名
-	 * @return	array 	$user_name的用户信息，或者空数组
-	 * @see CI_DB_result::result_array
-	 */
-	public function get_by_name($user_name) {
+	public function add($house) {
+		$user = array_filter_by_key($house, $this->INSERT_COLS);
 		$this->setTable($this::TABLE_NAME);
-		return $this->getSingle(array('user_name'=>$user_name));	
-	}
-
-	/**
-	 * 根据用户名判断是否存在该用户
-	 *
-	 * @param	string	$user_name 用户名
-	 * @return	bool 	是否存在该用户
-	 * @see empty(CI_DB_result::result_array)
-	 */
-	public function exist_by_name($user_name) {
-		$this->setTable($this::TABLE_NAME);
-		$result = $this->get_by_name($user_name);
-		return !empty($result);
-	}
-
-	/**
-	 * 增加用户
-	 *
-	 * @param	user	$uid 用户名
-	 * @return	insert_id or false 
-	 * @see CI_DB_result::insert  db->insert_id()
-	 */
-	public function add_user($user) {
-		$user = array_filter_by_key($user, $this->COLS);
-		$this->setTable($this::TABLE_NAME);
-		$result = $this->addData($user);
+		$result = $this->addData($house);
 		return isset($result);
 	}
 
-	/**
-	 * 修改用户信息
-	 *
-	 * @param	string	$uid 用户ID
-	 * @param	string	$fields 用户信息
-	 * @return	bool	TRUE on success, FALSE on failure
-	 * @see CI_DB_query_builder::update
-	 */
-	public function update_by_id($uid, $fields) {
-		$fields = array_filter_by_key($fields, $this->COLS);
+	public function update_by_id($shid, $fields) {
+		$fields = array_filter_by_key($fields, $this->INSERT_COLS);
 		$this->setTable($this::TABLE_NAME);
-		return $this->editData(array('uid' => $uid), $fields);
+		return $this->editData(array('hid' => $shid), $fields);
 	}
 
-	/**
-	 * 删除用户
-	 *
-	 * @param	string	$uid 用户ID
-	 * @return	bool	TRUE on success, FALSE on failure
-	 * @see CI_DB_query_builder::delte
-	 */
-	public function del_by_id($hid) {
-		$result = $this->delData($uid, $this::TABLE_NAME, 'hid');
+	public function del_by_id($shid) {
+		$result = $this->delData($shid, $this::TABLE_NAME, 'hid');
 		return $result === FALSE ? FALSE : TRUE;
 	}
 	
