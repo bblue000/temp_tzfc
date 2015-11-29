@@ -12,15 +12,31 @@ class adminhouse extends MY_Controller {
 	public function index() {
 		$this->check_state_common('GET', TRUE);
 
+		// 获取当前分类
+		$cat = $this->input->get('cat', TRUE);
+		if (!isset($cat) || empty($cat) || intval($cat) == 0) {
+			$cat = 0;
+		} else {
+			$cat = 1;
+		}
+		$this->cat = $cat;
+
+		// 获取当前关键词
+		$kw = $this->input->get('kw', TRUE);
 
 		$uid = get_session_uid();
 
 		$this->load->api('adminhouse_api');
-		$sell_list_result = $this->adminhouse_api->sell_list($uid);
-
-		$this->houses = $sell_list_result['data'];
+		if ($cat == 0) {
+			$list_result = $this->adminhouse_api->sell_list($uid);
+		} else {
+			$list_result = $this->adminhouse_api->rent_list($uid);
+		}
+		$this->houses = $list_result['data'];
 		$this->load->view('admin/house-index', $this);
 	}
+
+
 
 	public function edit() {
 		$this->check_state_common('GET', TRUE);

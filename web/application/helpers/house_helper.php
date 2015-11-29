@@ -19,6 +19,17 @@ function to_room_type($house) {
 	return $room_type_str; 
 }
 
+/**
+ * 生成标题字符串
+ */
+function to_room_title($house) {
+	$room_title_str = '';
+	if (isset($house['title']) && !empty($house['title'])) {
+		return $house['title'];
+	}
+	return $room_title_str; 
+}
+
 
 function loadCommonInfos($CI) {
 	$CI->load->api('admincommon_api');

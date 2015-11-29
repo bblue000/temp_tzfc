@@ -48,6 +48,8 @@ class adminsellhouse_model extends MY_Model {
 		return $this->getData(array('uid'=>$uid));	
 	}
 
+	public function get
+
 	public function get_by_id($shid) {
 		$this->setTable($this::TABLE_NAME);
 		return $this->getSingle(array('hid'=>$shid));	

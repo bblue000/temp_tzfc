@@ -23,7 +23,7 @@ USE `tzfc_db` ;
 DROP TABLE IF EXISTS `tzfc_db`.`Tab_SellHouse` ;
 
 CREATE TABLE IF NOT EXISTS `tzfc_db`.`Tab_SellHouse` (
-  `shid` INT NOT NULL AUTO_INCREMENT,
+  `hid` INT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(500) NULL,
   `rooms` TINYINT UNSIGNED NULL DEFAULT 0 COMMENT '几室几厅几卫',
   `halls` TINYINT UNSIGNED NULL DEFAULT 0 COMMENT '几室几厅几卫',
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `tzfc_db`.`Tab_SellHouse` (
   `create_time` DATETIME NULL,
   `update_time` DATETIME NULL,
   `uid` INT NOT NULL COMMENT '用户ID',
-  PRIMARY KEY (`shid`),
+  PRIMARY KEY (`hid`),
   CONSTRAINT `fk_Tab_SellHouse_Tab_User1`
     FOREIGN KEY (`uid`)
     REFERENCES `tzfc_db`.`Tab_User` (`uid`)

@@ -37,19 +37,21 @@
 			
 			<hr/>
 
+			<form id="searchForm" action="adminhouse" method="get">
 			<div id="house-cat-container">
 				<label class="radio-inline">
-					<input type="radio" name="house_cat" value="0" checked="checked"> 出售房源
+					<input type="radio" name="cat" value="0"> 出售房源
 				</label>
 				<label class="radio-inline">
-					<input type="radio" name="house_cat" value="1"> 出租房源
+					<input type="radio" name="cat" value="1"> 出租房源
 				</label>
 			</div>
 
 			<div id="house-keyword-container" class="form-inline">
-				<input id="house-keyword-input" type="text" class="form-control" placeholder="输入关键字">
+				<input id="house-keyword-input" name="kw" type="text" class="form-control" placeholder="输入关键字">
 				<a class="btn btn-default" href="javascript:void(0);" onclick="return searchHouse(this);" target="_self">搜索</a>
 			</div>
+			</form>
 
 			<div id="house-result-lable"><strong>搜索结果：</strong></div>
 
@@ -65,13 +67,14 @@
 							<th>操作</th>
 						</tr>
 					</thead>
-					<tbody> <form id="delForm" action="adminhouse/del_" method="post">
+					<tbody> <form id="delForm" action="adminhouse/del_sell" method="post">
 						<?php 
 							$myIndex = 0;
 							foreach ($houses as $house) : ?>
+							<?php $house_title = to_room_title($house); ?>
 							<tr>
 								<td class="check"><input type="checkbox" id="<?php echo "hid$myIndex";?>" name="id[]" value="<?php echo $house['hid'];?>" /></td></td>
-								<td class="house-col-1" title="<?php echo $house['title']; ?>"><?php echo $house['title']; ?></td>
+								<td class="house-col-1" title="<?php echo $house_title; ?>"><?php echo $house_title; ?></td>
 								<td>
 									<?php 
 										echo to_room_type($house); 
@@ -98,15 +101,16 @@
 	<script type="text/javascript" src="public/scripts/admin/admin.common.js"></script>
 
 	<script type="text/javascript">
-	var kwInput = $('#house-keyword-input');
-	var delForm = $('#delForm');
+	$('input[name="cat"][value="<?php echo (!isset($cat) || empty($cat) || $cat == 0) ? "0" : "1"; ?>"]').attr('checked', 'checked');
+
+	var searchForm = $('#searchForm');
 	function searchHouse (self) {
-		var typeRG = $('input[name="house_cat"]:checked');
-		console.log($('input[name="id[]"]:checked').val());
-		// $(self).attr('href', '<?php echo base_url("adminhouse/search/ajax/"); ?>' + '?type=' + typeRG.val() + '&kw=' + kwInput.val());
+		console.log($('input[name="cat"]:checked').val());
+		searchForm.submit();
 		return true;
 	}
 
+	var delForm = $('#delForm');
 	function delBatch(o) {
 		var inputCheckbox = $('#' + $(o).data('inputid'));
 		var tcheck = inputCheckbox.is(':checked');
