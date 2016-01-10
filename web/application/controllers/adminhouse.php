@@ -33,7 +33,7 @@ class adminhouse extends MY_Controller {
 			$list_result = $this->adminhouse_api->rent_list($uid);
 		}
 		$this->houses = $list_result['data'];
-		$this->load->view('admin/house-index', $this);
+		$this->load->view('admin/house/house-index', $this);
 	}
 
 
@@ -74,7 +74,7 @@ class adminhouse extends MY_Controller {
 	public function add_sell() {
 		$this->check_state_common('GET', TRUE);
 		loadCommonInfos($this);
-		$this->load->view('admin/house-add-sell', $this);
+		$this->load->view('admin/house/add-sell', $this);
 	}
 
 	public function add_sell_ajax() {

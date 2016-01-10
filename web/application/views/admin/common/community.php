@@ -48,7 +48,7 @@
 								<?php if ($myIndex % 2 == 0) : ?>
 								<tr>
 								<?php endif; ?>
-									<td class="house-col-1" title="<?php echo $community['cname']; ?>"><?php echo $community['cname']; ?></td>
+									<td class="house-col-1" title="<?php echo $community['cname']; ?>" <?php echo ($myIndex % 2 == 0) ? '' : 'style="border-left:5px solid #ddd"' ;?>><?php echo $community['cname']; ?></td>
 									<td>
 										<a class="btn btn-warning house-op house-op-edit" data-cid="<?php echo $community['cid']; ?>" data-cname="<?php echo $community['cname']; ?>" href="javascript:void(0);" onclick="editCommunity(this);">编辑</a>
 										<a class="btn btn-danger house-op house-op-delete" data-cid="<?php echo $community['cid']; ?>" href="admincommon/community/del?cid=<?php echo $community['cid']; ?>" onclick="return confirm('确认要删除吗？');">删除</a>
