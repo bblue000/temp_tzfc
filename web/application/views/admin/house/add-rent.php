@@ -32,9 +32,9 @@
 
 	<div id="content">
 		<div id="house-container">
-			<h3>房源管理 <small>添加出售房源</small></h3>
+			<h3>房源管理 <small>添加出租房源</small></h3>
 
-			<?php $this->load->view('admin/house/editor-sell'); ?>
+			<?php $this->load->view('admin/house/editor-rent'); ?>
 
 		</div>
 	</div>
@@ -46,7 +46,7 @@
 	<script type="text/javascript">
 	var __addSellResultData;
 	function doWhatYouWant(postData) {
-		simplePost("<?php echo base_url('adminhouse/add_sell/ajax'); ?>", postData, {
+		simplePost("<?php echo base_url('adminhouse/add_rent/ajax'); ?>", postData, {
 			ok : function(data) {
 				__addSellResultData = data;
 				showToast('房源添加成功');

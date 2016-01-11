@@ -88,6 +88,27 @@ function loadCommonInfos($CI) {
 
 }
 
+function loadRentCommonInfos($CI) {
+	loadCommonInfos($CI);
+
+	$CI->rent_types = array(
+		1 => '整租',
+		2 => '合租',
+		3 => '床位'
+	);
+
+	$CI->rentpay_types = array(
+		0 => '面议',
+		1 => '押一付一',
+		2 => '押一付二',
+		3 => '押一付三',
+		4 => '押二付一',
+		5 => '押二付二',
+		6 => '押二付三',
+		7 => '半年付',
+		8 => '年付'
+	);
+}
 
 // $houses = array(
 // 	array(

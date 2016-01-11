@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * 用户相关的API，包括登录，注册，修改密码，修改信息；
+ * 
  */
 class adminsellhouse_model extends MY_Model {
 	
@@ -38,19 +38,58 @@ class adminsellhouse_model extends MY_Model {
 		parent::__construct();
 	}
 
+	// ========================================
+	// ========================================
+	// 用户无关的
+	// ========================================
+	// ========================================
 	public function get_all() {
 		$this->setTable($this::TABLE_NAME);
 		return $this->getData();
 	}
 
-	public function get_by_uid($uid) {
+	public function get_by_kw($kw) {
+		$this->setTable($this::TABLE_NAME);
+		if (isset($kw) && !empty($kw)) {
+			$kw = $this->db->escape_like_str($kw);
+			$this->db->or_like(array('title' => $kw));
+			$this->db->or_like(array('community' => $kw));
+			$this->db->or_like(array('details' => $kw));
+			return $this->getData();
+		}
+		return $this->get_all();
+	}
+
+	public function get_by_hid($hid) {
+		$this->setTable($this::TABLE_NAME);
+		return $this->getSingle(array('hid'=>$hid));	
+	}
+
+	public function del_by_hid($hid) {
+		$result = $this->delData($hid, $this::TABLE_NAME, 'hid');
+		return $result === FALSE ? FALSE : TRUE;
+	}
+
+	// ========================================
+	// ========================================
+	// 用户相关的
+	// ========================================
+	// ========================================
+	public function get_all_by_uid($uid) {
 		$this->setTable($this::TABLE_NAME);
 		return $this->getData(array('uid'=>$uid));	
 	}
 
-	public function get_by_id($shid) {
+	public function get_by_kw_by_uid($uid, $kw) {
 		$this->setTable($this::TABLE_NAME);
-		return $this->getSingle(array('hid'=>$shid));	
+		if (isset($kw) && !empty($kw)) {
+			$kw = $this->db->escape_like_str($kw);
+			$this->db->or_like(array('title' => $kw));
+			$this->db->or_like(array('community' => $kw));
+			$this->db->or_like(array('details' => $kw));
+			return $this->getData(array('uid'=>$uid));
+		}
+		return $this->get_all_by_uid($uid);	
 	}
 
 	public function add($house) {
@@ -60,15 +99,10 @@ class adminsellhouse_model extends MY_Model {
 		return isset($result);
 	}
 
-	public function update_by_id($shid, $fields) {
+	public function update_by_hid($hid, $fields) {
 		$fields = array_filter_by_key($fields, $this->INSERT_COLS);
 		$this->setTable($this::TABLE_NAME);
-		return $this->editData(array('hid' => $shid), $fields);
-	}
-
-	public function del_by_id($shid) {
-		$result = $this->delData($shid, $this::TABLE_NAME, 'hid');
-		return $result === FALSE ? FALSE : TRUE;
+		return $this->editData(array('hid' => $hid), $fields);
 	}
 	
 }

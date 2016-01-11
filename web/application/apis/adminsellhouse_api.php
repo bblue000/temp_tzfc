@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * 房源相关的API
  */
-class adminhouse_api extends API {
+class adminsellhouse_api extends API {
 
 	protected $apicode = array(
 		10001 => '未选择小区',
@@ -22,6 +22,7 @@ class adminhouse_api extends API {
 
 	public function __construct() {
 		parent::__construct();
+
 		$this->load->model('adminsellhouse_model');
 	}
 
@@ -30,21 +31,32 @@ class adminhouse_api extends API {
 	// sell house
 	// **************************************************
 	// **************************************************
-	public function sell_list($uid) {
+	public function sell_item($uid, $hid) {
 		if (!is_login()) { return $this->un_login(); }
 
 		if (!isset($uid)) {
 			return $this->ex(10007);
 		}
 
-		$sell_houses = $this->adminsellhouse_model->get_by_uid($uid);
+		$sell_houses = $this->adminsellhouse_model->get_by_id($hid);
+		return $this->ok($sell_houses);
+	}
+
+	public function sell_list($uid, $kw = NULL) {
+		if (!is_login()) { return $this->un_login(); }
+
+		if (!isset($uid)) {
+			return $this->ex(10007);
+		}
+
+		$sell_houses = $this->adminsellhouse_model->get_by_kw($uid, $kw);
 		return $this->ok($sell_houses);
 	}
 
 	public function add_sell($house, $return_list = FALSE) {
 		if (!is_login()) { return $this->un_login(); }
 
-		$code = $this->validateAdd($house);
+		$code = $this->validateAddSell($house);
 		if ($code != 200) {
 			return $this->ex($code);
 		}
@@ -79,7 +91,7 @@ class adminhouse_api extends API {
 		return $this->ok();
 	}
 
-	private function validateAdd($house) {
+	private function validateAddSell($house) {
 		if (!isset($house['cid']) && !isset($house['community'])) {
 			return 10001;
 		}

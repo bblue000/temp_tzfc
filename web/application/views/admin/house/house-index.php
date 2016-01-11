@@ -37,7 +37,7 @@
 			
 			<hr/>
 
-			<form id="searchForm" action="adminhouse" method="get">
+			<form id="searchForm" action="<?php echo base_url('adminhouse');?>" method="get">
 			<div id="house-cat-container">
 				<label class="radio-inline">
 					<input type="radio" name="cat" value="0"> 出售房源
@@ -48,7 +48,7 @@
 			</div>
 
 			<div id="house-keyword-container" class="form-inline">
-				<input id="house-keyword-input" name="kw" type="text" class="form-control" placeholder="输入关键字">
+				<input id="house-keyword-input" name="kw" type="text" class="form-control" placeholder="输入关键字" <?php echo isset($kw) ? "value=\"$kw\"" : ''; ?>>
 				<a class="btn btn-default" href="javascript:void(0);" onclick="return searchHouse(this);" target="_self">搜索</a>
 			</div>
 			</form>
@@ -67,13 +67,17 @@
 							<th>操作</th>
 						</tr>
 					</thead>
-					<tbody> <form id="delForm" action="adminhouse/del_sell" method="post">
+					<tbody> <form id="delForm" action="<?php echo ($cat == 0 ? base_url('del_sell') : base_url('del_rent'));?>" method="post">
+						<input type="hidden" name="cat" value="<?php echo "$cat"; ?>" />
+						<input type="hidden" name="kw" value="<?php echo "$kw"; ?>" />
 						<?php 
 							$myIndex = 0;
 							foreach ($houses as $house) : ?>
 							<?php $house_title = to_room_title($house); ?>
 							<tr>
-								<td class="check"><input type="checkbox" id="<?php echo "hid$myIndex";?>" name="id[]" value="<?php echo $house['hid'];?>" /></td></td>
+								<td class="check">
+									<input type="checkbox" id="<?php echo "hid$myIndex";?>" name="id[]" value="<?php echo $house['hid'];?>" />
+								</td>
 								<td class="house-col-1" title="<?php echo $house_title; ?>"><?php echo $house_title; ?></td>
 								<td>
 									<?php 
@@ -82,7 +86,7 @@
 								</td>
 								<td><?php echo $house['update_time']; ?></td>
 								<td>
-									<a class="btn btn-warning house-op house-op-edit" href="adminhouse/edit_?hid=<?php echo $house['hid']; ?>" onclick="return true;">编辑</a>
+									<a class="btn btn-warning house-op house-op-edit" href="<?php echo ($cat == 0 ? base_url('edit_sell') : base_url('edit_rent')).'?hid='.$house['hid']; ?>" onclick="return true;">编辑</a>
 									<a class="btn btn-danger house-op house-op-delete" data-inputid="<?php echo "hid$myIndex";?>" onclick="return delBatch(this);">删除</a>
 								</td>
 							</tr>
@@ -101,7 +105,7 @@
 	<script type="text/javascript" src="public/scripts/admin/admin.common.js"></script>
 
 	<script type="text/javascript">
-	$('input[name="cat"][value="<?php echo (!isset($cat) || empty($cat) || $cat == 0) ? "0" : "1"; ?>"]').attr('checked', 'checked');
+	$('input[name="cat"][value="<?php echo "$cat"; ?>"]').attr('checked', 'checked');
 
 	var searchForm = $('#searchForm');
 	function searchHouse (self) {
