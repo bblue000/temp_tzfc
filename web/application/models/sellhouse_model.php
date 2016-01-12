@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * 
+ * 出售房源的model
  */
 class sellhouse_model extends MY_Model {
 	
@@ -62,7 +62,7 @@ class sellhouse_model extends MY_Model {
 
 	public function get_by_hid($hid) {
 		$this->setTable($this::TABLE_NAME);
-		return $this->getSingle(array('hid'=>$hid));	
+		return $this->getSingle(array('hid' => $hid));	
 	}
 
 	// ========================================
@@ -72,7 +72,7 @@ class sellhouse_model extends MY_Model {
 	// ========================================
 	public function get_all_by_uid($uid) {
 		$this->setTable($this::TABLE_NAME);
-		return $this->getData(array('uid'=>$uid));	
+		return $this->getData(array('uid' => $uid));	
 	}
 
 	public function get_by_kw_by_uid($uid, $kw) {
@@ -82,9 +82,14 @@ class sellhouse_model extends MY_Model {
 			$this->db->or_like(array('title' => $kw));
 			$this->db->or_like(array('community' => $kw));
 			$this->db->or_like(array('details' => $kw));
-			return $this->getData(array('uid'=>$uid));
+			return $this->getData(array('uid' => $uid));
 		}
 		return $this->get_all_by_uid($uid);	
+	}
+
+	public function get_by_hid_by_uid($uid, $hid) {
+		$this->setTable($this::TABLE_NAME);
+		return $this->getSingle(array('uid' => $uid, 'hid' => $hid));	
 	}
 
 	public function add($house) {

@@ -18,67 +18,100 @@ class adminrenthouse_api extends API {
 		11008 => '未指定删除的房源',
 		11009 => '删除房源失败',
 
+		11010 => '未指定更新的房源',
+		11011 => '更新房源失败',
+
+
+		11012 => '未指定',
 	);
 
 	public function __construct() {
 		parent::__construct();
 
-		$this->load->model('adminrenthouse_model');
+		$this->load->model('renthouse_model');
 	}
 
 	// **************************************************
 	// **************************************************
 	// rent house
 	// **************************************************
+	public function rent_item($uid, $kw = NULL) {
+		if (!is_login()) { return $this->un_login(); }
+
+		if (!isset($uid)) { return $this->ex(11007); }
+
+		$rent_house = $this->renthouse_model->get_by_hid_by_uid($uid, $hid);
+		return $this->ok($rent_house);
+	}
+
 	public function rent_list($uid, $kw = NULL) {
 		if (!is_login()) { return $this->un_login(); }
 
-		if (!isset($uid)) {
-			return $this->ex(11007);
-		}
+		if (!isset($uid)) { return $this->ex(11007); }
 
-		$rent_houses = $this->adminrenthouse_model->get_by_kw($uid, $kw);
+		$rent_houses = $this->renthouse_model->get_by_kw_by_uid($uid, $kw);
 		return $this->ok($rent_houses);
 	}
 
-	public function add_rent($house, $return_list = FALSE) {
+	public function add_rent($uid, $house, $return_list = FALSE) {
 		if (!is_login()) { return $this->un_login(); }
 
-		$code = $this->validateAddRent($house);
-		if ($code != 200) {
-			return $this->ex($code);
-		}
+		if (!isset($uid)) { return $this->ex(10007); }
 
-		$insert_result = $this->adminrenthouse_model->add($house);
+		$code = $this->validateAddRent($house);
+		if ($code != 200) { return $this->ex($code); }
+
+		isset($house['uid']) OR $house['uid'] = $uid;
+
+		$insert_result = $this->renthouse_model->add($house);
 		if (!$insert_result) {
 			log_message('error', 'add_rent db failed');
 			return $this->ex(11006);
 		}
 		
-		if ($return_list) {
-			return $this->rent_list();
-		}
+		if ($return_list) { return $this->rent_list(); }
+
 		return $this->ok();
 	}
 
-	public function del_rent($hid, $return_list = FALSE) {
+	public function update_rent($uid, $hid, $house, $return_list = FALSE) {
 		if (!is_login()) { return $this->un_login(); }
 
-		if (!isset($hid)) {
-			return $this->ex(11008);
+		if (!isset($uid)) { return $this->ex(11007); }
+		if (!isset($hid)) { return $this->ex(11010); }
+
+		if (isset($house) && !empty($house)) {
+			isset($house['uid']) OR $house['uid'] = $uid;
+			$update_result = $this->renthouse_model->update_by_hid($house);
+			if (!$update_result) {
+				log_message('error', 'update_rent db failed');
+				return $this->ex(11011);
+			}
 		}
-		$del_result = $this->adminrenthouse_model->del_by_id($hid);
+		
+		if ($return_list) { return $this->sell_list(); }
+
+		return $this->ok();
+	}
+
+	public function del_rent($uid, $hid, $return_list = FALSE) {
+		if (!is_login()) { return $this->un_login(); }
+
+		if (!isset($uid)) { return $this->ex(11007); }
+		if (!isset($hid) || empty($hid)) { return $this->ex(11008); }
+
+		$del_result = $this->renthouse_model->del_by_hid($hid);
 		if (!$del_result) {
 			log_message('error', 'del_rent db failed');
 			return $this->ex(11009);
 		}
 		
-		if ($return_list) {
-			return $this->rent_list();
-		}
+		if ($return_list) { return $this->sell_list(); }
+
 		return $this->ok();
 	}
 
+	// 新增房源验证必要的字段
 	private function validateAddRent($house) {
 		if (!isset($house['cid']) && !isset($house['community'])) {
 			return 11001;

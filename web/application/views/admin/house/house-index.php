@@ -105,11 +105,11 @@
 	<script type="text/javascript" src="public/scripts/admin/admin.common.js"></script>
 
 	<script type="text/javascript">
-	$('input[name="cat"][value="<?php echo "$cat"; ?>"]').attr('checked', 'checked');
+	$('#searchForm input[name="cat"][value="<?php echo "$cat"; ?>"]').attr('checked', 'checked');
 
 	var searchForm = $('#searchForm');
 	function searchHouse (self) {
-		console.log($('input[name="cat"]:checked').val());
+		console.log($('#searchForm input[name="cat"]:checked').val());
 		searchForm.submit();
 		return true;
 	}
