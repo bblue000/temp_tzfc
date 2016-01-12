@@ -23,7 +23,7 @@ class adminsellhouse_api extends API {
 	public function __construct() {
 		parent::__construct();
 
-		$this->load->model('adminsellhouse_model');
+		$this->load->model('sellhouse_model');
 	}
 
 	// **************************************************
@@ -38,7 +38,7 @@ class adminsellhouse_api extends API {
 			return $this->ex(10007);
 		}
 
-		$sell_houses = $this->adminsellhouse_model->get_by_id($hid);
+		$sell_houses = $this->sellhouse_model->get_by_id($hid);
 		return $this->ok($sell_houses);
 	}
 
@@ -49,7 +49,7 @@ class adminsellhouse_api extends API {
 			return $this->ex(10007);
 		}
 
-		$sell_houses = $this->adminsellhouse_model->get_by_kw($uid, $kw);
+		$sell_houses = $this->sellhouse_model->get_by_kw($uid, $kw);
 		return $this->ok($sell_houses);
 	}
 
@@ -61,7 +61,7 @@ class adminsellhouse_api extends API {
 			return $this->ex($code);
 		}
 
-		$insert_result = $this->adminsellhouse_model->add($house);
+		$insert_result = $this->sellhouse_model->add($house);
 		if (!$insert_result) {
 			log_message('error', 'add_sell db failed');
 			return $this->ex(10006);
@@ -79,7 +79,7 @@ class adminsellhouse_api extends API {
 		if (!isset($hid)) {
 			return $this->ex(10008);
 		}
-		$del_result = $this->adminsellhouse_model->del_by_id($hid);
+		$del_result = $this->sellhouse_model->del_by_id($hid);
 		if (!$del_result) {
 			log_message('error', 'del_sell db failed');
 			return $this->ex(10009);

@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * 
  */
-class adminsellhouse_model extends MY_Model {
+class sellhouse_model extends MY_Model {
 	
 	// 表名
 	const TABLE_NAME = 'tab_sellhouse';
@@ -65,11 +65,6 @@ class adminsellhouse_model extends MY_Model {
 		return $this->getSingle(array('hid'=>$hid));	
 	}
 
-	public function del_by_hid($hid) {
-		$result = $this->delData($hid, $this::TABLE_NAME, 'hid');
-		return $result === FALSE ? FALSE : TRUE;
-	}
-
 	// ========================================
 	// ========================================
 	// 用户相关的
@@ -103,6 +98,11 @@ class adminsellhouse_model extends MY_Model {
 		$fields = array_filter_by_key($fields, $this->INSERT_COLS);
 		$this->setTable($this::TABLE_NAME);
 		return $this->editData(array('hid' => $hid), $fields);
+	}
+
+	public function del_by_hid($hid) {
+		$result = $this->delData($hid, $this::TABLE_NAME, 'hid');
+		return $result === FALSE ? FALSE : TRUE;
 	}
 	
 }
