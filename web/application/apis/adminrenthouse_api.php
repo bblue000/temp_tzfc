@@ -11,7 +11,7 @@ class adminrenthouse_api extends API {
 		11002 => '标题为空',
 		11003 => '未指定户型',
 		11004 => '未指定面积',
-		11005 => '未指定总价',
+		11005 => '未指定价格',
 		11006 => '新增出租房源失败',
 
 		11007 => '未指定操作用户',
@@ -22,7 +22,8 @@ class adminrenthouse_api extends API {
 		11011 => '更新房源失败',
 
 
-		11012 => '未指定',
+		11012 => '未指定出租方式',
+		11013 => '未指定缴纳租金方式',
 	);
 
 	public function __construct() {
@@ -125,8 +126,14 @@ class adminrenthouse_api extends API {
 		if (!isset($house['size'])) {
 			return 11004;
 		}
-		if (!isset($house['price'])) {
+		if (!isset($house['price']) && !isset($house['is_undefined'])) {
 			return 11005;
+		}
+		if (!isset($house['rent_type'])) {
+			return 11012;
+		}
+		if (!isset($house['rentpay_type'])) {
+			return 11013;
 		}
 		return 200;
 	}
