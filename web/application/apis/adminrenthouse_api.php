@@ -36,7 +36,7 @@ class adminrenthouse_api extends API {
 	// **************************************************
 	// rent house
 	// **************************************************
-	public function rent_item($uid, $kw = NULL) {
+	public function rent_item($uid, $hid) {
 		if (!is_login()) { return $this->un_login(); }
 
 		if (!isset($uid)) { return $this->ex(11007); }
@@ -83,7 +83,7 @@ class adminrenthouse_api extends API {
 
 		if (isset($house) && !empty($house)) {
 			isset($house['uid']) OR $house['uid'] = $uid;
-			$update_result = $this->renthouse_model->update_by_hid($house);
+			$update_result = $this->renthouse_model->update_by_hid($hid, $house);
 			if (!$update_result) {
 				log_message('error', 'update_rent db failed');
 				return $this->ex(11011);

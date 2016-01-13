@@ -85,8 +85,10 @@ function registerListeners(myTarget) {
 
 			if (who.data('id') == '0') {
 				selLabel.removeData('valueid');
+				selLabel.removeAttr('data-valueid');
 			} else {
 				selLabel.data('valueid', who.data('id'));
+				selLabel.attr('data-valueid', who.data('id'));
 			}
 
 			optiondef.hide();
@@ -205,6 +207,8 @@ var houseAutoCompleteulli = houseAutoCompleteul.find('li');
 houseAutoCompleteulli.hide();
 var lastInputComm;
 inputComm.keyup(function () {
+	clearInputCommBlurTimeout();
+
 	var val = Validate.of(inputComm).val();
 	if (!Validate.isNotEmpty()) {
 		dismissCommDropdown();
@@ -227,6 +231,7 @@ inputComm.keyup(function () {
 	}
 	lastInputComm = val;
 });
+
 houseAutoCompleteulli.click(function() {
 	var whichli = $(this);
 	inputComm.val(whichli.data('name'));
@@ -238,11 +243,23 @@ houseAutoCompleteulli.click(function() {
 }) ;
 
 function dismissCommDropdown() {
+	clearInputCommBlurTimeout();
+
 	houseTooltip.hide();
 	houseAutoCompleteulli.hide();
 }
 
-inputHouseTitle.blur(dismissCommDropdown);
+function clearInputCommBlurTimeout() {
+	if (inputCommBlurTimeout) {
+		clearTimeout(inputCommBlurTimeout);
+		inputCommBlurTimeout = undefined;
+	}
+}
+
+var inputCommBlurTimeout;
+inputComm.blur(function() {
+	inputCommBlurTimeout = setTimeout('dismissCommDropdown();', 500);
+});
 
 
 

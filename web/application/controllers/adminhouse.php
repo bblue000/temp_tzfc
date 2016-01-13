@@ -18,13 +18,41 @@ class adminhouse extends MY_Controller {
 
 		if ($this->cat == 0) {
 			$this->load->api('adminsellhouse_api');
-			$list_result = $this->adminsellhouse_api->sell_list($uid, $this->cat);
+			$list_result = $this->adminsellhouse_api->sell_list($uid, $this->kw);
 		} else {
 			$this->load->api('adminrenthouse_api');
-			$list_result = $this->adminrenthouse_api->rent_list($uid, $this->cat);
+			$list_result = $this->adminrenthouse_api->rent_list($uid, $this->kw);
 		}
 		$this->houses = $list_result['data'];
 		$this->load->view('admin/house/house-index', $this);
+	}
+
+	public function sell_index() {
+		$this->check_state_common('GET', TRUE);
+		// 获取当前分类
+		$this->generate_cat_kw();
+		$this->cat = 0;
+		$uid = get_session_uid();
+
+		$this->load->api('adminsellhouse_api');
+		$list_result = $this->adminsellhouse_api->sell_list($uid, $this->kw);
+
+		$this->houses = $list_result['data'];
+		$this->load->view('admin/house/sell-index', $this);
+	}
+
+	public function rent_index() {
+		$this->check_state_common('GET', TRUE);
+		// 获取当前分类
+		$this->generate_cat_kw();
+		$this->cat = 1;
+		$uid = get_session_uid();
+
+		$this->load->api('adminrenthouse_api');
+		$list_result = $this->adminrenthouse_api->rent_list($uid, $this->kw);
+
+		$this->houses = $list_result['data'];
+		$this->load->view('admin/house/rent-index', $this);
 	}
 
 	private function generate_cat_kw() {
@@ -42,40 +70,6 @@ class adminhouse extends MY_Controller {
 			$kw = '';
 		}
 		$this->kw = $kw;
-	}
-
-
-	public function edit() {
-		$this->check_state_common('GET', TRUE);
-
-		// 编辑数据
-
-		$this->load->view('admin/edit-house', $this);
-	}
-
-	public function edit_ajax() {
-		$this->check_state_api('POST');
-
-		
-	}
-
-	public function del() {
-		$this->check_state_common('POST', TRUE);
-		$hid = $this->check_param('id');
-		if (is_array($hid)) {
-
-		}
-		print_r($hid);
-
-		// 删除数据
-
-
-		// $this->load->view('admin/del-house', $this);
-	}
-
-	public function add() {
-		$this->check_state_common('GET', TRUE);
-		$this->load->view('admin/add-house', $this);
 	}
 
 
@@ -128,7 +122,7 @@ class adminhouse extends MY_Controller {
 		$post = $this->input->post(NULL,TRUE);
 
 		$uid = get_session_uid();
-		$hid = $this->check_param('hid');
+		$hid = $this->input->post('hid',TRUE);
 
 		$this->load->api('adminsellhouse_api');
 		$api_result = $this->adminsellhouse_api->update_sell($uid, $hid, $post);
@@ -142,7 +136,7 @@ class adminhouse extends MY_Controller {
 		$this->check_state_api('POST');
 
 		$uid = get_session_uid();
-		$hid = $this->check_param('hid');
+		$hid = $this->input->post('hid',TRUE);
 
 		$this->load->api('adminsellhouse_api');
 		$api_result = $this->adminsellhouse_api->del_sell($uid, $hid);
@@ -192,7 +186,7 @@ class adminhouse extends MY_Controller {
 		if (is_ok_result($api_result)) {
 			loadRentCommonInfos($this);
 			$this->house = $api_result['data'];
-			$this->load->view('admin/house/edit-sell', $this);
+			$this->load->view('admin/house/edit-rent', $this);
 		} else {
 			redirect(base_url('adminhouse/index'));
 		}
@@ -204,7 +198,7 @@ class adminhouse extends MY_Controller {
 		$post = $this->input->post(NULL,TRUE);
 
 		$uid = get_session_uid();
-		$hid = $this->check_param('hid');
+		$hid = $this->input->post('hid',TRUE);
 
 		$this->load->api('adminrenthouse_api');
 		$api_result = $this->adminrenthouse_api->update_rent($uid, $hid, $post);
@@ -218,7 +212,7 @@ class adminhouse extends MY_Controller {
 		$this->check_state_api('POST');
 
 		$uid = get_session_uid();
-		$hid = $this->check_param('hid');
+		$hid = $this->input->post('hid',TRUE);
 
 		$this->load->api('adminrenthouse_api');
 		$api_result = $this->adminrenthouse_api->del_sell($uid, $hid);

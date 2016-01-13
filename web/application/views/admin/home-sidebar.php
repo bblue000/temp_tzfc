@@ -7,8 +7,10 @@
 		<a href="javascript:void(0)" class="ico-nav" data-id="sn-common">公共信息</a>
 	</nav>
 	<nav class="sub-nav" id="sn-house">
-		<dd><a href="<?php echo base_url("adminhouse/index"); ?>">房源列表</a></dd>
-		<dd><a href="<?php echo base_url("adminhouse/add_sell"); ?>">添加二手房源</a></dd>
+		<dd><a href="<?php echo base_url("adminhouse/sell_index"); ?>">出售房源列表</a></dd>
+		<dd><a href="<?php echo base_url("adminhouse/add_sell"); ?>">添加出售房源</a></dd>
+		<div style="width: 100%; height: 2px; background: #fff"></div>
+		<dd><a href="<?php echo base_url("adminhouse/rent_index"); ?>">出租房源列表</a></dd>
 		<dd><a href="<?php echo base_url("adminhouse/add_rent"); ?>">添加出租房源</a></dd>
 	</nav>
 	<nav class="sub-nav" id="sn-common">

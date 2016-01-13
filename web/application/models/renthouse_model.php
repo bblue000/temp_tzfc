@@ -13,7 +13,7 @@ class renthouse_model extends MY_Model {
 		'hid',
 		'community', 'cid', 'aid', 
 		'rooms', 'halls', 'bathrooms', 'size',
-		'price', 'is_undefined',
+		'price',
 		'title',
 		'rent_type', 'rentpay_type',
 		'floors', 'floors_total', 
@@ -25,7 +25,7 @@ class renthouse_model extends MY_Model {
 	private $INSERT_COLS = array(
 		'community', 'cid', 'aid', 
 		'rooms', 'halls', 'bathrooms', 'size',
-		'price', 'is_undefined',
+		'price',
 		'title',
 		'rent_type', 'rentpay_type',
 		'floors', 'floors_total', 

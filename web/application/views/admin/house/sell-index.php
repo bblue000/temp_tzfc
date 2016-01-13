@@ -33,20 +33,11 @@
 	<div id="content">
 		<div id="house-container">
 
-			<h3>房源管理 <small>房源列表</small></h3>
+			<h3>房源管理 <small>出售房源列表</small></h3>
 			
 			<hr/>
 
-			<form id="searchForm" action="<?php echo base_url('adminhouse');?>" method="get">
-			<div id="house-cat-container">
-				<label class="radio-inline">
-					<input type="radio" name="cat" value="0"> 出售房源
-				</label>
-				<label class="radio-inline">
-					<input type="radio" name="cat" value="1"> 出租房源
-				</label>
-			</div>
-
+			<form id="searchForm" action="<?php echo base_url('adminhouse/sell_index');?>" method="get">
 			<div id="house-keyword-container" class="form-inline">
 				<input id="house-keyword-input" name="kw" type="text" class="form-control" placeholder="输入关键字" <?php echo isset($kw) ? "value=\"$kw\"" : ''; ?>>
 				<a class="btn btn-default" href="javascript:void(0);" onclick="return searchHouse(this);" target="_self">搜索</a>
@@ -67,7 +58,7 @@
 							<th>操作</th>
 						</tr>
 					</thead>
-					<tbody> <form id="delForm" action="<?php echo ($cat == 0 ? base_url('adminhouse/del_sell/ajax') : base_url('adminhouse/del_rent/ajax')); ?>" method="post">
+					<tbody> <form id="delForm" action="<?php echo base_url('adminhouse/del_sell/ajax'); ?>" method="post">
 						<input type="hidden" name="cat" value="<?php echo $cat; ?>" />
 						<input type="hidden" name="kw" value="<?php echo $kw; ?>" />
 						<?php 
@@ -86,7 +77,7 @@
 								</td>
 								<td><?php echo $house['update_time']; ?></td>
 								<td>
-									<a class="btn btn-warning house-op house-op-edit" href="<?php echo ($cat == 0 ? base_url('adminhouse/edit_sell') : base_url('adminhouse/edit_rent')).'?hid='.$house['hid']; ?>" onclick="return true;">编辑</a>
+									<a class="btn btn-warning house-op house-op-edit" href="<?php echo base_url('adminhouse/edit_sell').'?hid='.$house['hid']; ?>" onclick="return true;">编辑</a>
 									<a class="btn btn-danger house-op house-op-delete" data-inputid="<?php echo "hid$myIndex";?>" onclick="return delBatch(this);">删除</a>
 								</td>
 							</tr>
@@ -106,7 +97,6 @@
 
 	<script type="text/javascript">
 	var searchForm = $('#searchForm');
-	searchForm.find('input[name="cat"][value="<?php echo $cat; ?>"]').prop('checked', true);
 	$('input[type="checkbox"]').prop('checked', false);
 
 	function searchHouse (self) {

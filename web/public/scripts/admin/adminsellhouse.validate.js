@@ -130,6 +130,7 @@ function generateTitle () {
 	if (inputHouseSize.val() != '' && __isUnsignedNumberLimitScale(inputHouseSize.val(), 2)) {
 		myTitle += inputHouseSize.val() + '㎡ ';
 	}
+	myTitle += '出售';
 	inputHouseTitle.val(myTitle);
 }
 inputComm.blur(generateTitle) ;

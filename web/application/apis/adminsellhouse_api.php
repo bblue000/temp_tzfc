@@ -17,7 +17,7 @@ class adminsellhouse_api extends API {
 		10007 => '未指定操作用户',
 		10008 => '未指定删除的房源',
 		10009 => '删除房源失败',
-		
+
 		10010 => '未指定更新的房源',
 		10011 => '更新房源失败',
 
@@ -81,7 +81,7 @@ class adminsellhouse_api extends API {
 
 		if (isset($house) && !empty($house)) {
 			isset($house['uid']) OR $house['uid'] = $uid;
-			$update_result = $this->sellhouse_model->update_by_hid($house);
+			$update_result = $this->sellhouse_model->update_by_hid($hid, $house);
 			if (!$update_result) {
 				log_message('error', 'update_sell db failed');
 				return $this->ex(10011);
