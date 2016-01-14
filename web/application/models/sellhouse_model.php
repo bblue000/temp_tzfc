@@ -76,13 +76,16 @@ class sellhouse_model extends MY_Model {
 	}
 
 	public function get_by_kw_by_uid($uid, $kw) {
-		$this->setTable($this::TABLE_NAME);
 		if (isset($kw) && !empty($kw)) {
+			$this->setTable($this::TABLE_NAME);
 			$kw = $this->db->escape_like_str($kw);
-			$this->db->or_like(array('title' => $kw));
-			$this->db->or_like(array('community' => $kw));
-			$this->db->or_like(array('details' => $kw));
-			return $this->getData(array('uid' => $uid));
+			$this->db->where('uid', $uid)
+			        ->group_start()
+			            ->or_like('title', $kw)
+			            ->or_like('community', $kw)
+			            ->or_like('details', $kw)
+		        	->group_end();
+			return $this->getData();
 		}
 		return $this->get_all_by_uid($uid);	
 	}

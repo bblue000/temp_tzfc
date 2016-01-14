@@ -142,7 +142,7 @@ class adminhouse extends MY_Controller {
 		$api_result = $this->adminsellhouse_api->del_sell($uid, $hid);
 		if (is_ok_result($api_result)) {
 			$this->generate_cat_kw();
-			$api_result['data'] = base_url('adminhouse').'?cat='.$this->cat.'&kw='.$this->kw;
+			$api_result['data'] = base_url('adminhouse/sell_index').'?cat='.$this->cat.'&kw='.$this->kw;
 		}
 		echo json_encode($api_result);
 	}
@@ -215,10 +215,10 @@ class adminhouse extends MY_Controller {
 		$hid = $this->input->post('hid',TRUE);
 
 		$this->load->api('adminrenthouse_api');
-		$api_result = $this->adminrenthouse_api->del_sell($uid, $hid);
+		$api_result = $this->adminrenthouse_api->del_rent($uid, $hid);
 		if (is_ok_result($api_result)) {
 			$this->generate_cat_kw();
-			$api_result['data'] = base_url('adminhouse').'?cat='.$this->cat.'&kw='.$this->kw;
+			$api_result['data'] = base_url('adminhouse/rent_index').'?cat='.$this->cat.'&kw='.$this->kw;
 		}
 		echo json_encode($api_result);
 	}

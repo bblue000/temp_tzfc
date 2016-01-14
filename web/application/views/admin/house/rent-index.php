@@ -33,11 +33,11 @@
 	<div id="content">
 		<div id="house-container">
 
-			<h3>房源管理 <small>出售房源列表</small></h3>
+			<h3>房源管理 <small>出租房源列表</small></h3>
 			
 			<hr/>
 
-			<form id="searchForm" action="adminhouse/sell_index" method="get">
+			<form id="searchForm" action="adminhouse/rent_index" method="get">
 			<div id="house-keyword-container" class="form-inline">
 				<input id="house-keyword-input" name="kw" type="text" class="form-control" placeholder="输入关键字" <?php echo isset($kw) ? "value=\"$kw\"" : ''; ?>>
 				<a class="btn btn-default" href="javascript:void(0);" onclick="return searchHouse(this);" target="_self">搜索</a>
@@ -58,7 +58,7 @@
 							<th>操作</th>
 						</tr>
 					</thead>
-					<tbody> <form id="delForm" action="<?php echo base_url('adminhouse/del_sell/ajax'); ?>" method="post">
+					<tbody> <form id="delForm" action="<?php echo base_url('adminhouse/del_rent/ajax'); ?>" method="post">
 						<input type="hidden" name="cat" value="<?php echo $cat; ?>" />
 						<input type="hidden" name="kw" value="<?php echo $kw; ?>" />
 						<?php 
@@ -77,7 +77,7 @@
 								</td>
 								<td><?php echo $house['update_time']; ?></td>
 								<td>
-									<a class="btn btn-warning house-op house-op-edit" href="adminhouse/edit_sell?hid=<?php print_r($house['hid']); ?>" onclick="return true;">编辑</a>
+									<a class="btn btn-warning house-op house-op-edit" href="adminhouse/edit_rent?hid=<?php print_r($house['hid']); ?>" onclick="return true;">编辑</a>
 									<a class="btn btn-danger house-op house-op-delete" data-inputid="<?php echo "hid$myIndex";?>" onclick="return delBatch(this);">删除</a>
 								</td>
 							</tr>
@@ -106,7 +106,7 @@
 	}
 
 	var delForm = $('#delForm');
-	var __delSellResultData;
+	var __delRentResultData;
 	function delBatch(o) {
 		var inputCheckbox = $('#' + $(o).data('inputid'));
 		var tcheck = inputCheckbox.is(':checked');
@@ -124,9 +124,9 @@
 			// delForm.submit();
 			simplePost(delForm.attr('action'), postData, {
 				ok : function(data) {
-					__delSellResultData = data;
+					__delRentResultData = data;
 					showToast('房源删除成功');
-					setTimeout('(top || window).location.href = __delSellResultData.data', 1000);
+					setTimeout('(top || window).location.href = __delRentResultData.data', 1000);
 				},
 				success : function() {
 
