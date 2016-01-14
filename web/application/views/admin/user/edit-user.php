@@ -113,21 +113,56 @@
 	<script type="text/javascript" src="public/scripts/admin/admin.common.js"></script>
 	<script type="text/javascript" src="public/scripts/admin/admin.validate.js"></script>
 
-	<?php $this->load->view('admin/user/upload-avatar'); ?>
+	<?php $this->load->view('admin/user/upload-avatar2'); ?>
 
 	<script type="text/javascript">
 	function checkInput() {
-		return commonSignValidate("<?php echo base_url('adminuser/edit/ajax'); ?>");
+		return commonSignValidate("<?php echo base_url('adminuser/edit/ajax'); ?>", checkUploadPrePost);
+	}
+
+	var checkUploadPrePostCallback;
+	function checkUploadPrePost(callback) {
+		checkUploadPrePostCallback = callback;
+		if ($('#inputAvatar').data('src')) { // 如果没有设置图片资源
+			callback.success();
+			return ;
+		}
+		if (!$('#inputAvatar').attr('src')) {
+			callback.success();
+			return ;
+		}
+		ZXXFILE.funUploadFile();
+	}
+
+	function doOnUploadSuccess (file, responseUrl) {
+		$('#inputAvatar').data('src', responseUrl);
+		checkUploadPrePostCallback.recheck();
+		checkUploadPrePostCallback = undefined;
+	}
+
+	function doOnUploadFailure (file, msg) {
+		checkUploadPrePostCallback.error();
+		checkUploadPrePostCallback = undefined;
+		showToast("图片" + file.name + "上传失败！原因：" + msg);
+	}
+
+	function doOnUploadComplete() {
 	}
 
 	function changeAvatar() {
 		upload_layer_show();
 	}
 
-	prepare_upload(null, function(responseUrl) {
-		$('#inputAvatar').attr('src', responseUrl);
-		$('#inputAvatar').data('src', responseUrl);
-	});
+	function setImagePreview(data) {
+		$('#inputAvatar').removeAttr('src');
+		$('#inputAvatar').removeData('src');
+		if (data) {
+			$('#inputAvatar').attr('src', data);
+		}
+	}
+
+	prepare_upload(null);
+
 	</script>
 
 <!-- Footer -->

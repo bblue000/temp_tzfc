@@ -7,8 +7,12 @@ var sex = $('input[name="inputSex"]');
 var contact_mobile = $("#inputMobile");
 var qqchat = $("#inputQQ");
 var email = $("#inputEmail");
-var postIsProgressing = false;
-function commonSignValidate(postUrl) {
+var postIsProgressing;
+function commonSignValidate(postUrl, preDo) {
+	if (postIsProgressing) {
+		return false;
+	}
+
 	var result = "";
 	if (user_name && user_name.length > 0) {
 		var val = $.trim(user_name.val());
@@ -108,24 +112,44 @@ function commonSignValidate(postUrl) {
 	}
 	console.log(result);
 
-	// 如果正在进行，则直接返回咯
-	if (postIsProgressing) {
-		return false;
-	}
-
-	postIsProgressing = true;
 	var postData = result;
 
 	console.log(postData);
 
-	simplePost(postUrl, postData, {
-		success : function(data) {
-			postIsProgressing = false;
-		},
-		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			postIsProgressing = false;
-		}
-	});
+	postIsProgressing = showProgress();
+
+	var preDoCallback = {
+			success : function() {
+				simplePost(postUrl, postData, {
+					success : function(data) {
+						__releaseProgress();
+					},
+					error : function(XMLHttpRequest, textStatus, errorThrown) {
+						__releaseProgress();
+					}
+				});
+			},
+
+			error : function() {
+				__releaseProgress();
+			},
+
+			recheck : function() {
+				__releaseProgress();
+				commonSignValidate(postUrl);
+			}
+	};
+	if (preDo) {
+		preDo(preDoCallback);
+	} else {
+		preDoCallback.success();
+	}
 
 	return true;
+}
+
+
+function __releaseProgress() {
+	hideProgress(postIsProgressing);
+	postIsProgressing = false;
 }

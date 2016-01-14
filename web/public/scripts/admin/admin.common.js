@@ -231,6 +231,28 @@ function showToast(msg){
 }
 
 
+function showProgress (msg) {
+	return new ui.Dialog({
+		width:300,
+		textContent : msg || '正在加载...',
+		textContentAlign : "center",
+		closeButton : false,
+		shadow : true,
+		autoClose : false,
+		closeDuration : 1000,
+		closeCallBacks: function() {
+			return false;
+		}
+	});
+}
+
+function hideProgress (dialog) {
+	if (dialog && dialog.close) {
+		dialog.close();
+	}
+}
+
+
 function simpleGet(reqUrl, callbackFuncs) {
 	$.ajax({
 		type: "GET",
@@ -269,6 +291,9 @@ function simplePost(postUrl, postData, callbackFuncs) {
 		dataType: "json",
 		data: postData,
 		success: function(data){
+			if (callbackFuncs && callbackFuncs.success) {
+				callbackFuncs.success(data);
+			}
 			if (data.code == 200) {
 				if (callbackFuncs && callbackFuncs.ok) {
 					callbackFuncs.ok(data);
@@ -278,17 +303,14 @@ function simplePost(postUrl, postData, callbackFuncs) {
 			} else {
 				showToast(data.msg);
 			}
-			if (callbackFuncs && callbackFuncs.success) {
-				callbackFuncs.success(data);
-			}
 		},
 		beforeSend:function(){
 		},
 		error:function(XMLHttpRequest, textStatus, errorThrown){
-			showToast("出错了：" + textStatus);
 			if (callbackFuncs && callbackFuncs.error) {
 				callbackFuncs.error(XMLHttpRequest, textStatus, errorThrown);
 			}
+			showToast("出错了：" + textStatus);
 		}
 	});
 }
