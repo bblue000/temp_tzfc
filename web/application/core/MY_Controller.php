@@ -55,7 +55,16 @@ class MY_Controller extends CI_Controller {
 		if (!isset($val)) {
 			ishow_error('No param \''.$param_name.'\'', 'You should provide \''.$param_name.'\' as a parameter', 400);
 		}
-		return $this->input->get_post($param_name, TRUE);
+		return $val;
+	}
+
+	public function check_param_api($param_name) {
+		$val = $this->input->get_post($param_name, TRUE);
+		if (!isset($val)) {
+			echo json_encode(common_result(400, 'No param \''.$param_name.'\'', 'You should provide \''.$param_name.'\' as a parameter'));
+			exit(EXIT_USER_INPUT);
+		}
+		return $val;
 	}
 
 }

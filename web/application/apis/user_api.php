@@ -24,6 +24,8 @@ class user_api extends API {
 		90201 => '密码修改失败',
 
 		90301 => '用户信息更新失败',
+		90302 => '头像上传失败',
+		90303 => '头像更新失败',
 
 		90401 => '指定删除用户ID',
 		90402 => '删除用户失败'
@@ -128,6 +130,32 @@ class user_api extends API {
 		}
 	}
 
+	public function update_avatar() {
+		if (!is_login()) { return $this->un_login(); }
+
+		$uid = get_session_uid();
+
+		$this->load->helper('upload');
+		$save_result = save_avatar($this, $uid);
+
+		if (is_ok_result($save_result)) {
+			$avatar = $save_result['data']; // 新的头像地址
+			$update_result = $this->user_model->update_by_id($uid, array('avatar' => $avatar));
+			if (!$update_result) {
+				log_message('error', 'update_avatar db failed');
+				// 删除文件，因为并没有更新成功
+				delete_avatar($avatar);
+				return $this->ex(90303);
+			} else {
+				delete_old_avatar($this, $avatar); // 删除老的头像文件
+				set_user_field('avatar', $avatar); // 更新session
+				return $this->ok($avatar);
+			}
+		} else {
+			return $this->ex(90302);
+		}
+	}
+
 
 	public function del_user($uid) {
 		if (!is_login()) {
@@ -165,7 +193,7 @@ class user_api extends API {
 			'salt' => $salt
 		);
 	}
-	
+
 }
 
 

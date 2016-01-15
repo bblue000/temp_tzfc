@@ -8,7 +8,7 @@ var contact_mobile = $("#inputMobile");
 var qqchat = $("#inputQQ");
 var email = $("#inputEmail");
 var postIsProgressing;
-function commonSignValidate(postUrl, preDo) {
+function commonSignValidate(postUrl) {
 	if (postIsProgressing) {
 		return false;
 	}
@@ -100,12 +100,6 @@ function commonSignValidate(postUrl, preDo) {
 		}
 	}
 
-	if (avatar && avatar.length > 0) {
-		if (val = avatar.data('src')) {
-			result += "&avatar=" + val;
-		}
-	}
-
 	console.log(result);
 	if (result.indexOf('&') == 0) {
 		result = result.substr(1);
@@ -118,38 +112,68 @@ function commonSignValidate(postUrl, preDo) {
 
 	postIsProgressing = showProgress();
 
-	var preDoCallback = {
-			success : function() {
-				simplePost(postUrl, postData, {
-					success : function(data) {
-						__releaseProgress();
-					},
-					error : function(XMLHttpRequest, textStatus, errorThrown) {
-						__releaseProgress();
-					}
-				});
-			},
+	simplePost(postUrl, postData, {
+		ok : function(data) {
+			checkUploadAfterPost(postUrl, postData, data);
+		},
+		
+		success : function(data) {
+			__releaseProgress();
+		},
 
-			error : function() {
-				__releaseProgress();
-			},
-
-			recheck : function() {
-				__releaseProgress();
-				commonSignValidate(postUrl);
-			}
-	};
-	if (preDo) {
-		preDo(preDoCallback);
-	} else {
-		preDoCallback.success();
-	}
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			__releaseProgress();
+		}
+	});
 
 	return true;
 }
 
 
+var userInfoRedirectUrl;
+function checkUploadAfterPost(postUrl, postData, resultData) {
+	userInfoRedirectUrl = resultData.data;
+	if (avatar.data('src')) { // 如果没有设置图片资源
+		doOnUploadSuccess();
+		return ;
+	}
+	if (!avatar.attr('src')) {
+		doOnUploadSuccess();
+		return ;
+	}
+	ZXXFILE.funUploadFile();
+}
+
+function doOnUploadSuccess (file, responseUrl) {
+	if (userInfoRedirectUrl) {
+		(top || window).location.href = userInfoRedirectUrl;
+	}
+	__releaseProgress();
+}
+
+function doOnUploadFailure (file, msg) {
+	__releaseProgress();
+	showToast("图片" + file.name + "上传失败！原因：" + msg);
+}
+
+function doOnUploadComplete() {
+
+}
+
+function changeAvatar() {
+	upload_layer_show();
+}
+	
+function setImagePreview(data) {
+	avatar.removeAttr('src');
+	avatar.removeData('src');
+	if (data) {
+		avatar.attr('src', data);
+	}
+}
+
 function __releaseProgress() {
 	hideProgress(postIsProgressing);
 	postIsProgressing = false;
+	userInfoRedirectUrl = undefined;
 }

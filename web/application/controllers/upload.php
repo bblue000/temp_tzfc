@@ -37,6 +37,12 @@ class upload extends MY_Controller {
 	    echo json_encode(common_result_ok(base_url('uploads/avatar/'.$tempFile)));
 	}
 
+	private function generateFileName($ext) {
+		$this->load->helper('string');
+		$salt = random_string('alnum', 10);
+		return date('Y-m-d-H-i-s', time()).'-'.$salt.'.'.$ext;
+	}
+
 	private function common_check_input() {
 		$fn = $this->input->get_request_header('X_FILENAME', TRUE);
 		if (!$fn) {
@@ -59,28 +65,63 @@ class upload extends MY_Controller {
 		return $ext;
 	}
 
-	private function generateFileName($ext) {
-		$this->load->helper('string');
-		$salt = random_string('alnum', 10);
-		return date('Y-m-d-H-i-s', time()).'-'.$salt.'.'.$ext;
-	}
-
+	// =======================================
+	// 上传头像
 	public function avatar() {
 		$ext = $this->common_check_input();
 
-		$tempFile = $this->generateAvatarFileName($ext);
+		$tempFileName = $this->generate_avatar_fn($ext);
+		$tempFilePath = 'uploads/avatar/';
+		$tempFileAbsPath = FCPATH.$tempFilePath;
+		if (!file_exists($tempFileAbsPath)) {
+			mkdir($tempFileAbsPath);
+		}
 	    file_put_contents(
-	        FCPATH.'uploads/avatar/' . $tempFile,
+	        $tempFileAbsPath. $tempFileName,
 	        file_get_contents('php://input')
 	    );
-	    echo json_encode(common_result_ok(base_url('uploads/avatar/'.$tempFile)));
+	    echo json_encode(common_result_ok($tempFilePath.$tempFileName));
 	}
 
-	private function generateAvatarFileName($ext) {
+	private function generate_avatar_fn($ext) {
+		$this->load->helper('string');
+		$salt = random_string('alnum', 10);
+		return 'tmp-'.date('Y-m-d-H-i-s', time()).'-'.$salt.'.'.$ext;
+	}
+
+
+
+
+	// =======================================
+	// 上传房源图片
+	public function house() {
+		$ext = $this->common_check_input();
+		$uid = get_session_uid();
+		if (!isset($uid)) {
+			echo json_encode(common_result(400, '操作用户未知'));
+			return;
+		}
+
+		$tempFileName = $this->generateHouseFileName($ext);
+		$tempFilePath = 'uploads/house/'.$uid.'/';
+		$tempFileAbsPath = FCPATH.$tempFilePath;
+		if (!file_exists($tempFileAbsPath)) {
+			mkdir($tempFileAbsPath);
+		}
+	    file_put_contents(
+	        $tempFileAbsPath. $tempFileName,
+	        file_get_contents('php://input')
+	    );
+	    echo json_encode(common_result_ok($tempFilePath.$tempFileName));
+	}
+
+	private function generateHouseFileName($ext) {
 		$this->load->helper('string');
 		$salt = random_string('alnum', 10);
 		return date('Y-m-d-H-i-s', time()).'-'.$salt.'.'.$ext;
 	}
+
+
 }
 
 ?>

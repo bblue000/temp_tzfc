@@ -47,6 +47,14 @@ class adminuser extends MY_Controller {
 		echo json_encode($api_result);
 	}
 
+	public function avatar() {
+		$this->check_state_api('POST');
+
+		$this->load->api('user_api');
+		$api_result = $this->user_api->update_avatar();
+		echo json_encode($api_result);
+	}
+
 	// public function add() {
 	// 	$this->check_state_common('GET', TRUE);
 	// }

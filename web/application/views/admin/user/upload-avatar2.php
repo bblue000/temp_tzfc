@@ -183,7 +183,7 @@
 	        <a href="javascript:void(0)" class="close" onclick="upload_layer_close();">
 	        	<img src="public/img/admin/close.png" />
 	        </a>
-            <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
+            <form id="uploadForm" action="/adminuser/avatar" method="post" enctype="multipart/form-data">
                 <div class="upload_box">
                     <div class="upload_main">
                         <div class="upload_choose">
@@ -248,7 +248,13 @@
 					// 如果没有文件选中，则清空状态
 					if (!files || !files[0]) {
 						$("#preview").html('');
-						$("#fileSubmit").fadeOut();
+						$("#fileSubmit").hide();
+						return ;
+					}
+
+					if (files.length > 1) {
+						ZXXFILE.funDeleteFile(files[0]);
+						ZXXFILE.funDealFiles();
 						return ;
 					}
 				  	$("#preview").html('<div class="upload_loading"></div>');
@@ -269,7 +275,7 @@
 					reader.readAsDataURL(file);	
 				},
 				onDelete: function(file) {
-					$("#fileSubmit").fadeOut();
+					$("#fileSubmit").hide();
 					$("#preview").html('');
 				},
 				onDragOver: function() {

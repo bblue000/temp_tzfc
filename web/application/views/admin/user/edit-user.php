@@ -46,7 +46,7 @@
 							<label for="inputAvatar">头像</label>
 						</td>
 						<td>
-							<img id="inputAvatar" class="img-thumbnail avator" alt="点击上传头像" onclick="changeAvatar()" <?php if(isset($avatar) && !empty($avatar)) echo ' src="'.$avatar.'" '; ?> />
+							<img id="inputAvatar" class="img-thumbnail avator" alt="点击上传头像" onclick="changeAvatar()" />
 						</td>
 					</tr>
 
@@ -116,49 +116,13 @@
 	<?php $this->load->view('admin/user/upload-avatar2'); ?>
 
 	<script type="text/javascript">
+	<?php if (isset($avatar) && !empty($avatar)) : ?>
+	$('#inputAvatar').data('src', '<?php print_r($avatar); ?>');
+	$('#inputAvatar').attr('src', '<?php print_r($avatar); ?>');
+	<?php endif ; ?>
+
 	function checkInput() {
-		return commonSignValidate("<?php echo base_url('adminuser/edit/ajax'); ?>", checkUploadPrePost);
-	}
-
-	var checkUploadPrePostCallback;
-	function checkUploadPrePost(callback) {
-		checkUploadPrePostCallback = callback;
-		if ($('#inputAvatar').data('src')) { // 如果没有设置图片资源
-			callback.success();
-			return ;
-		}
-		if (!$('#inputAvatar').attr('src')) {
-			callback.success();
-			return ;
-		}
-		ZXXFILE.funUploadFile();
-	}
-
-	function doOnUploadSuccess (file, responseUrl) {
-		$('#inputAvatar').data('src', responseUrl);
-		checkUploadPrePostCallback.recheck();
-		checkUploadPrePostCallback = undefined;
-	}
-
-	function doOnUploadFailure (file, msg) {
-		checkUploadPrePostCallback.error();
-		checkUploadPrePostCallback = undefined;
-		showToast("图片" + file.name + "上传失败！原因：" + msg);
-	}
-
-	function doOnUploadComplete() {
-	}
-
-	function changeAvatar() {
-		upload_layer_show();
-	}
-
-	function setImagePreview(data) {
-		$('#inputAvatar').removeAttr('src');
-		$('#inputAvatar').removeData('src');
-		if (data) {
-			$('#inputAvatar').attr('src', data);
-		}
+		return commonSignValidate("<?php echo base_url('adminuser/edit/ajax'); ?>");
 	}
 
 	prepare_upload(null);
