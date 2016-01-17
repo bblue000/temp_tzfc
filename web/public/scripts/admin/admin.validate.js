@@ -132,6 +132,7 @@ function commonSignValidate(postUrl) {
 
 var userInfoRedirectUrl;
 function checkUploadAfterPost(postUrl, postData, resultData) {
+	postIsProgressing = showProgress();
 	userInfoRedirectUrl = resultData.data;
 	if (avatar.data('src')) { // 如果没有设置图片资源
 		doOnUploadSuccess();

@@ -47,6 +47,7 @@ CREATE TABLE IF NOT EXISTS `tzfc_db`.`Tab_User` (
   `email` VARCHAR(256) NULL COMMENT '邮箱',
   `address` VARCHAR(200) NULL COMMENT '联系地址',
   `avatar` VARCHAR(500) NULL COMMENT '头像',
+  `permission` TINYINT(1) NULL DEFAULT 0 COMMENT '是否有权限操作',
   `create_time` DATETIME NULL,
   `update_time` DATETIME NULL,
   PRIMARY KEY (`uid`))

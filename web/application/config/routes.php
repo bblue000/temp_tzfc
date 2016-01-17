@@ -57,7 +57,7 @@ $route['adminuser/(:any)/(:any)'] = 'adminuser/$1_$2';
 $route['adminhouse/(:any)/(:any)'] = 'adminhouse/$1_$2';
 $route['admincommon/(:any)/(:any)'] = 'admincommon/$1_$2';
 $route['admincommon/(:any)/(:any)/(:any)'] = 'admincommon/$1_$2_$3';
-$route['default_controller'] = 'admin';
+$route['default_controller'] = 'portal';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 

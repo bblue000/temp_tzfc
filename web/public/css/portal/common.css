@@ -1,0 +1,125 @@
+/*门户网站的CSS*/
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+}
+
+body {
+    font-family: 'Hiragino Sans GB','Microsoft YaHei','黑体',sans-serif;
+    font-size: 14px;
+    line-height: 1.428571429;
+    color: #333;
+    min-width: 980px;
+    background-color: #eeeff1;
+}
+
+li, p, ul {
+	padding: 0;
+	margin: 0;
+}
+
+ul {
+	list-style: none;
+}
+
+:after, :before {
+    box-sizing: border-box;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+a, a:focus, img {
+    outline: 0;
+}
+
+a {
+    background-color: transparent;
+}
+
+button, input, optgroup, select, textarea {
+    color: inherit;
+    font: inherit;
+    margin: 0;
+}
+
+button, input, select, textarea {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+
+input, input[type=password], input[type=search], select, textarea {
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    font-size: 1em;
+    padding: .5em;
+    outline: 0;
+    -webkit-transition: box-shadow .217s ease;
+    transition: box-shadow .217s ease;
+}
+
+input:focus, input[type=password]:focus, input[type=search]:focus, select:focus, textarea:focus {
+    border: 1px solid #00d1c1;
+}
+
+header #top-nav, #listing-filters, #listing-result {
+	max-width: 980px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/********************************************/
+/*顶部*/
+header {
+	background: #fff;
+	box-shadow: 0 1px 2px #ccc;	
+}
+
+header #top-nav {
+	height: 90px;
+	line-height: 110px;
+}
+
+header .city-logo {
+    position: relative;
+    bottom: 4px;
+    margin-right: 5px;
+    font-family: Microsoft Yahei,Hiragino Sans GB,WenQuanYi Micro Hei,sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    color: #f46;
+}
+
+header .primary-logo-img {
+	font-size: 40px;
+    margin-right: 5px;
+    vertical-align: baseline;
+}
+
+.section-sep {
+	height: 1em;
+}
+
+
+
+
+
+/********************************************/
+/*底部*/
+footer {
+	margin-top: 2em;
+	height: 150px;
+	padding-top: 45px;
+	padding-bottom: 40px;
+	color: silver;
+	background: #2b2d2e;
+	text-align: center;
+	line-height: normal;
+}

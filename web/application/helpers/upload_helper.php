@@ -20,6 +20,12 @@ function common_check_upload_input($CI) {
 	return common_result_ok($ext);
 }
 
+function generate_fn($CI, $ext) {
+	$CI->load->helper('string');
+	$salt = random_string('alnum', 10);
+	return date('Y-m-d-H-i-s', time()).'-'.$salt.'.'.$ext;
+}
+
 // =======================================
 // 上传头像
 function save_avatar($CI, $uid) {
@@ -28,7 +34,7 @@ function save_avatar($CI, $uid) {
 
 	$ext = $check_result['data'];
 
-	$tempFileName = generate_avatar_fn($CI, $ext);
+	$tempFileName = generate_fn($CI, $ext);
 	$tempFilePath = 'uploads/avatar/'. $uid . '/';
 	$tempFileAbsPath = FCPATH . $tempFilePath;
 	if (!file_exists($tempFileAbsPath)) {
@@ -39,12 +45,6 @@ function save_avatar($CI, $uid) {
         file_get_contents('php://input')
     );
     return common_result_ok($tempFilePath . $tempFileName);
-}
-
-function generate_avatar_fn($CI, $ext) {
-	$CI->load->helper('string');
-	$salt = random_string('alnum', 10);
-	return date('Y-m-d-H-i-s', time()).'-'.$salt.'.'.$ext;
 }
 
 function delete_avatar($CI, $file) {
@@ -70,30 +70,39 @@ function delete_old_avatar($CI, $new_avatar) {
 
 // =======================================
 // 上传房源图片
-function house() {
-	$ext = $this->common_check_upload_input();
-	$uid = get_session_uid();
-	if (!isset($uid)) {
-		echo json_encode(common_result(400, '操作用户未知'));
-		return;
-	}
+function save_house_image($CI, $uid, $hid, $sub) {
+	$check_result = common_check_upload_input($CI); // 获取扩展名
+	if (!is_ok_result($check_result)) { return $check_result; }
 
-	$tempFileName = $this->generateHouseFileName($ext);
-	$tempFilePath = 'uploads/house/'.$uid.'/';
-	$tempFileAbsPath = FCPATH.$tempFilePath;
+	$ext = $check_result['data'];
+
+	$tempFileName = generate_fn($CI, $ext);
+	$tempFilePath = 'uploads/house/'. $sub . '-' . $uid . '-' . $hid . '/';
+	$tempFileAbsPath = FCPATH . $tempFilePath;
 	if (!file_exists($tempFileAbsPath)) {
 		mkdir($tempFileAbsPath);
 	}
     file_put_contents(
-        $tempFileAbsPath. $tempFileName,
+        $tempFileAbsPath . $tempFileName,
         file_get_contents('php://input')
     );
-    echo json_encode(common_result_ok($tempFilePath.$tempFileName));
+    return common_result_ok($tempFilePath . $tempFileName);
 }
 
-function generateHouseFileName($ext) {
-	$this->load->helper('string');
-	$salt = random_string('alnum', 10);
-	return date('Y-m-d-H-i-s', time()).'-'.$salt.'.'.$ext;
+function delete_house_image($CI, $file) {
+	if (isset($file) && !empty($file)) {
+		$fileAbsPath = FCPATH . $file;
+		if (file_exists($fileAbsPath)) {
+			@unlink($fileAbsPath);
+		}
+	}
 }
 
+function delete_old_house_image($CI, $old_house_image, $new_house_image) {
+	if (isset($old_house_image) && !empty($old_house_image)
+		&& isset($new_house_image) && !empty($new_house_image)) {
+		if ($old_house_image != $new_house_image) {
+			delete_avatar($CI, $old_house_image);
+		}
+	}
+}

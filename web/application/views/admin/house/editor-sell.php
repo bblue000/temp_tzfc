@@ -287,7 +287,11 @@
 						</div>
 					</td>
 				</tr>
-
+				
+				<?php $this->load->view('admin/house/upload-house'); ?>
+				<script type="text/javascript">
+				prepare_upload('<?php echo base_url('adminhouse/sell_image'); ?>');
+				</script>
 
 				<!-- 详细信息 -->
 				<tr>
@@ -295,7 +299,13 @@
 					<td>
 						<div class="house-edit-input-container">
 							<textarea name="details" id="inputDetails" class="form-control house-related-long" rows="5" placeholder="" tabindex="<?php echo $tabIndex++; ?>"></textarea>
-							<script type="text/javascript">$('#inputDetails').val('<?php echo $editMode ? $house['details'] : ''; ?>')</script>
+							<script type="text/javascript">
+							<?php if ($editMode) : ?>
+							<?php $house_details = isset($house['details']) ? $house['details'] : ''; ?>
+							<?php $house_details = str_replace("\n", '\n', $house_details); ?>
+							$('#inputDetails').val('<?php echo $house_details; ?>')
+							<?php endif; ?>
+							</script>
 						</div>
 					</td>
 				</tr>

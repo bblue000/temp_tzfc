@@ -30,6 +30,17 @@
 	<?php $this->load->view('admin/home-header'); ?>
 	<?php $this->load->view('admin/home-sidebar'); ?>
 
+	<script type="text/javascript">
+	var localHouseConfig = {
+		url : '<?php echo base_url('adminhouse/edit_rent/ajax'); ?>',
+		successMsg : '编辑房源成功',
+		unrefresh : true,
+		filterPostData : function(postData) {
+			return postData + '&hid=<?php echo $house['hid']; ?>';
+		}
+	};
+	</script>
+
 	<div id="content">
 		<div id="house-container">
 			<h3>房源管理 <small>编辑出租房源</small></h3>
@@ -44,30 +55,7 @@
 		</div>
 	</div>
 
-
-
 	<script type="text/javascript" src="public/scripts/admin/admin.common.js"></script>
-
-	<script type="text/javascript">
-	var __editSellResultData;
-	function doWhatYouWant(postData) {
-		<?php if (isset($house) && isset($house['hid'])) : ?>
-		postData += '&hid=<?php echo $house['hid']; ?>';
-		<?php endif; ?>
-		
-		simplePost('<?php echo base_url('adminhouse/edit_rent/ajax'); ?>', postData, {
-			ok : function(data) {
-				__editSellResultData = data;
-				showToast('编辑房源成功');
-				// 不需要刷新啊
-				// setTimeout('(top || window).location.href = __editSellResultData.data', 1000);
-			},
-			success : function() {
-
-			}
-		});
-	}
-	</script>
 
 <!-- Footer -->
 <?php $this->load->view('template/template-admin-footer'); ?>

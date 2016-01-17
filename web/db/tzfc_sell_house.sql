@@ -44,7 +44,8 @@ CREATE TABLE IF NOT EXISTS `tzfc_db`.`Tab_SellHouse` (
   `rights_from` SMALLINT UNSIGNED NULL,
   `primary_school` VARCHAR(100) NULL,
   `junior_school` VARCHAR(100) NULL,
-  `details` VARCHAR(20000) NULL COMMENT '详情',
+  `images` VARCHAR(10000) NULL,
+  `details` TEXT NULL COMMENT '详情',
   `create_time` DATETIME NULL,
   `update_time` DATETIME NULL,
   `uid` INT NOT NULL COMMENT '用户ID',
@@ -59,6 +60,8 @@ ENGINE = InnoDB;
 CREATE INDEX `fk_Tab_SellHouse_Tab_User1_idx` ON `tzfc_db`.`Tab_SellHouse` (`uid` ASC);
 
 CREATE INDEX `INDEX_Tab_SellHouse_HOUSE_TYPE` ON `tzfc_db`.`Tab_SellHouse` (`rooms` ASC, `halls` ASC, `bathrooms` ASC);
+
+CREATE INDEX `INDEX_Tab_SellHouse_UpdateTime` ON `tzfc_db`.`Tab_SellHouse` (`update_time` DESC);
 
 USE `tzfc_db`;
 

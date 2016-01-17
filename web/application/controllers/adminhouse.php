@@ -94,7 +94,11 @@ class adminhouse extends MY_Controller {
 		$this->load->api('adminsellhouse_api');
 		$api_result = $this->adminsellhouse_api->add_sell($uid, $post);
 		if (is_ok_result($api_result)) {
-			$api_result['data'] = base_url('adminhouse/add_sell');
+			$hid = $api_result['data'];
+			$api_result['data'] = array(
+				'url' => base_url('adminhouse/add_sell'),
+				'hid' => $hid
+			);
 		}
 		echo json_encode($api_result);
 	}
@@ -127,7 +131,10 @@ class adminhouse extends MY_Controller {
 		$this->load->api('adminsellhouse_api');
 		$api_result = $this->adminsellhouse_api->update_sell($uid, $hid, $post);
 		if (is_ok_result($api_result)) {
-			$api_result['data'] = base_url('adminhouse/edit_sell').'?hid='.$hid;			
+			$api_result['data'] = array(
+				'url' => base_url('adminhouse/edit_sell').'?hid='.$hid,
+				'hid' => $hid
+			);
 		}
 		echo json_encode($api_result);
 	}
@@ -144,6 +151,17 @@ class adminhouse extends MY_Controller {
 			$this->generate_cat_kw();
 			$api_result['data'] = base_url('adminhouse/sell_index').'?cat='.$this->cat.'&kw='.$this->kw;
 		}
+		echo json_encode($api_result);
+	}
+
+	public function sell_image() {
+		$this->check_state_api('POST');
+
+		$uid = get_session_uid();
+		$hid = $this->check_param_api('hid');
+
+		$this->load->api('adminsellhouse_api');
+		$api_result = $this->adminsellhouse_api->update_sell_image($uid, $hid);
 		echo json_encode($api_result);
 	}
 
@@ -170,7 +188,11 @@ class adminhouse extends MY_Controller {
 		$this->load->api('adminrenthouse_api');
 		$api_result = $this->adminrenthouse_api->add_rent($uid, $post);
 		if (is_ok_result($api_result)) {
-			$api_result['data'] = base_url('adminhouse/add_rent');
+			$hid = $api_result['data'];
+			$api_result['data'] = array(
+				'url' => base_url('adminhouse/add_rent'),
+				'hid' => $hid
+			);
 		}
 		echo json_encode($api_result);
 	}
@@ -203,7 +225,10 @@ class adminhouse extends MY_Controller {
 		$this->load->api('adminrenthouse_api');
 		$api_result = $this->adminrenthouse_api->update_rent($uid, $hid, $post);
 		if (is_ok_result($api_result)) {
-			$api_result['data'] = base_url('adminhouse/edit_rent').'?hid='.$hid;			
+			$api_result['data'] = array(
+				'url' => base_url('adminhouse/edit_rent').'?hid='.$hid,
+				'hid' => $hid
+			);
 		}
 		echo json_encode($api_result);
 	}
@@ -220,6 +245,17 @@ class adminhouse extends MY_Controller {
 			$this->generate_cat_kw();
 			$api_result['data'] = base_url('adminhouse/rent_index').'?cat='.$this->cat.'&kw='.$this->kw;
 		}
+		echo json_encode($api_result);
+	}
+
+	public function rent_image() {
+		$this->check_state_api('POST');
+
+		$uid = get_session_uid();
+		$hid = $this->check_param_api('hid');
+
+		$this->load->api('adminrenthouse_api');
+		$api_result = $this->adminrenthouse_api->update_rent_image($uid, $hid);
 		echo json_encode($api_result);
 	}
 

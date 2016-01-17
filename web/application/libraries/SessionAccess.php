@@ -63,7 +63,8 @@ class sessionaccess {
 			'contact_tel', 'contact_mobile',
 			'qqchat', 'email',
 			'avatar', 
-			'gid'
+			'gid',
+			'permission'
 	);
 	
     // We'll use a constructor, as you can't directly call a function

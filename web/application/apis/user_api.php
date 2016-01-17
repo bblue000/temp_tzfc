@@ -28,7 +28,11 @@ class user_api extends API {
 		90303 => '头像更新失败',
 
 		90401 => '指定删除用户ID',
-		90402 => '删除用户失败'
+		90402 => '删除用户失败',
+
+		90501 => '超级用户信息丢失',
+		90502 => '授权信息更新失败',
+		90503 => '授权参数缺失',
 
 	);
 
@@ -194,6 +198,38 @@ class user_api extends API {
 		);
 	}
 
+
+
+	// *************************************
+	// 授权
+	// *************************************
+	public function get_all_user_by_super($uid) {
+		if (!is_login()) {
+			return $this->un_login();
+		}
+		if (!isset($uid)) {
+			return $this->ex(90502);
+		}
+		$query_user = $this->user_model->get_all_but_self($uid);
+		return $this->ok($query_user);
+	}
+
+	public function grant($uid, $permission) {
+		if (!is_login()) {
+			return $this->un_login();
+		}
+		if (!isset($uid) || !isset($permission)) {
+			return $this->ex(90503);
+		}
+		$update_result = $this->user_model->update_permission($uid, $permission);
+		if (!$update_result) {
+			log_message('error', 'update_permission db failed');
+			return $this->ex(90502);
+		} else {
+			return $this->ok();
+		}
+
+	}
 }
 
 

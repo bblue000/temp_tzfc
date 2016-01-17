@@ -45,7 +45,7 @@
 						<?php if (isset($areas)) : ?>
 							<?php foreach ($areas as $area) : ?>
 								<tr>
-									<td class="house-col-1" title="<?php echo $area['area_name']; ?>"><?php echo $area['area_name']; ?></td>
+									<td class="house-col-1"><?php echo $area['area_name']; ?></td>
 									<td>
 										<a class="btn btn-warning house-op house-op-edit" data-aid="<?php echo $area['aid']; ?>" data-aname="<?php echo $area['area_name']; ?>" href="javascript:void(0);" onclick="editArea(this);">编辑</a>
 										<a class="btn btn-danger house-op house-op-delete" href="admincommon/area/del?aid=<?php echo $area['aid']; ?>" onclick="return confirm('确认要删除吗？');">删除</a>

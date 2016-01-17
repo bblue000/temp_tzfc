@@ -18,7 +18,12 @@ var inputHouseRightsFrom = $('#inputHouseRightsFrom');
 var inputPrimary = $('#inputPrimary');
 var inputJunior = $('#inputJunior');
 var inputDetails = $('#inputDetails');
+var postIsProgressing;
 function checkInput() {
+	if (postIsProgressing) {
+		return false;
+	}
+
 	var result = [];
 
 	if (!__checkInputTitle(result)) {
@@ -70,10 +75,56 @@ function checkInput() {
 		postData += ('&' + optionSelectionsStr);
 	}
 
+	if (localHouseConfig.filterPostData) {
+		postData = localHouseConfig.filterPostData(postData);
+	}
+
 	console.log(postData);
 
-	doWhatYouWant(postData);
+	postIsProgressing = showProgress();
+	simplePost(localHouseConfig.url, postData, {
+		ok : function(data) {
+			uploadHouseImage(data);
+		},
+
+		success : function() {
+			__releaseProgress();
+		},
+
+		error : function() {
+			__releaseProgress();
+		}
+	});
 	return true;
+}
+
+function uploadHouseImage(resultData) {
+	postIsProgressing = showProgress();
+	localHouseConfig.resultData = resultData;
+	if (inputImage.data('src')) { // 如果没有设置图片资源
+		doOnUploadSuccess();
+		return ;
+	}
+	if (!inputImage.attr('src')) {
+		doOnUploadSuccess();
+		return ;
+	}
+	ZXXFILE.url = localHouseConfig.uploadUrl + "?hid=" + localHouseConfig.resultData.data.hid;
+	ZXXFILE.funUploadFile();
+}
+
+function doOnUploadSuccess (file, responseUrl) {
+	if (localHouseConfig.resultData
+		&& localHouseConfig.resultData.data && localHouseConfig.resultData.data.url) {
+		setTimeout('(top || window).location.href = localHouseConfig.resultData.data.url;', 1000);
+	}
+	__releaseProgress();
+	showToast(localHouseConfig.successMsg);
+}
+
+function doOnUploadFailure (file, msg) {
+	__releaseProgress();
+	showToast("图片" + file.name + "上传失败！原因：" + msg);
 }
 
 function __checkInputTitle(output) {
@@ -140,3 +191,8 @@ inputHouseBathrooms.blur(generateTitle) ;
 inputHouseSize.blur(generateTitle) ;
 
 
+
+function __releaseProgress() {
+	hideProgress(postIsProgressing);
+	postIsProgressing = false;
+}

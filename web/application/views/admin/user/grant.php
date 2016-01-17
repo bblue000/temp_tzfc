@@ -1,7 +1,7 @@
 <!-- Header -->
 <?php $this->load->view('template/template-admin-header'); ?>
  
-		<title>后台管理系统-管理小区</title>
+		<title>后台管理系统</title>
 
 		<!-- Local global -->
 		<link href="public/css/global.css" rel="stylesheet" type="text/css">
@@ -33,25 +33,23 @@
 	<div id="content">
 		<div id="house-container">
 
-			<h3>公共信息 <small>管理小区</small></h3>
+			<h3>授权管理</h3>
 			
 			<hr/>
-
-			<button type="button" class="btn btn-primary" onclick="addCommunity()">&nbsp;&nbsp;&nbsp;添&nbsp;&nbsp;&nbsp;&nbsp;加&nbsp;&nbsp;&nbsp;</button>
 
 			<div id="house-list-container">
 				<table class="table table-bordered table-hover table-striped">
 					<tbody>
-						<?php if (isset($communitys)) : ?>
+						<?php if (isset($grant_users)) : ?>
+						<?php //print_r($grant_users) ; ?>
 							<?php $myIndex = 0; ?>
-							<?php foreach ($communitys as $community) : ?>
+							<?php foreach ($grant_users as $user) : ?>
 								<?php if ($myIndex % 2 == 0) : ?>
 								<tr>
 								<?php endif; ?>
-									<td class="house-col-1" <?php echo ($myIndex % 2 == 0) ? '' : 'style="border-left:5px solid #ddd"' ;?>><?php echo $community['cname']; ?></td>
+									<td class="house-col-1" <?php echo ($myIndex % 2 == 0) ? '' : 'style="border-left:5px solid #ddd"' ;?>><?php echo $user['true_name']; ?></td>
 									<td>
-										<a class="btn btn-warning house-op house-op-edit" data-cid="<?php echo $community['cid']; ?>" data-cname="<?php echo $community['cname']; ?>" href="javascript:void(0);" onclick="editCommunity(this);">编辑</a>
-										<a class="btn btn-danger house-op house-op-delete" data-cid="<?php echo $community['cid']; ?>" href="admincommon/community/del?cid=<?php echo $community['cid']; ?>" onclick="return confirm('确认要删除吗？');">删除</a>
+										<a class="btn house-op house-op-edit" data-uid="<?php echo $user['uid']; ?>" data-permission="<?php echo $user['permission']; ?>" href="javascript:void(0);" onclick="changePermission(this);"></a>
 									</td>
 								<?php if ($myIndex % 2 == 1) : ?>
 								</tr>
@@ -65,7 +63,6 @@
 
 		</div>
 
-		<?php $this->load->view('admin/common/edit'); ?>
 	</div>
 
 
@@ -73,17 +70,43 @@
 	<script type="text/javascript" src="public/scripts/admin/admin.common.js"></script>
 
 	<script type="text/javascript">
-	function addCommunity () {
-		add_layer_show("<?php echo base_url('admincommon/community/add/ajax'); ?>");
+	$('a[data-permission="0"]').text('授权').removeClass('btn-warning').addClass('btn-primary');
+	$('a[data-permission="1"]').text('取消授权').removeClass('btn-primary').addClass('btn-warning');
+	function changePermission (self) {
+		// body...
+		var ele = $(self);
+		var uid = ele.data('uid');
+		var permission = parseInt(ele.data('permission') || 0);
+		var targetPermission = (permission + 1) % 2;
+		console.log('uid = ' + uid);
+		console.log('permission = ' + permission);
+		console.log('target permission = ' + targetPermission);
+		var progress = showProgress();
+		simplePost('<?php echo base_url('adminuser/grant/ajax'); ?>', 'uid=' + uid + '&permission=' + targetPermission, {
+			success : function() {
+				hideProgress(progress);
+				delete progress;
+			},
+
+			ok : function() {
+				hideProgress();
+				ele.data('permission', targetPermission);
+				changeClass(ele);
+			},
+
+			error: function() {
+				hideProgress(progress);
+				delete progress;
+			}
+		});
 	}
 
-	function editCommunity(self) {
-		var selfAjax = $(self);
-		edit_layer_show({
-			id: selfAjax.data('cid'),
-			name: selfAjax.data('cname'),
-			url: "<?php echo base_url('admincommon/community/edit/ajax'); ?>"
-		});
+	function changeClass(ele) {
+		if (ele.data('permission') == 1) {
+			ele.text('取消授权').removeClass('btn-primary').addClass('btn-warning');
+		} else {
+			ele.text('授权').removeClass('btn-warning').addClass('btn-primary');
+		}
 	}
 	</script>
 

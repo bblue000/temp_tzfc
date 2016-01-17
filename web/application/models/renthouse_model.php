@@ -18,7 +18,7 @@ class renthouse_model extends MY_Model {
 		'rent_type', 'rentpay_type',
 		'floors', 'floors_total', 
 		'house_type', 'decor', 'orientation',
-		'details',
+		'images', 'details',
 		'uid'
 	);
 
@@ -30,7 +30,7 @@ class renthouse_model extends MY_Model {
 		'rent_type', 'rentpay_type',
 		'floors', 'floors_total', 
 		'house_type', 'decor', 'orientation',
-		'details',
+		'images', 'details',
 		'uid'
 	);
 	
@@ -45,7 +45,7 @@ class renthouse_model extends MY_Model {
 	// ========================================
 	public function get_all() {
 		$this->setTable($this::TABLE_NAME);
-		return $this->getData();
+		return $this->getOrderedData();
 	}
 
 	public function get_by_kw($kw) {
@@ -55,7 +55,7 @@ class renthouse_model extends MY_Model {
 			$this->db->or_like(array('title' => $kw));
 			$this->db->or_like(array('community' => $kw));
 			$this->db->or_like(array('details' => $kw));
-			return $this->getData();
+			return $this->getOrderedData();
 		}
 		return $this->get_all();
 	}
@@ -72,7 +72,7 @@ class renthouse_model extends MY_Model {
 	// ========================================
 	public function get_all_by_uid($uid) {
 		$this->setTable($this::TABLE_NAME);
-		return $this->getData(array('uid' => $uid));	
+		return $this->getOrderedData(array('uid' => $uid));	
 	}
 
 	public function get_by_kw_by_uid($uid, $kw) {
@@ -85,7 +85,7 @@ class renthouse_model extends MY_Model {
 			            ->or_like('community', $kw)
 			            ->or_like('details', $kw)
 		        	->group_end();
-			return $this->getData();
+			return $this->getOrderedData();
 		}
 		return $this->get_all_by_uid($uid);	
 	}
@@ -99,7 +99,7 @@ class renthouse_model extends MY_Model {
 		$user = array_filter_by_key($house, $this->INSERT_COLS);
 		$this->setTable($this::TABLE_NAME);
 		$result = $this->addData($house);
-		return isset($result);
+		return $result;
 	}
 
 	public function update_by_hid($hid, $fields) {
@@ -111,6 +111,15 @@ class renthouse_model extends MY_Model {
 	public function del_by_hid($hid) {
 		$result = $this->delData($hid, $this::TABLE_NAME, 'hid');
 		return $result === FALSE ? FALSE : TRUE;
+	}
+	
+	private function set_common_order() {
+		$this->db->order_by('update_time', 'DESC');
+	}
+	
+	private function getOrderedData($where = NULL) {
+		$this->db->order_by('update_time', 'DESC');
+		return $this->getData($where);
 	}
 	
 }

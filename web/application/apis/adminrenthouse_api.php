@@ -72,7 +72,7 @@ class adminrenthouse_api extends API {
 		
 		if ($return_list) { return $this->rent_list(); }
 
-		return $this->ok();
+		return $this->ok($insert_result);
 	}
 
 	public function update_rent($uid, $hid, $house, $return_list = FALSE) {
@@ -138,6 +138,37 @@ class adminrenthouse_api extends API {
 		return 200;
 	}
 
+
+	public function update_rent_image($uid, $hid) {
+		if (!is_login()) { return $this->un_login(); }
+
+		if (!isset($uid)) { return $this->ex(10012); }
+
+		$rent_house = $this->renthouse_model->get_by_hid_by_uid($uid, $hid);
+		if (!isset($rent_house) || empty($rent_house)) {
+			return $this->ex(11013);
+		}
+
+		$this->load->helper('upload');
+		$save_result = save_house_image($this, $uid, $hid, 'rent');
+
+		if (is_ok_result($save_result)) {
+			$images = $save_result['data']; // 新的头像地址
+			$update_result = $this->renthouse_model->update_by_hid($hid, array('images' => $images));
+			if (!$update_result) {
+				log_message('error', 'update_rent_image db failed');
+				// 删除文件，因为并没有更新成功
+				delete_house_image($images);
+				return $this->ex(11014);
+			} else {
+				delete_old_house_image($this, $rent_house['images'], $images); // 删除老的头像文件
+				$rent_house['images'] = $images;
+				return $this->ok($rent_house);
+			}
+		} else {
+			return $this->ex(11015);
+		}
+	}
 
 }
 

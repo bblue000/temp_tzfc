@@ -11,7 +11,8 @@ class user_model extends MY_Model {
 
 	private $COLS = array(
 		'uid', 'user_name', 'true_name', 'password', 'salt', 'sex',
-		'contact_tel', 'contact_mobile', 'qqchat', 'email', 'address', 'avatar'
+		'contact_tel', 'contact_mobile', 'qqchat', 'email', 'address', 'avatar',
+		'permission'
 	);
 	
 	public function __construct() {
@@ -100,6 +101,24 @@ class user_model extends MY_Model {
 		return $result === FALSE ? FALSE : TRUE;
 	}
 	
+
+
+
+
+
+	public function get_all_but_self($uid) {
+		$this->setTable($this::TABLE_NAME);
+		$this->db->select(array('uid', 'user_name', 'true_name', 'permission'));
+		$this->db->where_not_in('uid', array($uid));
+		return $this->getData();
+	}
+
+	public function update_permission($uid, $permission) {
+		$fields = array('permission' => $permission);
+		$this->setTable($this::TABLE_NAME);
+		return $this->editData(array('uid' => $uid), $fields);
+
+	}
 }
 
 ?>

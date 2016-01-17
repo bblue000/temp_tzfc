@@ -259,6 +259,9 @@ function simpleGet(reqUrl, callbackFuncs) {
 		url: reqUrl,
 		dataType: "json",
 		success: function(data){
+			if (callbackFuncs && callbackFuncs.success) {
+				callbackFuncs.success(data);
+			}
 			if (data.code == 200) {
 				if (callbackFuncs && callbackFuncs.ok) {
 					callbackFuncs.ok(data);
@@ -268,18 +271,15 @@ function simpleGet(reqUrl, callbackFuncs) {
 			} else {
 				showToast(data.msg);
 			}
-			if (callbackFuncs && callbackFuncs.success) {
-				callbackFuncs.success(data);
-			}
 		},
 		beforeSend:function(){
 
 		},
 		error:function(XMLHttpRequest, textStatus, errorThrown){
-			showToast("出错了：" + textStatus);
 			if (callbackFuncs && callbackFuncs.error) {
 				callbackFuncs.error(XMLHttpRequest, textStatus, errorThrow);
 			}
+			showToast("出错了：" + textStatus);
 		}
 	});
 }

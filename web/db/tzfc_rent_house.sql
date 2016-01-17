@@ -41,7 +41,8 @@ CREATE TABLE IF NOT EXISTS `tzfc_db`.`Tab_RentHouse` (
   `house_type` TINYINT UNSIGNED NULL DEFAULT 0,
   `decor` TINYINT UNSIGNED NULL DEFAULT 0,
   `orientation` TINYINT UNSIGNED NULL DEFAULT 0,
-  `details` VARCHAR(20000) NULL COMMENT '详情',
+  `images` VARCHAR(10000) NULL,
+  `details` TEXT NULL COMMENT '详情',
   `create_time` DATETIME NULL,
   `update_time` DATETIME NULL,
   `uid` INT NOT NULL,
@@ -56,6 +57,8 @@ ENGINE = InnoDB;
 CREATE INDEX `fk_Tab_RentHouse_Tab_User1_idx` ON `tzfc_db`.`Tab_RentHouse` (`uid` ASC);
 
 CREATE INDEX `INDEX_Tab_RentHouse_HOUSE_TYPE` ON `tzfc_db`.`Tab_RentHouse` (`rooms` ASC, `halls` ASC, `bathrooms` ASC);
+
+CREATE INDEX `INDEX_Tab_RentHouse_UpdateTime` ON `tzfc_db`.`Tab_RentHouse` (`update_time` DESC);
 
 USE `tzfc_db`;
 

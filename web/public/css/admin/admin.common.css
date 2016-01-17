@@ -375,7 +375,7 @@ body.menu {
 }
 
 
-.house-edit-container th small, .house-input_text_wrap span small {
+.house-edit-container th small, .house-edit-container td small, .house-input_text_wrap span small {
   font-size: 0.5em;
   color:#e74c3c;
 }
