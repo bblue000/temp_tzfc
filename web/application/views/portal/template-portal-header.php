@@ -16,19 +16,20 @@
 		<!-- Bootstrap -->
 		<link href="public/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 
-		<!-- Local admin -->
+		<!-- Local portal -->
 		<link href="public/css/portal/common.css" rel="stylesheet" type="text/css">
 
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 		<script type="text/javascript" src="public/scripts/jquery.min.js"></script>
 		<!-- Include all compiled plugins (below), or include individual files as needed -->
+		<script type="text/javascript" src="public/scripts/bootstrap.min.js"></script>
 		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 	</head>
 	<body>
 
-		<header>
-			<div id="top-nav">
+		<header class="sub-container">
+			<div id="top-nav" class="fixed-sub-container">
 				<span class="city-logo">泰州</span>
 				<span class="primary-logo-img">房产网</span>
 			</div>

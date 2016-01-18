@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 /********************************************/
 /*顶部的标签bar*/
 .top-tab {
@@ -43,18 +45,15 @@
 }
 
 #listing-filters {
-	background: #fff;
 	margin-top: 0;
     margin-bottom: 1em;
     border: 1px solid #ddd;
     border-top: none;
     padding-top: .5em;
-
 }
 
 #listing-filters fieldset {
 	border: none;
-    background: #fff;
     padding: 0 1em;
     margin: 0;
     overflow: hidden;
@@ -169,9 +168,6 @@
     outline: 0;
 }
 
-.icon-search:before {
-    content: "\EA38";
+#listing-filters .search-fieldset button:hover {
+    color: #00d1c1;
 }
-
-
-

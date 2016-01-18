@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 /*门户网站的CSS*/
 
 * {
@@ -69,16 +71,19 @@ input:focus, input[type=password]:focus, input[type=search]:focus, select:focus,
     border: 1px solid #00d1c1;
 }
 
-header #top-nav, #listing-filters, #listing-result {
+.fixed-sub-container {
 	max-width: 980px;
 	margin-left: auto;
 	margin-right: auto;
 }
 
+.sub-container {
+    background-color: #fff;
+}
+
 /********************************************/
 /*顶部*/
 header {
-	background: #fff;
 	box-shadow: 0 1px 2px #ccc;	
 }
 
@@ -107,7 +112,17 @@ header .primary-logo-img {
 	height: 1em;
 }
 
-
+[class*="glyphicon-"]:before, [class^=glyphicon-]:before {
+    font-family: 'Glyphicons Halflings' !important;
+    font-style: normal !important;
+    font-weight: 400 !important;
+    font-variant: normal !important;
+    text-transform: none !important;
+    speak: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
 
 
 
