@@ -15,7 +15,7 @@
 	clear: both;
 }
 
-.house-info {
+.house-main {
     border: 1px solid #ddd;
     border-radius: 2px;
     width: 880px;
@@ -24,6 +24,133 @@
     float: left;
 }
 
+.house-info {
+	padding: 0 20px;
+}
+
+.house-header {
+    border-bottom: 1px solid #e6e6e6;
+    position: relative;
+}
+
+.house-header .house-title {
+    padding: 30px 72px 16px 0;
+}
+
+.house-header .house-title h1 {
+    margin: 0;
+    font-size: 28px;
+    display: inline;
+    vertical-align: sub;
+}
+
+.house-title-footer {
+    color: #999;
+    padding-bottom: 20px;
+}
+
+.house-content {
+	margin-top: 24px;
+}
+
+.house-content:before, .house-content:after {
+	content: " ";
+	display: table;
+}
+
+.house-content:after {
+	clear: both;
+}
+
+.house-gallery {
+    width: 440px;
+    overflow: hidden;
+    margin-bottom: 40px;
+    position: relative;
+    float: left;
+}
+
+.empty-img-placeholder {
+    height: 440px;
+    width: 440px;
+    background: url(http://s.baixing.net/img/refashion/viewad_bigImg_placeholder.jpg);
+    overflow: hidden;
+}
+
+.house-basic-info {
+    float: left;
+    padding: 0 0 0 24px;
+    width: 398px;
+}
+
+.house-common-header {
+    position: relative;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.house-common-header .section-title {
+    font-size: 1.5em;
+    font-weight: 700;
+    margin: .6em 0;
+}
+
+.house-basic-info ul li {
+    margin: 5px 0;
+    line-height: 30px;
+    font-size: 16px;
+    position: relative;
+
+    border-bottom: 1px dashed #e6e6e6;
+}
+
+.house-basic-info ul li>label {
+	width: 100px;
+	text-align: right;
+	color: #666;
+	display: inline-block;
+	font-weight: 400;
+}
+
+.house-basic-info ul li>span {
+	width: 255px;
+	padding-left: 25px;
+}
+
+.house-poster-contact {
+	padding: 20px 0;
+    border-bottom: 1px dashed #e6e6e6;
+}
+
+.house-poster-contact ul li {
+    border-bottom: none;
+	font-size: 18px;
+}
+
+.house-poster-contact ul li>label {
+	font-weight: 700;
+}
+
+.house-poster-contact ul li>span {
+	font-size: 22px;
+	color: #f46;
+}
+
+.house-detail {
+	margin-bottom: 40px;
+}
+
+.detail-text {
+    font-size: 18px;
+    line-height: 1.8;
+    word-break: break-all;
+    color: #666;
+}
+
+
+
+
+/********************************/
+/*编辑人*/
 .house-info-container .sidebar {
     width: 300px;
     margin-top: 30px;

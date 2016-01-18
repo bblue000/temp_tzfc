@@ -52,12 +52,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 // $route['api/(:any)'] = 'apiroute/apiroute_redirect/$1';
 // $route['api/(:any)/(:any)'] = 'apiroute/apiroute_redirect/$1_$2';
 // $route['api/(:any)/(:any)/(:any)'] = 'apiroute/apiroute_redirect/$1_$2_$3';
+$route['default_controller'] = 'portal';
+$route['sellhouse'] = 'portal/sellhouse';
+$route['renthouse'] = 'portal/renthouse';
+
+
 $route['admin/(:any)/(:any)'] = 'admin/$1_$2';
 $route['adminuser/(:any)/(:any)'] = 'adminuser/$1_$2';
 $route['adminhouse/(:any)/(:any)'] = 'adminhouse/$1_$2';
 $route['admincommon/(:any)/(:any)'] = 'admincommon/$1_$2';
 $route['admincommon/(:any)/(:any)/(:any)'] = 'admincommon/$1_$2_$3';
-$route['default_controller'] = 'portal';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 

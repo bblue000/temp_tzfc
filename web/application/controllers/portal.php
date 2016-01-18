@@ -10,17 +10,17 @@ class portal extends MY_Controller {
 
 	public function index() {
 		$this->check_state_common('GET');
-		$this->load->view('portal/template-info', $this);
+		$this->load->view('portal/index', $this);
 	}
 
 	public function sellhouse() {
 		$this->check_state_common('GET');
-		$this->load->view('portal/sellhouse', $this);
+		$this->load->view('portal/sell-info', $this);
 	}
 
 	public function renthouse() {
 		$this->check_state_common('GET');
-		$this->load->view('portal/renthouse', $this);
+		$this->load->view('portal/rent-info', $this);
 	}
 
 }

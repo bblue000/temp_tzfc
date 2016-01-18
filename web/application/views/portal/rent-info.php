@@ -23,12 +23,8 @@
 						<section>
 							<ul>
 								<li>
-									<label>价格：</label>
-									<span>100万元</span>
-								</li>
-								<li>
-									<label>单价：</label>
-									<span>10000元/㎡</span>
+									<label>租金：</label>
+									<span>100元/月</span><span>押一付三</span>
 								</li>
 								<li>
 									<label>房型：</label>
@@ -49,14 +45,6 @@
 								<li>
 									<label>小区名：</label>
 									<span>烟花口</span>
-								</li>
-								<li>
-									<label>小学学区：</label>
-									<span>XXXX</span>
-								</li>
-								<li>
-									<label>初中学区：</label>
-									<span>XXXX</span>
 								</li>
 							</ul>
 						</section>
