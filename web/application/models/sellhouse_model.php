@@ -61,13 +61,13 @@ class sellhouse_model extends MY_Model {
 	}
 
 	public function get_page_data($page_size, $offset = 0, $conditions = NULL) {
-        if ($conditions) {
-            $this->db->where($conditions);
-        }
-        if ($page_size > 0) {
-            $this->db->limit($page_size, $offset);
-        }
-        return $this->getOrderedData();
+		$this->load->helper('housesql');
+		$sub_where = to_where_str($conditions, $this);
+		$sub_sql = "select * from tab_sellhouse where 1 ". $sub_where ." order by hid limit {$offset},{$page_size}";
+		$sql = 'select h.*, u.* from (' . $sub_sql . ') h, tab_user u where h.uid = u.uid;';
+
+		// print_r($sql);
+        return $this->db->query($sql)->result_array();
 	}
 
 	public function get_all() {

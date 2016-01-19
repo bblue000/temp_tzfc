@@ -1,33 +1,22 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class portal extends MY_Controller {
+class sellhouse extends MY_Controller {
 	
 	public function __construct() {
 		parent::__construct();
 		$this->load->helper('house');
 	}
 
-	public function index() {
-		redirect(base_url('sellhouse'));
-	}
-
-	// ****************************************
-	// ****************************************
-	// 出租房源信息
-	// ****************************************
-	// ****************************************
-	public function renthouse($hid) {
-		$this->check_state_common('GET');
-
+	public function index($hid) {
 		if (isset($hid)) {
-			$this->renthouseitem($hid);
+			$this->sell_item($hid);
 		} else {
-			$this->renthouselist();
+			$this->sell_list();
 		}
 	}
 
-	private function renthouselist() {
+	private function sell_list() {
 		$this->cat = HOUSE_CAT_RENT;
 		
 		$page = $this->input->get_post('page', TRUE);
@@ -44,8 +33,8 @@ class portal extends MY_Controller {
 			$extra_conditions['uid'] = $uid;
 		}
 
-		$this->load->model('renthouse_model');
-		$total = $this->renthouse_model->num_rows($kw, $extra_conditions);
+		$this->load->model('sellhouse_model');
+		$total = $this->sellhouse_model->num_rows($kw, $extra_conditions);
 
 		$this->pagearr = array(
 			'currentpage' => $page,
@@ -59,28 +48,36 @@ class portal extends MY_Controller {
 			// 查询
 			$renthouses = $this->renthouse_model->get_page_data(HOUSE_LIST_PAGE_SIZE, $kw, $extra_conditions);
 			if (isset($renthouses) && !empty($renthouses)) {
-				$this->renthouses = array();
 				// 处理数据
 				foreach ($renthouses as $house) {
+					$parsed_house = array();
 					if (isset($house['cid']) && isset($this->communitys['cid'])) {
-						$this->communitys['cid']['cname'];
-					} else {
-
+						$house['community'] = $this->communitys['cid']['cname'];
+					} else if (!isset($house['community']) || empty($house['community'])) {
+						$house['community'] = '-';
 					}
+
+
+					array_push($parsed_houses, $parsed_house);
 				}
 			}
 		}
 
 		$this->kw = $kw;
-		$this->load->view('portal/index', $this);
+		$this->load->view('portal/sell-list', $this);
 	}
 
-	private function renthouseitem($hid) {
-		$this->cat = HOUSE_CAT_RENT;
-		loadRentCommonInfos($this);
-		$this->load->view('portal/rent-info', $this);
-	}
+	public function sell_item($hid) {
+		$this->cat = HOUSE_CAT_SELL;
+		loadCommonInfos($this);
 
+
+		$this->load->model('sellhouse_model');
+		$total = $this->sellhouse_model->get_page_data(1, 1);
+		print_r($total);
+		$this->load->view('portal/sell-info', $this);
+
+	}
 }
 
 ?>
