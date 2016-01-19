@@ -43,6 +43,31 @@ class renthouse_model extends MY_Model {
 	// 用户无关的
 	// ========================================
 	// ========================================
+	public function num_rows($kw = '', $conditions = NULL) {
+		$this->db->select('hid');
+		if ($conditions) {
+            $this->db->where($conditions);
+        }
+		if (isset($kw) && !empty($kw)) {
+			$kw = $this->db->escape_like_str($kw);
+			$this->db->group_start()
+		            	->or_like('title', $kw)
+		            	->or_like('community', $kw)
+	        		->group_end();
+		}
+        return $this->db->get($this::TABLE_NAME)->num_rows();
+	}
+
+	public function get_page_data($page_size, $offset = 0, $conditions = NULL) {
+        if ($conditions) {
+            $this->db->where($conditions);
+        }
+        if ($page_size > 0) {
+            $this->db->limit($page_size, $offset);
+        }
+        return $this->getOrderedData();
+	}
+
 	public function get_all() {
 		$this->setTable($this::TABLE_NAME);
 		return $this->getOrderedData();

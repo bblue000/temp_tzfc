@@ -50,12 +50,11 @@ USE `tzfc_db` ;
 -- -----------------------------------------------------
 -- View `tzfc_db`.`view_community`
 -- -----------------------------------------------------
-DROP VIEW IF EXISTS `tzfc_db`.`view_community` ;
-
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
-USE `tzfc_db`;
+--DROP VIEW IF EXISTS `tzfc_db`.`view_community` ;
+--USE `tzfc_db`;
+--CREATE  OR REPLACE VIEW `view_community` AS
+--SELECT c.cid, c.cname, c.pinyin, a.aid, a.area_name FROM `tzfc_db`.`Tab_Community` c, `tzfc_db`.`Tab_Area` a WHERE a.aid = c.aid;
+--USE `tzfc_db`;
 
 DELIMITER $$
 

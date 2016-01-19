@@ -55,6 +55,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'portal';
 $route['sellhouse'] = 'portal/sellhouse';
 $route['renthouse'] = 'portal/renthouse';
+$route['sellhouse/(:num)'] = 'portal/sellhouse/$1';
+$route['renthouse/(:num)'] = 'portal/renthouse/$1';
 
 
 $route['admin/(:any)/(:any)'] = 'admin/$1_$2';
