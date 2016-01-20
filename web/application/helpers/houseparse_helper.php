@@ -11,7 +11,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 // ***************************************
 function parse_sell_list_item($CI, $house) {
 	if (!isset($house) || empty($house) || !is_array($house)) {
-		return;
+		return $house;
 	}
 	$new_house = array();
 	$new_house['hid'] = $house['hid'];
@@ -48,9 +48,9 @@ function parse_sell_subinfo_house($CI, $house) {
 // 单独显示的项
 // ***************************************
 // ***************************************
-function parse_sell_house($CI, $house) {
+function parse_sell_house_item($CI, $house) {
 	if (!isset($house) || empty($house) || !is_array($house)) {
-		return;
+		return $house;
 	}
 	$new_house = array();
 	$new_house['hid'] = $house['hid'];
@@ -65,7 +65,7 @@ function parse_sell_house($CI, $house) {
 	$new_house['decor'] = parse_house_floor($CI, $house);
 	$new_house['floor'] = parse_house_floor($CI, $house);
 
-	$new_house['area'] = parse_house_area($CI, $house);
+	$new_house['area'] = parse_from_attr_array($CI, $house, 'aid', 'areas', 'area_name');
 	$new_house['community'] = parse_house_community($CI, $house);
 
 	$new_house['primary_school'] = parse_get_by_key($CI, $house, 'primary_school');
@@ -90,6 +90,69 @@ function parse_sell_house($CI, $house) {
 }
 
 
+
+
+// ***************************************
+// ***************************************
+// 列表中的项
+// ***************************************
+// ***************************************
+function parse_rent_list_item($CI, $house) {
+	if (!isset($house) || empty($house) || !is_array($house)) {
+		return;
+	}
+	$new_house = array();
+	$new_house['hid'] = $house['hid'];
+	$new_house['images'] = parse_get_by_key($CI, $house, 'images', '');
+	$new_house['title'] = parse_get_by_key($CI, $house, 'title');
+	$new_house['subinfo_area'] = parse_house_area_community($CI, $house);
+	$new_house['subinfo_house'] = parse_rent_subinfo_house($CI, $house);
+
+	$new_house['price'] = parse_get_by_key($CI, $house, 'price');
+
+	$new_house['poster_name'] = parse_get_by_key($CI, $house, 'true_name');
+	$new_house['poster_mobile'] = parse_get_by_key($CI, $house, 'contact_mobile');
+	return $new_house;
+}
+
+function parse_rent_subinfo_house($CI, $house) {
+	$result = array();
+	// 出租方式
+	$rent_type = parse_from_array($CI, $house, 'rent_type', 'rent_types', '');
+	if (!empty($rent_type)) {
+		$result[] = $rent_type;
+	}
+	// 付租方式
+	$rentpay_type = parse_from_array($CI, $house, 'rentpay_type', 'rentpay_types', '');
+	if (!empty($rentpay_type)) {
+		$result[] = $rentpay_type;
+	}
+	$room_type = to_room_type($house);
+	if (!empty($room_type)) {
+		$result[] = $room_type;
+	}
+	$size = parse_get_by_key($CI, $house, 'size', '');
+	if (!empty($size)) {
+		$result[] = $size . '㎡';
+	}
+	$result[] = parse_get_by_key($CI, $house, 'update_time');
+	return $result;
+}
+
+
+
+
+// ***************************************
+// ***************************************
+// 单独显示的项
+// ***************************************
+// ***************************************
+function parse_rent_house($CI, $house) {
+	return $house;
+}
+
+
+
 // ***************************************
 // ***************************************
 // util
@@ -107,17 +170,10 @@ function parse_get_by_key($CI, $house, $key, $ph = '-') {
 	}
 }
 
-function parse_house_area($CI, $house, $ph = '-') {
-	if (isset($house['aid']) && isset($CI->areas['aid'])) {
-		return $CI->areas['aid']['area_name'];
-	} else {
-		return $ph;
-	}
-}
-
 function parse_house_community($CI, $house, $ph = '-') {
-	if (isset($house['cid']) && isset($CI->communitys['cid'])) {
-		return $CI->communitys['cid']['cname'];
+	$cname = parse_from_attr_array($CI, $house, 'cid', 'communitys', 'cname', '');
+	if (!empty($cname)) {
+		return $cname;
 	} else if (!isset($house['community']) || empty($house['community'])) {
 		return $ph;
 	} else {
@@ -126,7 +182,7 @@ function parse_house_community($CI, $house, $ph = '-') {
 }
 
 function parse_house_area_community($CI, $house, $ph = '-') {
-	$area = parse_house_area($CI, $house, '');
+	$area = parse_from_attr_array($CI, $house, 'aid', 'areas', 'area_name', '');
 	$community = parse_house_community($CI, $house, '');
 	if (empty($area)) {
 		if (empty($community)) {
@@ -157,6 +213,24 @@ function parse_house_floor($CI, $house) {
 		return $floors . '/' . $floors_total;
 	}
 	return $floors . $floors_total;
+}
+
+function parse_from_attr_array($CI, $house, $key, $ci_attr, $ci_attr_key, $ph = '-') {
+	$attrs = $CI->$ci_attr;
+	if (isset($house[$key]) && isset($attrs[$house[$key]])) {
+		return $attrs[$house[$key]][$ci_attr_key];
+	} else {
+		return $ph;
+	}
+}
+
+function parse_from_array($CI, $house, $key, $ci_attr, $ph = '-') {
+	$attrs = $CI->$ci_attr;
+	if (isset($house[$key]) && isset($attrs[$house[$key]])) {
+		return $attrs[$house[$key]];
+	} else {
+		return $ph;
+	}
 }
 
 ?>

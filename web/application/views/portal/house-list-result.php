@@ -1,3 +1,5 @@
+	<link href="public/css/portal/index-list.css" rel="stylesheet" type="text/css">
+	
 	<section>
 		<div id="listing-result" class="sub-container fixed-sub-container">
 			<div class="listing-result-hint">共搜到<span class="highlight"><?php print_r($result_num); ?></span>条房源</div>
@@ -32,3 +34,5 @@
 			<?php endif ; ?>
 		</div>
 	</section>
+
+	<?php $this->load->view('portal/house-list-pager'); ?>

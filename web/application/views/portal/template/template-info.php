@@ -1,5 +1,5 @@
 <!-- Header -->
-<?php $this->load->view('portal/template-portal-header'); ?>
+<?php $this->load->view('portal/template/template-portal-header'); ?>
 
 	<link href="public/css/portal/house-info.css" rel="stylesheet" type="text/css">
 	<!-- content -->
@@ -126,4 +126,4 @@
 
 
 <!-- Footer -->
-<?php $this->load->view('portal/template-portal-footer'); ?>
+<?php $this->load->view('portal/template/template-portal-footer'); ?>

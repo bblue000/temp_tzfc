@@ -29,8 +29,6 @@ class admincommon_api extends API {
 	}
 
 	public function community_list() {
-		if (!is_login()) { return $this->un_login(); }
-
 		$this->load->model('community_model');
 		$communitys = $this->community_model->get_all();
 		return $this->ok($communitys);
@@ -91,8 +89,6 @@ class admincommon_api extends API {
 
 
 	public function area_list() {
-		if (!is_login()) { return $this->un_login(); }
-
 		$this->load->model('area_model');
 		$areas = $this->area_model->get_all();
 		return $this->ok($areas);

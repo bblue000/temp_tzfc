@@ -1,18 +1,23 @@
-<!-- Header -->
-<?php $this->load->view('portal/template/template-portal-header'); ?>
-
-	<!-- content -->
 	<link href="public/css/portal/index-listing-filter.css" rel="stylesheet" type="text/css">
 
 	<section>
 		<div class="top-tab">
 			<ul>
+			<?php if ($cat == HOUSE_CAT_RENT) : ?>
+				<li>
+					<a href="sellhouse">出售房源</a>
+				</li>
+				<li>
+					<a class="active" href="javascript:;">出租房源</a>
+				</li>
+			<?php else : ?>
 				<li>
 					<a class="active" href="javascript:;">出售房源</a>
 				</li>
 				<li>
 					<a href="renthouse">出租房源</a>
 				</li>
+			<?php endif; ?>
 			</ul>
 		</div>
 
@@ -67,10 +72,3 @@
 			</fieldset>
 		</form>
 	</section>
-
-	<div class="section-sep"></div>
-
-	<?php $this->load->view('portal/house-list-result', array('item_url' => 'sellhouse')); ?>
-
-<!-- Footer -->
-<?php $this->load->view('portal/template/template-portal-footer'); ?>

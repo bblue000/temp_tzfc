@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class sellhouse extends MY_Controller {
+class renthouse extends MY_Controller {
 	
 	public function __construct() {
 		parent::__construct();
@@ -11,13 +11,13 @@ class sellhouse extends MY_Controller {
 
 	public function index($hid = NULL) {
 		if (isset($hid)) {
-			$this->sell_item($hid);
+			$this->rent_item($hid);
 		} else {
-			$this->sell_list();
+			$this->rent_list();
 		}
 	}
 
-	private function sell_list() {
+	private function rent_list() {
 		// 分类信息
 		$this->cat = HOUSE_CAT_SELL;
 
@@ -41,8 +41,8 @@ class sellhouse extends MY_Controller {
 			$extra_conditions['uid'] = $uid;
 		}
 
-		$this->load->model('sellhouse_model');
-		$total = $this->sellhouse_model->num_rows($kw, $extra_conditions);
+		$this->load->model('renthouse_model');
+		$total = $this->renthouse_model->num_rows($kw, $extra_conditions);
 
 		$this->pagearr = array(
 			'currentpage' => $page,
@@ -54,15 +54,15 @@ class sellhouse extends MY_Controller {
 
 		$result_num = 0;
 		if ($total > 0) {
-			loadCommonInfos($this);
+			loadRentCommonInfos($this);
 			// 组装成界面需要的格式
 			// 查询
-			$renthouses = $this->sellhouse_model->get_page_data($page_size, $offset, $kw, $extra_conditions);
+			$renthouses = $this->renthouse_model->get_page_data($page_size, $offset, $kw, $extra_conditions);
 			if (isset($renthouses) && !empty($renthouses)) {
 				$parsed_houses = array();
 				// 处理数据
 				foreach ($renthouses as $house) {
-					$parsed_houses[] = parse_sell_list_item($this, $house);
+					$parsed_houses[] = parse_rent_list_item($this, $house);
 				}
 				$this->houses = $parsed_houses;
 				$result_num = count($this->houses);
@@ -75,20 +75,20 @@ class sellhouse extends MY_Controller {
 		$this->load->view('portal/sell-list', $this);
 	}
 
-	private function sell_item($hid) {
+	private function rent_item($hid) {
 		if (!isset($hid) || !is_numeric($hid)) {
 			ishow_404('请指定房源');
 		}
 
 		$this->load->model('sellhouse_model');
-		$sellhouse = $this->sellhouse_model->get_single_by_hid($hid);
-		if (!isset($sellhouse) || empty($sellhouse)) {
+		$renthouse = $this->sellhouse_model->get_single_by_hid($hid);
+		if (!isset($renthouse) || empty($renthouse)) {
 			ishow_404('找不到房源');
 		}
 
 		$this->cat = HOUSE_CAT_SELL;
-		loadCommonInfos($this);
-		$this->house = parse_sell_house_item($this, $sellhouse);
+		loadRentCommonInfos($this);
+		$this->house = parse_rent_house_item($this, $renthouse);
 		// print_r($this->house);
 		$this->load->view('portal/sell-info', $this);
 	}
