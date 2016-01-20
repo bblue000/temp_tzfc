@@ -61,7 +61,7 @@ class sessionaccess {
 			'user_name', 'true_name',
 			'sex',
 			'contact_tel', 'contact_mobile',
-			'qqchat', 'email',
+			'qqchat', 'wechat', 'email',
 			'avatar', 
 			'gid',
 			'permission'

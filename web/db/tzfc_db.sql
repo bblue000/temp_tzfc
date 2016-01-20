@@ -44,6 +44,7 @@ CREATE TABLE IF NOT EXISTS `tzfc_db`.`Tab_User` (
   `contact_tel` VARCHAR(50) NULL COMMENT '联系方式',
   `contact_mobile` VARCHAR(50) NULL COMMENT '联系方式',
   `qqchat` VARCHAR(30) NULL COMMENT 'QQ号',
+  `wechat` VARCHAR(30) NULL COMMENT '微信号',
   `email` VARCHAR(256) NULL COMMENT '邮箱',
   `address` VARCHAR(200) NULL COMMENT '联系地址',
   `avatar` VARCHAR(500) NULL COMMENT '头像',

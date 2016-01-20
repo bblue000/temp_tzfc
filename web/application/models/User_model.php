@@ -11,7 +11,7 @@ class user_model extends MY_Model {
 
 	private $COLS = array(
 		'uid', 'user_name', 'true_name', 'password', 'salt', 'sex',
-		'contact_tel', 'contact_mobile', 'qqchat', 'email', 'address', 'avatar',
+		'contact_tel', 'contact_mobile', 'qqchat', 'wechat', 'email', 'address', 'avatar',
 		'permission'
 	);
 	

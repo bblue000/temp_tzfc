@@ -46,12 +46,7 @@ function array_filter_by_key($key_values, $filter_keys) {
 		return array();
 	}
 	$result = array();
-	foreach ($key_values as $key => $value) {
-		if (array_search($key, $filter_keys) === FALSE) {
-			continue;
-		}
-		$result[$key] = $value;
-	}
+	array_merge_by_key($key_values, $result, $filter_keys);
 	return $result;
 }
 
@@ -66,6 +61,15 @@ function arrayofmap_to_keymap($arrmap, $key) {
 		}
 	}
 	return $result;
+}
+
+function array_merge_by_key($src, &$target, $filter_keys) {
+	foreach ($src as $key => $value) {
+		if (array_search($key, $filter_keys) === FALSE) {
+			continue;
+		}
+		$target[$key] = $value;
+	}
 }
 
 ?>

@@ -3,7 +3,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 
-function to_where_str($conditions='', $CI)
+function to_where_str($CI, $conditions='')
 {
 	$wherearr = array();
 	
@@ -22,7 +22,25 @@ function to_where_str($conditions='', $CI)
 				$wherearr[] = $where;
 			}
         }
+        if (empty($wherearr)) {
+        	return '1';
+        }
     return implode(' AND ', $wherearr);
+}
+
+function to_select_str($CI, $cols='', $pre = '')
+{
+	if (empty($cols)) {
+		return '';
+	}
+	$selectarr = array();
+	if (!is_array($cols)) {
+		$cols = array($cols);
+	}
+	foreach ($cols as $col) {
+		$selectarr[] = $pre . $col;
+	}
+    return implode(', ', $selectarr);
 }
 
 ?>

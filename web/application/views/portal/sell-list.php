@@ -71,26 +71,7 @@
 
 	<link href="public/css/portal/index-list.css" rel="stylesheet" type="text/css">
 
-	<section>
-		<div id="listing-result" class="sub-container fixed-sub-container">
-			<div class="listing-result-hint">共搜到<span class="highlight">1</span>条房源</div>
-			<ul id="house-list">
-				<li>
-					<a class="media-cap" href="" target="_blank">
-						<img src="public/img/portal/list_default_house_img.png"/>
-					</a>
-					<div class="media-body">
-						<div class="media-body-title">
-							<span class="highlight">48万元</span>
-							<a class="house-title" href="" target="_blank">Title</a>
-						</div>
-						<div class="house-info">城中-XX小区 &nbsp;&nbsp;&nbsp;&nbsp; X室&nbsp;/&nbsp;XX㎡&nbsp;/&nbsp;2016-01-18 14:39:44</div>
-						<div class="house-info">经纪人：xxx &nbsp;&nbsp;&nbsp;&nbsp; 联系电话：213456789..</div>
-					</div>
-				</li>
-			</ul>
-		</div>
-	</section>
+	<?php $this->load->view('portal/house-list-result', array('item_url' => 'sellhouse')); ?>
 
 	<section id="listing-pager" class="fixed-sub-container">
 		<ul>

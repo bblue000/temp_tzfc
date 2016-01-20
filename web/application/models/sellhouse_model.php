@@ -60,14 +60,29 @@ class sellhouse_model extends MY_Model {
         return $this->db->get($this::TABLE_NAME)->num_rows();
 	}
 
-	public function get_page_data($page_size, $offset = 0, $conditions = NULL) {
+	public function get_page_data($page_size, $offset = 0, $kw = '', $conditions = NULL) {
 		$this->load->helper('housesql');
-		$sub_where = to_where_str($conditions, $this);
-		$sub_sql = "select * from tab_sellhouse where 1 ". $sub_where ." order by hid limit {$offset},{$page_size}";
-		$sql = 'select h.*, u.* from (' . $sub_sql . ') h, tab_user u where h.uid = u.uid;';
+		$sub_where = to_where_str($this, $conditions);
+		if (isset($kw) && !empty($kw)) {
+			$kw = $this->db->escape_like_str($kw);
+			$sub_sql = "select * from tab_sellhouse where {$sub_where} and (title like '%{$kw}%' or community like '%{$kw}%') order by hid limit {$offset},{$page_size}";
+		} else {
+			$sub_sql = "select * from tab_sellhouse where {$sub_where} order by hid limit {$offset},{$page_size}";
+		}
+		$select = to_select_str($this, array('*'), 'h.') 
+				. ', ' 
+				. to_select_str($this, array('true_name', 'contact_mobile'), 'u.');
+		$sql = "select {$select} from ({$sub_sql}) h, tab_user u where h.uid = u.uid;";
 
 		// print_r($sql);
         return $this->db->query($sql)->result_array();
+	}
+
+	public function get_single_by_hid($hid) {
+		$sub_sql = "select * from tab_sellhouse where hid = ". $hid;
+		$sql = "select h.*, u.* from ({$sub_sql}) h, tab_user u where h.uid = u.uid;";
+		// print_r($sql);
+        return $this->db->query($sql)->row_array();
 	}
 
 	public function get_all() {
