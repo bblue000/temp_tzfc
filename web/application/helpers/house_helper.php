@@ -123,33 +123,22 @@ function loadRentCommonInfos($CI) {
 	// );
 }
 
-// $houses = array(
-// 	array(
-// 		'hid' => 1,
-// 		'title' => '我是中国人，我爱中国，思密达',
-// 		'rooms' => '3',
-// 		'halls' => '1',
-// 		'bathrooms' => '1',
-// 		'create_time' => '2015-10-12 21:21:23',
-// 		'update_time' => '2015-10-12 21:21:23',
-// 	),
-// 	array(
-// 		'hid' => 2,
-// 		'title' => '我是中国人，我爱中国，思密达; 我是中国人，我爱中国，思密达',
-// 		'rooms' => '3',
-// 		'halls' => '1',
-// 		'bathrooms' => '1',
-// 		'create_time' => '2015-10-12 21:21:23',
-// 		'update_time' => '2015-10-12 21:21:23'
-// 	),
-// 	array(
-// 		'hid' => 3,
-// 		'title' => '我是中国人，我爱中国，思密达; 我是中国人，我爱中国，思密达; 我是中国人，我爱中国，思密达',
-// 		'rooms' => '3',
-// 		'halls' => '1',
-// 		'bathrooms' => '1',
-// 		'create_time' => '2015-10-12 21:21:23',
-// 		'update_time' => '2015-10-12 21:21:23'
-// 	)
-// );
+function unloadCommonInfos($CI) {
+	unset($CI->areas);
+	unset($CI->communitys);
+
+	unset($CI->house_types);
+	unset($CI->house_decors);
+	unset($CI->house_orientations);
+	
+	unset($CI->rights_lens);
+	unset($CI->rights_types);
+}
+
+function unloadRentCommonInfos($CI) {
+	unloadCommonInfos($CI);
+	unset($CI->rent_types);
+	unset($CI->rentpay_types);
+}
+
 ?>

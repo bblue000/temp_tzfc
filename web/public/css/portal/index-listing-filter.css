@@ -3,7 +3,6 @@
 /********************************************/
 /*顶部的标签bar*/
 .top-tab {
-    width: 980px;
     margin: 20px auto 0;
     background: #ededed;
     border: 1px solid #ddd;
@@ -70,7 +69,7 @@
 }
 
 #listing-filters .links {
-	height: 30px;
+	/*height: 30px;*/
     width: 90%;
     overflow: hidden;
     margin: .5em .5em .5em 6em;

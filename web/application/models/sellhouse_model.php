@@ -136,7 +136,7 @@ class sellhouse_model extends MY_Model {
 	}
 
 	public function add($house) {
-		$user = array_filter_by_key($house, $this->INSERT_COLS);
+		$house = array_filter_by_key($house, $this->INSERT_COLS);
 		$this->setTable($this::TABLE_NAME);
 		$result = $this->addData($house);
 		return $result;

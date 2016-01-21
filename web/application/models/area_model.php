@@ -12,6 +12,9 @@ class area_model extends MY_Model {
 	private $COLS = array(
 		'aid', 'area_name'
 	);
+	private $INSERT_COLS = array(
+		'area_name'
+	);
 	
 	public function __construct() {
 		parent::__construct();
@@ -19,6 +22,7 @@ class area_model extends MY_Model {
 
 	public function get_all() {
 		$this->setTable($this::TABLE_NAME);
+		$this->db->select($this->COLS);
 		return $this->getData();
 	}
 
@@ -31,6 +35,8 @@ class area_model extends MY_Model {
 	 */
 	public function get_by_name($area_name) {
 		$this->setTable($this::TABLE_NAME);
+		$this->db->select($this->COLS);
+		$area_name = $this->db->escape($area_name);
 		return $this->getSingle(array('area_name'=>$area_name));	
 	}
 
@@ -56,16 +62,17 @@ class area_model extends MY_Model {
 	 */
 	public function add($area_names) {
 		$this->setTable($this::TABLE_NAME);
-
 		
 		if (is_array($area_names)) {
 			$insertData = array();
 			foreach ($area_names as $area_name) {
+				$area_name = $this->db->escape($area_name);
 				array_push($insertData, array('area_name' => $area_name));
 			}
 			$result = $this->addBatchData($insertData);
 			return $result !== FALSE;
 		} else {
+			$area_names = $this->db->escape($area_names);
 			$result = $this->addData(array('area_name' => $area_names));
 			return isset($result);	
 		}
@@ -79,6 +86,7 @@ class area_model extends MY_Model {
 	 */
 	public function update_by_id($aid, $area_name) {
 		$this->setTable($this::TABLE_NAME);
+		$area_name = $this->db->escape($area_name);
 		return $this->editData(array('aid' => $aid), array('area_name' => $area_name));
 	}
 

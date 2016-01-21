@@ -8,7 +8,23 @@ class test2 extends MY_Controller {
 	}
 
 	public function index() {
-        $this->load->database();
+        print_r($this->test_ref());
+        print_r("<br/>");
+
+        $arr = array('mm' => 'xx');
+        print_r($this->test_ref($arr));
+        print_r("<br/>");
+        print_r($arr);
+	}
+
+	public function test_ref($arr = array()) {
+		$arr['mm'] = 'dada';
+		return $arr;
+	}
+
+	public function test_to_select_str()
+	{
+		$this->load->database();
 		$this->load->helper('housesql');
 
 		$conditions = NULL;

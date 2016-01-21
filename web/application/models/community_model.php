@@ -12,6 +12,9 @@ class community_model extends MY_Model {
 	private $COLS = array(
 		'cid', 'cname'
 	);
+	private $INSERT_COLS = array(
+		'cname'
+	);
 	
 	public function __construct() {
 		parent::__construct();
@@ -19,6 +22,7 @@ class community_model extends MY_Model {
 
 	public function get_all() {
 		$this->setTable($this::TABLE_NAME);
+		$this->db->select($this->COLS);
 		return $this->getData();
 	}
 
@@ -31,6 +35,8 @@ class community_model extends MY_Model {
 	 */
 	public function get_by_name($cname) {
 		$this->setTable($this::TABLE_NAME);
+		$this->db->select($this->COLS);
+		$cname = $this->db->escape($cname);
 		return $this->getSingle(array('cname'=>$cname));	
 	}
 
@@ -60,11 +66,13 @@ class community_model extends MY_Model {
 		if (is_array($cnames)) {
 			$insertData = array();
 			foreach ($cnames as $cname) {
+				$cname = $this->db->escape($cname);
 				array_push($insertData, array('cname' => $cname));
 			}
 			$result = $this->addBatchData($insertData);
 			return $result !== FALSE;
 		} else {
+			$cnames = $this->db->escape($cnames);
 			$result = $this->addData(array('cname' => $cnames));
 			return isset($result);	
 		}
@@ -78,6 +86,7 @@ class community_model extends MY_Model {
 	 */
 	public function update_by_id($cid, $cname) {
 		$this->setTable($this::TABLE_NAME);
+		$cname = $this->db->escape($cname);
 		return $this->editData(array('cid' => $cid), array('cname' => $cname));
 	}
 

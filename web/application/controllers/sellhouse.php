@@ -21,6 +21,19 @@ class sellhouse extends MY_Controller {
 		// 分类信息
 		$this->cat = HOUSE_CAT_SELL;
 
+		// 前端检索的关键词
+		$this->filters = array(
+			'area' => 0,
+			'size' => 0,
+			'room' => 0,
+			'price' => 0,
+			'decor' => 0,
+			'floor_from' => 0,
+			'floor_to' => 0,
+			'community' => 0,
+		);
+		loadSellFilterInfos($this);
+
 		$extra_conditions = array();
 		
 		// 分页相关的参数
@@ -54,7 +67,6 @@ class sellhouse extends MY_Controller {
 
 		$result_num = 0;
 		if ($total > 0) {
-			loadCommonInfos($this);
 			// 组装成界面需要的格式
 			// 查询
 			$renthouses = $this->sellhouse_model->get_page_data($page_size, $offset, $kw, $extra_conditions);
@@ -68,6 +80,7 @@ class sellhouse extends MY_Controller {
 				$result_num = count($this->houses);
 				// print_r($this->houses);
 			}
+			unloadCommonInfos($this);
 		}
 
 		$this->kw = $kw;
