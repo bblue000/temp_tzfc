@@ -32,7 +32,23 @@ class sellhouse extends MY_Controller {
 			'floor_to' => 0,
 			'community' => 0,
 		);
+
+		// 从请求参数列表中解析出需要的字段
+		$filter_keys = array_keys($this->filters);
+		foreach ($filter_keys as $key) {
+			$val = $this->input->get_post($key, TRUE);
+			if (isset($val) && !empty($val)) {
+				$this->filters[$key] = $val;
+			}
+		}
+		// print_r($this->filters);
+
 		loadSellFilterInfos($this);
+
+		// 转为数据库查询条件
+		$filter_conditions = filter_to_sell_conditions($this, $this->filters);
+		print_r($filter_conditions);
+
 
 		$extra_conditions = array();
 		

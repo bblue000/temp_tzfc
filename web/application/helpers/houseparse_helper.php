@@ -111,14 +111,76 @@ function unloadSellFilterInfos($CI) {
 	unset($CI->filters_price);
 }
 
+function filter_to_sell_conditions($CI, $filters, $result = array()) {
+	$result = filter_to_common_conditions($CI, $filters, $result);
+	$conditions_price = array(
+		1 => 'price < 30',
+		2 => '(price >= 30 AND price <= 50)',
+		3 => '(price >= 50 AND price <= 70)',
+		4 => '(price >= 70 AND price <= 90)',
+		5 => '(price >= 90 AND price <= 110)',
+		6 => '(price > 110)',
+	);
+	if (array_key_exists($filters['price'], $conditions_price)) {
+		$result[] = $conditions_price[$filters['price']];
+	}
+	return $result;
+}
+
+
+
+function filter_to_common_conditions($CI, $filters, $result = array()) {
+	if (array_key_exists($filters['area'], $CI->areas)) {
+		$result[] = 'aid = ' . $filters['area'];
+	}
+	if (array_key_exists($filters['community'], $CI->communitys)) {
+		$result[] = 'cid = ' . $filters['community'];
+	}
+
+	if (array_key_exists($filters['decor'], $CI->house_decors)) {
+		$result[] = 'decor = ' . $filters['decor'];
+	}
+
+	$conditions_size = array(
+		1 => 'size < 40',
+		2 => '(size >= 40 AND size <= 60)',
+		3 => '(size >= 60 AND size <= 80)',
+		4 => '(size >= 80 AND size <= 100)',
+		5 => '(size >= 100 AND size <= 144)',
+		6 => 'size > 144',
+	);
+	if (array_key_exists($filters['size'], $conditions_size)) {
+		$result[] = $conditions_size[$filters['size']];
+	}
+
+	$conditions_room = array(
+		1 => 'rooms = 1',
+		2 => 'rooms = 2',
+		3 => 'rooms = 3',
+		4 => 'rooms = 4',
+		5 => 'rooms >= 5',
+	);
+	if (array_key_exists($filters['room'], $conditions_room)) {
+		$result[] = $conditions_room[$filters['room']];
+	}
+
+	if ($filters['floor_from'] == $filters['floor_to']) {
+		if ($filters['floor_from'] > 0) {
+			$result[] = "floors = {$filters['floor_from']}";
+		}
+	} else {
+		$result[] = "(floors >= {$filters['floor_from']} AND floors <= {$filters['floor_to']})";
+	}
+
+	return $result;
+}
+
 function loadCommonFilterInfos($CI) {
 	loadCommonInfos($CI);
 
 	$CI->filters_area = array_merge(array(0 => array('area_name' => '不限')), $CI->areas);
 
 	$CI->filters_community = $CI->communitys; //array_merge(0 => array('cname' => '不限'), $CI->communitys);
-
-	$CI->filters_house_type = array_merge(array(0 => array('不限')), $CI->house_types);
 
 	$CI->filters_decor = array_merge(array(0 => '不限'), $CI->house_decors);
 

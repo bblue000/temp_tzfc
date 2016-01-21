@@ -25,6 +25,8 @@
 		<script type="text/javascript" src="public/scripts/bootstrap.min.js"></script>
 		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+
+		<script type="text/javascript" src="public/scripts/admin/admin.common.js"></script>
 	</head>
 	<body>
 

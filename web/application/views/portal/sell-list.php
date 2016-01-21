@@ -96,20 +96,21 @@
 			<fieldset>
 				<span class="legend">楼层</span>
 				<div class="links">
+				<?php $custom_floor = $filters['floor_from'] != $filters['floor_to'] ; ?>
 				<?php foreach ($filters_floor as $index => $floor) : ?>
-					<?php if ($filters['floor_from'] == $filters['floor_to'] && $filters['floor_from'] == $index) :?>
+					<?php if (!$custom_floor && $filters['floor_from'] == $index) :?>
 						<a class="checked"><?php print_r($floor); ?></a>
 					<?php else : ?>
-						<a href="javascript:performFilter('floor', <?php print_r($index); ?>);"><?php print_r($floor); ?></a>
+						<a href="javascript:performFloorFilter(<?php print_r($index); ?>, <?php print_r($index); ?>);"><?php print_r($floor); ?></a>
 					<?php endif; ?>
 				<?php endforeach; ?>
 					<span class="range">
 						<label>自定义：</label>
-						<input type="text" class="number" />
+						<input id="customFloorFrom" type="text" class="number" value="<?php $custom_floor ? print_r($filters['floor_from']) : ''; ?>" />
 						<label>~</label>
-						<input type="text" class="number" />
+						<input id="customFloorTo" type="text" class="number" value="<?php $custom_floor ? print_r($filters['floor_to']) : ''; ?>" />
 						<label class="unit">楼</label>
-						<input type="submit" value="筛选" class="filter-button" />
+						<input type="submit" value="筛选" class="filter-button" onclick="return floorSubmit();" />
 					</span>
 				</div>
 			</fieldset>
@@ -133,20 +134,82 @@
 		<?php endif; ?>
 
 			<fieldset class="search-fieldset">
-				<form id="xxx" action="sellhouse">
+				<form id="listing-filters-form" action="sellhouse">
 
 				<?php foreach ($filters as $key => $value) : ?>
 					<input type="hidden" name="<?php print_r($key); ?>" value="<?php print_r($value); ?>"/>
 				<?php endforeach; ?>
 
-					<input type="text" name="kw" placeholder="搜索关键词"/>
-					<button type="submit" onclick="return submitFilter();">
+					<input type="text" name="kw" placeholder="搜索关键词" value="<?php print_r($kw); ?>" />
+					<button type="submit" onclick="return submitKw();">
 						<i class="glyphicon-search"></i>
 					</button>
 				</form>
 				
 			</fieldset>
 		</div>
+
+		<script type="text/javascript">
+		var listingFiltersForm = $('#listing-filters-form');
+		var initFormData = listingFiltersForm.serialize();
+		console.log(initFormData);
+
+		var inputFloorFrom = listingFiltersForm.find('input[name="floor_from"]');
+		var inputFloorTo = listingFiltersForm.find('input[name="floor_to"]');
+		console.log(initFloorFrom + ', ' + initFloorTo);
+		
+		var inputKw = listingFiltersForm.find('input[name="kw"]');
+		var initKw = $.trim(inputKw.val());
+		console.log(initKw);
+
+		var customFloorFrom = $('#customFloorFrom');
+		var customFloorTo = $('#customFloorTo');
+
+		function submitKw () {
+			var kw = $.trim(inputKw.val());
+			console.log(kw);
+			if (initKw == kw) {
+				return false;
+			}
+			return true;
+		}
+
+		function performFilter(name, value) {
+			var ele = listingFiltersForm.find('input[name="' + name + '"]');
+			var eleVal = $.trim(ele.val());
+			if (eleVal == value) {
+				return;
+			}
+			ele.val(value);
+			listingFiltersForm.submit();
+		}
+
+		function performFloorFilter(valFrom, valTo) {
+			var floorFrom = $.trim(inputFloorFrom.val());
+			var floorTo = $.trim(inputFloorTo.val());
+			if (valFrom == floorFrom && valTo == floorTo) {
+				return false;
+			}
+			listingFiltersForm.submit();
+			return true;
+		}
+
+		function floorSubmit() {
+			var from = $.trim(customFloorFrom.val());
+			if (!__isPositiveInt(from)) {
+				alert('请输入大于0的整数');
+				customFloorFrom.focus();
+				return false;
+			}
+			var to = $.trim(customFloorTo.val());
+			if (!__isPositiveInt(to)) {
+				alert('请输入大于0的整数');
+				customFloorTo.focus();
+				return false;
+			}
+			return performFloorFilter(from, to);
+		}
+		</script>
 	</section>
 
 	<div class="section-sep"></div>
