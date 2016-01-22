@@ -47,60 +47,52 @@ class sellhouse extends MY_Controller {
 
 		// 转为数据库查询条件
 		$filter_conditions = filter_to_sell_conditions($this, $this->filters);
-		print_r($filter_conditions);
-
-
-		$extra_conditions = array();
-		
-		// 分页相关的参数
-		$page_size = HOUSE_LIST_PAGE_SIZE;
-		$page = $this->input->get_post('page', TRUE);
-		if (!isset($page) || !is_int($page) || $page <= 0) {
-			$page = 1;
-		}
-		$offset = ($page - 1) * $page_size;
-
-		// $extra_conditions['currentpage'] = $page;
+		// print_r($filter_conditions);
 
 		// 搜索参数
 		$kw = $this->input->get_post('kw', TRUE);
-		$uid = $this->input->get_post('uid', TRUE);
 
-		if (isset($uid)) {
-			$extra_conditions['uid'] = $uid;
+		// 分页相关的参数
+		$page_size = HOUSE_LIST_PAGE_SIZE;
+		$currentpage = intval($this->input->get_post('currentpage', TRUE));
+		// print_r($currentpage);
+		if (!isset($currentpage) || $currentpage <= 0) {
+			$currentpage = 1;
 		}
+		// print_r($currentpage);
+		$offset = max(0, $currentpage - 1) * $page_size;
 
 		$this->load->model('sellhouse_model');
-		$total = $this->sellhouse_model->num_rows($kw, $extra_conditions);
+		$total = $this->sellhouse_model->num_rows($kw, $filter_conditions);
 
 		$this->pagearr = array(
-			'currentpage' => $page,
+			'currentpage' => $currentpage,
 			'totalnum' => $total,
-			'pagenum' => $page_size
+			'pagesize' => $page_size,
+			'pagenum' => ceil($total / $page_size),
 		);
-
-		$this->extra_conditions = $extra_conditions;
 
 		$result_num = 0;
 		if ($total > 0) {
 			// 组装成界面需要的格式
 			// 查询
-			$renthouses = $this->sellhouse_model->get_page_data($page_size, $offset, $kw, $extra_conditions);
-			if (isset($renthouses) && !empty($renthouses)) {
+			$sellhouses = $this->sellhouse_model->get_page_data($page_size, $offset, $kw, $filter_conditions);
+			if (isset($sellhouses) && !empty($sellhouses)) {
 				$parsed_houses = array();
 				// 处理数据
-				foreach ($renthouses as $house) {
+				foreach ($sellhouses as $house) {
 					$parsed_houses[] = parse_sell_list_item($this, $house);
 				}
 				$this->houses = $parsed_houses;
-				$result_num = count($this->houses);
 				// print_r($this->houses);
+				$result_num = count($this->houses);
 			}
-			unloadCommonInfos($this);
 		}
+		unloadCommonInfos($this);
 
 		$this->kw = $kw;
 		$this->result_num = $result_num;
+
 		$this->load->view('portal/sell-list', $this);
 	}
 
@@ -118,6 +110,8 @@ class sellhouse extends MY_Controller {
 		$this->cat = HOUSE_CAT_SELL;
 		loadCommonInfos($this);
 		$this->house = parse_sell_house_item($this, $sellhouse);
+		unloadCommonInfos($this);
+
 		// print_r($this->house);
 		$this->load->view('portal/sell-info', $this);
 	}

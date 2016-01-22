@@ -1,5 +1,13 @@
 @charset "UTF-8";
 
+body {
+    min-width: 1200px;
+}
+
+.fixed-sub-container {
+    max-width: 1200px;
+}
+
 .house-info-container {
 	width: 1200px;
 	margin-left: auto;
@@ -73,9 +81,22 @@
 .empty-img-placeholder {
     height: 440px;
     width: 440px;
-    background: url(http://s.baixing.net/img/refashion/viewad_bigImg_placeholder.jpg);
+    background: url(../../img/portal/house_info_placeholder.jpg);
     overflow: hidden;
 }
+
+.house-gallery img {
+    max-height: 440px;
+    max-width: 440px;
+}
+
+.house-gallery .img-container {
+    height: 440px;
+    width: 440px;
+    text-align: center;
+    line-height: 440px;
+}
+
 
 .house-basic-info {
     float: left;
@@ -177,8 +198,21 @@
 }
 
 .poster-info-container .avatar img {
+    width: 150px;
+    height: 200px;
+}
+
+.poster-info-container .avatar .avatar-placeholder {
 	width: 150px;
 	height: 200px;
+}
+
+.poster-info-container .avatar .avatar-placeholder.man {
+    background: url(../../img/portal/poster_sex_man_placeholder.png);
+}
+
+.poster-info-container .avatar .avatar-placeholder.woman {
+    background: url(../../img/portal/poster_sex_woman_placeholder.png);
 }
 
 .poster-name {
@@ -197,6 +231,10 @@
 	padding: .5em 0;
 }
 
+.poster-detail a {
+    text-decoration: underline;
+}
+
 .poster-detail.wx {
 	text-align: center;
 	margin: 0 0 30px 0;	
@@ -205,6 +243,10 @@
 .poster-detail.wx img {
 	width: 150px;
 	height: 150px;
+}
+
+.poster-detail .empty-placeholder {
+    height: 100px;
 }
 
 

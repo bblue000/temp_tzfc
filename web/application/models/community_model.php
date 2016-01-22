@@ -10,10 +10,10 @@ class community_model extends MY_Model {
 	const TABLE_NAME = 'tab_community';
 
 	private $COLS = array(
-		'cid', 'cname'
+		'cid', 'cname', 'pinyin'
 	);
 	private $INSERT_COLS = array(
-		'cname'
+		'cname', 'pinyin'
 	);
 	
 	public function __construct() {

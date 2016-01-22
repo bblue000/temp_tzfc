@@ -47,6 +47,8 @@
 						</td>
 						<td>
 							<img id="inputAvatar" class="img-thumbnail avator" alt="点击上传头像" onclick="changeAvatar()" />
+							<br/>
+							<small style="color:red; ">* 建议宽高比3:4的图片，比如长度为150px，宽度为200px</small>
 						</td>
 					</tr>
 

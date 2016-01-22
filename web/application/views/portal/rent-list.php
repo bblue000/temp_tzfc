@@ -8,10 +8,10 @@
 		<div class="top-tab fixed-sub-container">
 			<ul>
 				<li>
-					<a class="active" href="javascript:;">出售房源</a>
+					<a href="sellhouse">出售房源</a>
 				</li>
 				<li>
-					<a href="renthouse">出租房源</a>
+					<a class="active" href="javascript:;">出租房源</a>
 				</li>
 			</ul>
 		</div>
@@ -66,11 +66,11 @@
 			<fieldset>
 				<span class="legend">售价</span>
 				<div class="links">
-				<?php foreach ($filters_price as $index => $sell_price) : ?>
+				<?php foreach ($filters_price as $index => $rent_price) : ?>
 					<?php if ($filters['price'] == $index) :?>
-						<a class="checked"><?php print_r($sell_price); ?></a>
+						<a class="checked"><?php print_r($rent_price); ?></a>
 					<?php else : ?>
-						<a href="javascript:performFilter('price', <?php print_r($index); ?>);"><?php print_r($sell_price); ?></a>
+						<a href="javascript:performFilter('price', <?php print_r($index); ?>);"><?php print_r($rent_price); ?></a>
 					<?php endif; ?>
 				<?php endforeach; ?>
 				</div>
@@ -134,7 +134,7 @@
 		<?php endif; ?>
 
 			<fieldset class="search-fieldset">
-				<form id="listing-filters-form" action="sellhouse">
+				<form id="listing-filters-form" action="renthouse">
 
 				<?php foreach ($filters as $key => $value) : ?>
 					<input type="hidden" name="<?php print_r($key); ?>" value="<?php print_r($value); ?>"/>
@@ -220,7 +220,7 @@
 
 	<div class="section-sep"></div>
 
-	<?php $this->load->view('portal/sellhouse-list-result'); ?>
+	<?php $this->load->view('portal/renthouse-list-result'); ?>
 
 <!-- Footer -->
 <?php $this->load->view('portal/template/template-portal-footer'); ?>

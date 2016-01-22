@@ -52,7 +52,7 @@ function loadCommonInfos($CI) {
 	);
 
 	$CI->house_decors = array(
-		1 => '毛胚',
+		1 => '毛坯',
 		2 => '简装',
 		3 => '中装',
 		4 => '高装',

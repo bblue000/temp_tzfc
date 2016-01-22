@@ -1,11 +1,17 @@
 @charset "UTF-8";
 
 #listing-result .listing-result-hint {
+    height: 80px;
 	padding: 20px 1.5em;
+    line-height: 40px;
 }
 
 #listing-result .listing-result-hint .highlight {
 	color: #f46;
+}
+
+.listing-result-hint img {
+    float: right;
 }
 
 #house-list {
@@ -82,6 +88,13 @@
     color: #999;
     font-size: 14px;
     margin-top: 1em;
+}
+
+#house-list .house-info .highlight {
+    float: none;
+    color: #f46;
+    font-weight: 400;
+    font-size: 14px;
 }
 
 

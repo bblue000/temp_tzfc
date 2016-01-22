@@ -3,6 +3,14 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 
+function to_where_by_raw_conditions($CI, $conditions) {
+	$where = implode(' AND ', $conditions);
+    if (empty($where)) {
+    	return '1 = 1';
+    }
+    return $where;
+}
+
 function to_where_str($CI, $conditions='')
 {
 	$wherearr = array();
@@ -23,7 +31,7 @@ function to_where_str($CI, $conditions='')
 			}
         }
         if (empty($wherearr)) {
-        	return '1';
+        	return '1 = 1';
         }
     return implode(' AND ', $wherearr);
 }

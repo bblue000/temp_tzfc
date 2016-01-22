@@ -46,7 +46,10 @@ class renthouse_model extends MY_Model {
 	public function num_rows($kw = '', $conditions = NULL) {
 		$this->db->select('hid');
 		if ($conditions) {
-            $this->db->where($conditions);
+			$this->load->helper('housesql');
+			$where = to_where_by_raw_conditions($this, $conditions);
+			// print_r($where);
+            $this->db->where($where);
         }
 		if (isset($kw) && !empty($kw)) {
 			$kw = $this->db->escape_like_str($kw);
@@ -60,12 +63,12 @@ class renthouse_model extends MY_Model {
 
 	public function get_page_data($page_size, $offset = 0, $kw = '', $conditions = NULL) {
 		$this->load->helper('housesql');
-		$sub_where = to_where_str($this, $conditions);
+		$sub_where = to_where_by_raw_conditions($this, $conditions); //to_where_str($this, $conditions)
 		if (isset($kw) && !empty($kw)) {
 			$kw = $this->db->escape_like_str($kw);
-			$sub_sql = "select * from tab_renthouse where {$sub_where} and (title like '%{$kw}%' or community like '%{$kw}%') order by hid limit {$offset},{$page_size}";
+			$sub_sql = "select * from tab_renthouse where {$sub_where} and (title like '%{$kw}%' or community like '%{$kw}%') order by update_time desc limit {$offset},{$page_size}";
 		} else {
-			$sub_sql = "select * from tab_renthouse where {$sub_where} order by hid limit {$offset},{$page_size}";
+			$sub_sql = "select * from tab_renthouse where {$sub_where} order by update_time desc limit {$offset},{$page_size}";
 		}
 		$select = to_select_str($this, array('*'), 'h.') 
 				. ', ' 
@@ -73,6 +76,7 @@ class renthouse_model extends MY_Model {
 		$sql = "select {$select} from ({$sub_sql}) h, tab_user u where h.uid = u.uid;";
 
 		// print_r($sql);
+		// print_r($this->db->escape($sql));
         return $this->db->query($sql)->result_array();
 	}
 

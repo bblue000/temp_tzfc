@@ -53,9 +53,11 @@ function parse_sell_house_item($CI, $house) {
 	$new_house = array();
 	$new_house['hid'] = $house['hid'];
 	$new_house['title'] = parse_get_by_key($CI, $house, 'title');
+	$new_house['images'] = parse_get_by_key($CI, $house, 'images', '');
 
 	$new_house['area'] = parse_from_attr_array($CI, $house, 'aid', 'areas', 'area_name');
 	$new_house['community'] = parse_house_community($CI, $house);
+	$new_house['subinfo_area'] = parse_house_area_community($CI, $house);
 
 	$new_house['price'] = parse_get_by_key($CI, $house, 'price');
 	$new_house['unit_price'] = parse_get_by_key($CI, $house, 'unit_price');
@@ -64,6 +66,7 @@ function parse_sell_house_item($CI, $house) {
 
 	$new_house['floors'] = parse_house_floors($CI, $house);
 	$new_house['floors_total'] = parse_house_floors_total($CI, $house);
+	$new_house['subinfo_floors'] = parse_house_floor($CI, $house);
 
 	$new_house['rights_len'] = parse_from_array($CI, $house, 'rights_len', 'rights_lens');
 	$new_house['rights_type'] = parse_from_array($CI, $house, 'rights_type', 'rights_types');
@@ -114,12 +117,12 @@ function unloadSellFilterInfos($CI) {
 function filter_to_sell_conditions($CI, $filters, $result = array()) {
 	$result = filter_to_common_conditions($CI, $filters, $result);
 	$conditions_price = array(
-		1 => 'price < 30',
+		1 => 'price <= 30',
 		2 => '(price >= 30 AND price <= 50)',
 		3 => '(price >= 50 AND price <= 70)',
 		4 => '(price >= 70 AND price <= 90)',
 		5 => '(price >= 90 AND price <= 110)',
-		6 => '(price > 110)',
+		6 => '(price >= 110)',
 	);
 	if (array_key_exists($filters['price'], $conditions_price)) {
 		$result[] = $conditions_price[$filters['price']];
@@ -142,12 +145,12 @@ function filter_to_common_conditions($CI, $filters, $result = array()) {
 	}
 
 	$conditions_size = array(
-		1 => 'size < 40',
+		1 => 'size <= 40',
 		2 => '(size >= 40 AND size <= 60)',
 		3 => '(size >= 60 AND size <= 80)',
 		4 => '(size >= 80 AND size <= 100)',
 		5 => '(size >= 100 AND size <= 144)',
-		6 => 'size > 144',
+		6 => 'size >= 144',
 	);
 	if (array_key_exists($filters['size'], $conditions_size)) {
 		$result[] = $conditions_size[$filters['size']];
@@ -175,12 +178,16 @@ function filter_to_common_conditions($CI, $filters, $result = array()) {
 	return $result;
 }
 
-function loadCommonFilterInfos($CI) {
-	loadCommonInfos($CI);
+function loadCommonFilterInfos($CI, $sell = TRUE) {
+	if ($sell) {
+		loadCommonInfos($CI);
+	} else {
+		loadRentCommonInfos($CI);
+	}
 
 	$CI->filters_area = array_merge(array(0 => array('area_name' => '不限')), $CI->areas);
 
-	$CI->filters_community = $CI->communitys; //array_merge(0 => array('cname' => '不限'), $CI->communitys);
+	$CI->filters_community = array_merge(array(0 => array('cname' => '不限')), $CI->communitys); //$CI->communitys; 
 
 	$CI->filters_decor = array_merge(array(0 => '不限'), $CI->house_decors);
 
@@ -216,7 +223,12 @@ function loadCommonFilterInfos($CI) {
 	);
 }
 
-function unloadCommonFilterInfos($CI) {
+function unloadCommonFilterInfos($CI, $sell = TRUE) {
+	if ($sell) {
+		unloadCommonInfos($CI);
+	} else {
+		unloadRentCommonInfos($CI);
+	}
 	unset($CI->filters_area);
 	unset($CI->filters_community);
 	unset($CI->filters_house_type);
@@ -237,7 +249,7 @@ function unloadCommonFilterInfos($CI) {
 // ***************************************
 function parse_rent_list_item($CI, $house) {
 	if (!isset($house) || empty($house) || !is_array($house)) {
-		return;
+		return $house;
 	}
 	$new_house = array();
 	$new_house['hid'] = $house['hid'];
@@ -269,7 +281,7 @@ function parse_rent_subinfo_house($CI, $house, $result = array()) {
 }
 
 function loadRentFilterInfos($CI) {
-	loadCommonFilterInfos($CI);
+	loadCommonFilterInfos($CI, FALSE);
 	$CI->filters_price = array(
 		0 => '不限',
 		1 => '500元以下',
@@ -280,8 +292,22 @@ function loadRentFilterInfos($CI) {
 }
 
 function unloadRentFilterInfos($CI) {
-	unloadCommonFilterInfos($CI);
+	unloadCommonFilterInfos($CI, FALSE);
 	unset($CI->filters_price);
+}
+
+function filter_to_rent_conditions($CI, $filters, $result = array()) {
+	$result = filter_to_common_conditions($CI, $filters, $result);
+	$conditions_price = array(
+		1 => 'price <= 500',
+		2 => '(price >= 500 AND price <= 1000)',
+		3 => '(price >= 1000 AND price <= 1800)',
+		4 => '(price >= 1800)',
+	);
+	if (array_key_exists($filters['price'], $conditions_price)) {
+		$result[] = $conditions_price[$filters['price']];
+	}
+	return $result;
 }
 
 
@@ -292,8 +318,49 @@ function unloadRentFilterInfos($CI) {
 // 单独显示的项
 // ***************************************
 // ***************************************
-function parse_rent_house($CI, $house) {
-	return $house;
+function parse_rent_house_item($CI, $house) {
+	if (!isset($house) || empty($house) || !is_array($house)) {
+		return $house;
+	}
+	$new_house = array();
+	$new_house['hid'] = $house['hid'];
+	$new_house['title'] = parse_get_by_key($CI, $house, 'title');
+	$new_house['images'] = parse_get_by_key($CI, $house, 'images', '');
+
+	$new_house['area'] = parse_from_attr_array($CI, $house, 'aid', 'areas', 'area_name');
+	$new_house['community'] = parse_house_community($CI, $house);
+	$new_house['subinfo_area'] = parse_house_area_community($CI, $house);
+
+	$new_house['price'] = parse_get_by_key($CI, $house, 'price');
+	$new_house['room_type'] = to_room_type($house);
+	$new_house['size'] = parse_get_by_key($CI, $house, 'size');
+
+	$new_house['floors'] = parse_house_floors($CI, $house);
+	$new_house['floors_total'] = parse_house_floors_total($CI, $house);
+	$new_house['subinfo_floors'] = parse_house_floor($CI, $house);
+
+	$new_house['rent_type'] = parse_from_array($CI, $house, 'rent_type', 'rent_types');
+	$new_house['rentpay_type'] = parse_from_array($CI, $house, 'rentpay_type', 'rentpay_types');
+
+	$new_house['house_type'] = parse_from_array($CI, $house, 'house_type', 'house_types');
+	$new_house['decor'] = parse_from_array($CI, $house, 'decor', 'house_decors');
+	$new_house['orientation'] = parse_from_array($CI, $house, 'orientation', 'house_orientations');
+
+	$new_house['details'] = parse_get_by_key($CI, $house, 'details');
+	$new_house['update_time'] = parse_get_by_key($CI, $house, 'update_time');
+
+	// poster 信息
+	$poster = array();
+	array_merge_by_key($house, $poster, array(
+			'uid',
+			'user_name', 'true_name',
+			'sex',
+			'contact_tel', 'contact_mobile',
+			'qqchat', 'wechat', 'email',
+			'avatar'
+	));
+	$new_house['poster'] = $poster;
+	return $new_house;
 }
 
 
