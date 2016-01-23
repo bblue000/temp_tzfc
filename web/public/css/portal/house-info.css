@@ -42,7 +42,7 @@
 }
 
 .house-header .house-title {
-    padding: 30px 72px 16px 0;
+    padding: 30px 30px 16px 0;
 }
 
 .house-header .house-title h1 {
@@ -240,6 +240,13 @@
 
 .poster-detail {
 	padding: .5em 0;
+}
+
+.poster-detail.contact a {
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: bold;
+    color: #f93;
 }
 
 .poster-detail a {

@@ -15,9 +15,9 @@
 				</div>
 				<div class="poster-name">
 					<small>经纪人：</small>
-					<span class="highlight"><?php print_r($house['poster']['true_name']); ?></span>
+					<span><?php print_r($house['poster']['true_name']); ?></span>
 				</div>
-				<div class="poster-detail">
+				<div class="poster-detail contact">
 					<span>手机：<a href="tel:<?php print_r($house['poster']['email']); ?>"><?php print_r($house['poster']['contact_mobile']); ?></a></span>
 				</div>
 				<div class="poster-detail">

@@ -33,6 +33,9 @@ proguard/
 !**/test_sessions/index.html
 
 
+**/tzfc_sessions/*
+!**/tzfc_sessions/index.html
+
 */uploads/*
 !*/uploads/index.html
 !*/uploads/avatar/
