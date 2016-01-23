@@ -8,7 +8,8 @@
 	    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
 	    <meta name="Author" content="YY" />
 	    <meta name="Copyright" content="YY" />
-	    <title>未命名的网站</title>
+	    <link rel="shortcut icon" href="public/favicon.ico">
+	    <title><?php echo WEBSITE_NAME; ?></title>
 
 		<!-- Local global -->
 		<link href="public/css/global.css" rel="stylesheet" type="text/css">
@@ -29,11 +30,19 @@
 		<script type="text/javascript" src="public/scripts/admin/admin.common.js"></script>
 	</head>
 	<body>
+		<header class="welcome">
+			<div class="fixed-sub-container">
+			您好！欢迎访问&nbsp;<a href="/" target="_self">泰州房产网</a>&nbsp;。
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<img src="public/img/portal/ic_call.png" style="width: 25px; height: 25px; margin-top: -5px;" />
+			<span class="highlight call">0523-8888888&nbsp;/&nbsp;6666666</span>
+			</div>
+		</header>
 
-		<header class="sub-container">
+		<header id="logo-header" class="sub-container">
 			<div id="top-nav" class="fixed-sub-container">
 				<span class="city-logo">泰州</span>
-				<span class="primary-logo-img">房产网</span>
+				<img class="primary-logo-img" src="public/img/portal/logo.png" />
 			</div>
 		</header>
 

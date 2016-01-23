@@ -14,13 +14,14 @@
 					</a>
 				</div>
 				<div class="poster-name">
-					<span>经纪人：<?php print_r($house['poster']['true_name']); ?></span>
+					<small>经纪人：</small>
+					<span class="highlight"><?php print_r($house['poster']['true_name']); ?></span>
 				</div>
 				<div class="poster-detail">
-					<span>手机：<?php print_r($house['poster']['contact_mobile']); ?></span>
+					<span>手机：<a href="tel:<?php print_r($house['poster']['email']); ?>"><?php print_r($house['poster']['contact_mobile']); ?></a></span>
 				</div>
 				<div class="poster-detail">
-					<span>邮箱：<?php print_r($house['poster']['email']); ?></span>
+					<span>邮箱：<a href="mailto:<?php print_r($house['poster']['email']); ?>"><?php print_r($house['poster']['email']); ?></a></span>
 				</div>
 				<!--
 				<div class="poster-detail">
@@ -30,6 +31,7 @@
 
 				<?php if (isset($house['poster']['qqchat']) && !empty($house['poster']['qqchat'])) : ?>
 				<div class="poster-detail">
+					<span>Q&nbsp;Q：</span>
 					<span><a href="http://wpa.qq.com/msgrd?v=3&uin=<?php print_r($house['poster']['qqchat']); ?>&site=tzfc.com&menu=yes" target="_blank">
 					<img border="0" src="http://wpa.qq.com/pa?p=2:<?php print_r($house['poster']['qqchat']); ?>:41" alt="我是<?php print_r($house['poster']['true_name']); ?>，请给我发消息" title="我是<?php print_r($house['poster']['true_name']); ?>，请给我发消息"/>
 					</a></span>

@@ -24,12 +24,12 @@
 							<a class="house-title" href="<?php print_r($item_url_path); ?>" target="_blank"><?php print_r($house['title']); ?></a>
 						</div>
 						<div class="house-info">
-						<?php print_r($house['subinfo_area']); ?> 
-						<?php if (!empty($house['subinfo_house'])) : ?>
-						&nbsp;&nbsp;&nbsp;&nbsp; <?php print_r(implode('&nbsp;/&nbsp;', $house['subinfo_house'])); ?>
-						<?php endif ; ?>
+							<span class="highlight"><?php print_r($house['subinfo_area']); ?> </span>
+							<?php if (!empty($house['subinfo_house'])) : ?>
+							&nbsp;&nbsp;&nbsp;&nbsp; <?php print_r(implode('&nbsp;/&nbsp;', $house['subinfo_house'])); ?>
+							<?php endif ; ?>
 						</div>
-						<div class="house-info">经纪人：<?php print_r($house['poster_name']); ?> &nbsp;&nbsp;&nbsp;&nbsp; 联系电话：<?php print_r($house['poster_mobile']); ?></div>
+						<div class="house-info">经纪人：<?php print_r($house['poster_name']); ?> &nbsp;&nbsp;&nbsp;&nbsp; 联系电话：<b><?php print_r($house['poster_mobile']); ?></b></div>
 					</div>
 				</li>
 				<?php endforeach ; ?>

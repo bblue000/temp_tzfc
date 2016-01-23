@@ -18,7 +18,9 @@
 				<div class="house-content">
 					<div class="house-gallery">
 					<?php if (!isset($house['images']) || empty($house['images'])) : ?>
-						<div class="empty-img-placeholder"></div>
+						<div class="empty-img-placeholder">
+							<img src="public/img/portal/house_info_placeholder.jpg"/>
+						</div>
 					<?php else : ?>
 						<div class="img-container">
 							<img src="<?php print_r($house['images']); ?>" />
@@ -53,7 +55,7 @@
 					    // 本机能的js事件
 					    // 图像加载完成之后，调整图片大小
 				         $('.house-gallery .img-container img').load(function() {
-				             adjustImgSize($(this), 440, 440);
+				             adjustImgSize($(this), 300, 300);
 				         });
 						</script>
 					<?php endif; ?>
@@ -63,7 +65,7 @@
 							<ul>
 								<li>
 									<label>价格：</label>
-									<span><?php print_r($house['price']); ?>万元</span>
+									<span class="house-price highlight"><?php print_r($house['price']); ?>万元</span>
 								</li>
 								<li>
 									<label>单价：</label>
@@ -108,14 +110,16 @@
 							</ul>
 						</section>
 
+						<!--
 						<section class="house-poster-contact">
 							<ul>
 								<li>
-									<label>联系方式：</label>
+									<label>联系方式</label>
 									<span><?php print_r($house['poster']['contact_mobile']); ?></span>
 								</li>
 							</ul>
 						</section>
+						-->
 					</div>
 				</div>
 				<div class="house-detail">

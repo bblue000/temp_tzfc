@@ -53,9 +53,9 @@
 						<tr>
 							<th class="check"><input type="checkbox" onclick="checkAll(this,'hid[]')" /></th>
 							<th>标题</th>
-							<th>户型</th>
-							<th>更新时间</th>
-							<th>操作</th>
+							<th width="120px">户型</th>
+							<th width="180px">更新时间</th>
+							<th width="100px">操作</th>
 						</tr>
 					</thead>
 					<tbody> <form id="delForm" action="<?php echo base_url('adminhouse/del_sell/ajax'); ?>" method="post">

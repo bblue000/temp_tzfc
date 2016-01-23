@@ -45,6 +45,10 @@ a {
     background-color: transparent;
 }
 
+a:hover {
+    color: #f46;
+}
+
 button, input, optgroup, select, textarea {
     color: inherit;
     font: inherit;
@@ -87,25 +91,46 @@ header {
 	box-shadow: 0 1px 2px #ccc;	
 }
 
+header.welcome {
+    height: 50px;
+    line-height: 50px;
+}
+
+header.welcome .call {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+#logo-header {
+    background-image: url(../../img/portal/topbg0.png);
+    background-repeat: repeat-x;
+}
+
 header #top-nav {
 	height: 90px;
-	line-height: 110px;
+	line-height: 140px;
+    background-image: url(../../img/portal/topbg.gif);
+    background-position: right center;
+    background-repeat: no-repeat;
 }
 
 header .city-logo {
     position: relative;
     bottom: 4px;
     margin-right: 5px;
-    font-family: Microsoft Yahei,Hiragino Sans GB,WenQuanYi Micro Hei,sans-serif;
+    /*font-family: Microsoft Yahei,Hiragino box-shadow: ns GB,WenQuanYi Micro Hei,sans-serif;*/
     font-weight: 700;
-    font-size: 20px;
+    font-size: 24px;
     color: #f46;
 }
 
 header .primary-logo-img {
-	font-size: 40px;
+    width: 120px;
+    height: 60px;
     margin-right: 5px;
     vertical-align: baseline;
+    border: none;
+    outline: 0;
 }
 
 .section-sep {
@@ -122,6 +147,10 @@ header .primary-logo-img {
     line-height: 1;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+.highlight {
+    color: #f46;
 }
 
 

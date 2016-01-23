@@ -1,18 +1,26 @@
-<!-- Header -->
-<?php $this->load->view('portal/template/template-portal-header'); ?>
-
 	<!-- content -->
 	<link href="public/css/portal/index-listing-filter.css" rel="stylesheet" type="text/css">
 
 	<section>
 		<div class="top-tab fixed-sub-container">
 			<ul>
+			<?php $is_rent = ($cat == HOUSE_CAT_RENT); ?>
+			<?php $filter_url = $is_rent ? 'renthouse' : 'sellhouse'; ?>
+			<?php if ($is_rent) :?>
+				<li>
+					<a href="sellhouse">出售房源</a>
+				</li>
+				<li>
+					<a class="active" href="javascript:;">出租房源</a>
+				</li>
+			<?php else : ?>
 				<li>
 					<a class="active" href="javascript:;">出售房源</a>
 				</li>
 				<li>
 					<a href="renthouse">出租房源</a>
 				</li>
+			<?php endif; ?>
 			</ul>
 		</div>
 
@@ -64,13 +72,13 @@
 
 		<?php if (isset($filters_price)) :?>
 			<fieldset>
-				<span class="legend">售价</span>
+				<span class="legend"><?php echo $is_rent ? '租金' : '售价';?></span>
 				<div class="links">
-				<?php foreach ($filters_price as $index => $sell_price) : ?>
+				<?php foreach ($filters_price as $index => $price) : ?>
 					<?php if ($filters['price'] == $index) :?>
-						<a class="checked"><?php print_r($sell_price); ?></a>
+						<a class="checked"><?php print_r($price); ?></a>
 					<?php else : ?>
-						<a href="javascript:performFilter('price', <?php print_r($index); ?>);"><?php print_r($sell_price); ?></a>
+						<a href="javascript:performFilter('price', <?php print_r($index); ?>);"><?php print_r($price); ?></a>
 					<?php endif; ?>
 				<?php endforeach; ?>
 				</div>
@@ -134,7 +142,7 @@
 		<?php endif; ?>
 
 			<fieldset class="search-fieldset">
-				<form id="listing-filters-form" action="sellhouse">
+				<form id="listing-filters-form" action="<?php echo $filter_url; ?>">
 
 				<?php foreach ($filters as $key => $value) : ?>
 					<input type="hidden" name="<?php print_r($key); ?>" value="<?php print_r($value); ?>"/>
@@ -217,10 +225,3 @@
 		}
 		</script>
 	</section>
-
-	<div class="section-sep"></div>
-
-	<?php $this->load->view('portal/sellhouse-list-result'); ?>
-
-<!-- Footer -->
-<?php $this->load->view('portal/template/template-portal-footer'); ?>

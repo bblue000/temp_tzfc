@@ -87,6 +87,7 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 
 
 
+defined('WEBSITE_NAME')      OR define('WEBSITE_NAME', '泰州房产网');
 defined('PASS_MIN_LEN')      OR define('PASS_MIN_LEN', 6);
 
 defined('HOUSE_CAT_SELL')      OR define('HOUSE_CAT_SELL', 0);

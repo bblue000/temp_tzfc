@@ -6,10 +6,6 @@
     line-height: 40px;
 }
 
-#listing-result .listing-result-hint .highlight {
-	color: #f46;
-}
-
 .listing-result-hint img {
     float: right;
 }
@@ -54,6 +50,14 @@
 
 #house-list a.media-cap img {
     width: 150px;
+    transform-origin: center;
+    -webkit-transition: all .5s ease-out;
+            transition: all .5s ease-out;
+}
+
+#house-list a.media-cap img:hover {
+    -webkit-transform: scale(1.2,1.2);
+            transform: scale(1.2,1.2);
 }
 
 #house-list .media-body {
@@ -65,9 +69,8 @@
     line-height: 24px;
 }
 
-#house-list .highlight {
+#house-list .media-body-title .highlight {
     float: right;
-    color: #f46;
     font-weight: 700;
     font-size: 16px;
 }
@@ -89,15 +92,6 @@
     font-size: 14px;
     margin-top: 1em;
 }
-
-#house-list .house-info .highlight {
-    float: none;
-    color: #f46;
-    font-weight: 400;
-    font-size: 14px;
-}
-
-
 
 /*分页*/
 #listing-pager {

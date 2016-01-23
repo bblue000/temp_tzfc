@@ -91,9 +91,9 @@ class renthouse extends MY_Controller {
 		unloadRentCommonInfos($this);
 
 		$this->kw = $kw;
-		$this->result_num = $result_num;
+		$this->result_num = $total;
 
-		$this->load->view('portal/rent-list', $this);
+		$this->load->view('portal/house-list', $this);
 	}
 
 	private function rent_item($hid) {

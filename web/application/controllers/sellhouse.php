@@ -91,9 +91,9 @@ class sellhouse extends MY_Controller {
 		unloadCommonInfos($this);
 
 		$this->kw = $kw;
-		$this->result_num = $result_num;
+		$this->result_num = $total;
 
-		$this->load->view('portal/sell-list', $this);
+		$this->load->view('portal/house-list', $this);
 	}
 
 	private function sell_item($hid) {

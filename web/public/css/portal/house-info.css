@@ -1,15 +1,15 @@
 @charset "UTF-8";
 
-body {
+/*body {
     min-width: 1200px;
 }
 
 .fixed-sub-container {
     max-width: 1200px;
-}
+}*/
 
 .house-info-container {
-	width: 1200px;
+	width: 980px;
 	margin-left: auto;
 	margin-right: auto;
 }
@@ -26,8 +26,8 @@ body {
 .house-main {
     border: 1px solid #ddd;
     border-radius: 2px;
-    width: 880px;
-    margin: 30px 20px 0 0;
+    width: 650px;
+    margin: 10px 20px 0 0;
     background: #fff;
     float: left;
 }
@@ -47,7 +47,7 @@ body {
 
 .house-header .house-title h1 {
     margin: 0;
-    font-size: 28px;
+    font-size: 24px;
     display: inline;
     vertical-align: sub;
 }
@@ -58,7 +58,7 @@ body {
 }
 
 .house-content {
-	margin-top: 24px;
+	margin-top: 20px;
 }
 
 .house-content:before, .house-content:after {
@@ -71,7 +71,7 @@ body {
 }
 
 .house-gallery {
-    width: 440px;
+    width: 300px;
     overflow: hidden;
     margin-bottom: 40px;
     position: relative;
@@ -79,29 +79,36 @@ body {
 }
 
 .empty-img-placeholder {
-    height: 440px;
-    width: 440px;
-    background: url(../../img/portal/house_info_placeholder.jpg);
+    height: 300px;
+    width: 300px;
     overflow: hidden;
 }
 
+.empty-img-placeholder img {
+    width: 300px;
+    height: 300px;
+}
+
 .house-gallery img {
-    max-height: 440px;
-    max-width: 440px;
+    max-height: 300px;
+    max-width: 300px;
 }
 
 .house-gallery .img-container {
-    height: 440px;
-    width: 440px;
+    height: 300px;
+    width: 300px;
     text-align: center;
-    line-height: 440px;
+    line-height: 300px;
 }
 
+.house-price {
+    font-size: 24px;
+}
 
 .house-basic-info {
     float: left;
-    padding: 0 0 0 24px;
-    width: 398px;
+    padding: 0 0 0 20px;
+    width: 300px;
 }
 
 .house-common-header {
@@ -118,14 +125,14 @@ body {
 .house-basic-info ul li {
     margin: 5px 0;
     line-height: 30px;
-    font-size: 16px;
+    font-size: 14px;
     position: relative;
 
     border-bottom: 1px dashed #e6e6e6;
 }
 
 .house-basic-info ul li>label {
-	width: 100px;
+	width: 85px;
 	text-align: right;
 	color: #666;
 	display: inline-block;
@@ -133,8 +140,8 @@ body {
 }
 
 .house-basic-info ul li>span {
-	width: 255px;
-	padding-left: 25px;
+	width: 180px;
+	padding-left: 0px;
 }
 
 .house-poster-contact {
@@ -149,6 +156,13 @@ body {
 
 .house-poster-contact ul li>label {
 	font-weight: 700;
+    color: #fff;
+    border: 1px solid #f93;
+    background-color: #f93;
+    border-radius: 2px;
+    text-align: center;
+    width: 120px;
+    padding: 5px 0;
 }
 
 .house-poster-contact ul li>span {
@@ -174,7 +188,7 @@ body {
 /*编辑人*/
 .house-info-container .sidebar {
     width: 300px;
-    margin-top: 30px;
+    margin-top: 10px;
     float: left;
 }
 
@@ -221,9 +235,6 @@ body {
 	height: 2em;
 	line-height: 2em;
 	margin: .5em 0;
-}
-
-.poster-name>* {
     color: #333;
 }
 
