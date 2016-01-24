@@ -75,10 +75,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost:3306',
-	'username' => 'root',
+	'hostname' => 'localhost:3306',//'69.165.76.85:3306',
+	'username' => 'a0123224505',
 	'password' => 'yytest',
-	'database' => 'tzfc_db',
+	'database' => 'a0123224505',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,

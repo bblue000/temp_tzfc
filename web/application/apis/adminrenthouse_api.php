@@ -24,6 +24,8 @@ class adminrenthouse_api extends API {
 
 		11012 => '未指定出租方式',
 		11013 => '未指定缴纳租金方式',
+		11014 => '房源图片更新失败',
+		11015 => '房源图片保存失败',
 	);
 
 	public function __construct() {

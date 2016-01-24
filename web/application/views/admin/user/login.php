@@ -59,6 +59,10 @@
                   </table>
                   
                   <button class="btn btn-lg btn-primary btn-block login-btn" type="submit" onClick="return check_input()">登录</button>
+
+                  <div style="text-align: right; margin: 10px 0;">
+                      <a href="admin/register">去注册></a>
+                  </div>
               </form>
           </div>
         

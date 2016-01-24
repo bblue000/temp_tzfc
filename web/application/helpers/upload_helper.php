@@ -2,7 +2,18 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 function common_check_upload_input($CI) {
-	$fn = $CI->input->get_request_header('X_FILENAME', TRUE);
+	$fn = NULL;
+	$headers = $CI->input->request_headers(TRUE);
+	if (isset($headers)) {
+		$keys = array('X_FILENAME', 'X-FILENAME'); // IIS 会将头部改成第二个
+		foreach ($headers as $key => $value) {
+			if (array_search(strtoupper($key), $keys)) {
+				$fn = $value;
+				break;
+			}
+		}
+	}
+	// $fn = $CI->input->get_request_header('X_FILENAME', TRUE);
 	if (!$fn) {
 		return common_result(404, '请选择上传的文件');
 	}
