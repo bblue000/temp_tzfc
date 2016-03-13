@@ -8,7 +8,7 @@ class test2 extends MY_Controller {
 	}
 
 	public function index() {
-		phpinfo();
+// 		phpinfo();
 		
         print_r($this->test_ref());
         print_r("<br/>");

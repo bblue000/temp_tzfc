@@ -8,7 +8,7 @@ class test extends MY_Controller {
 	}
 
 	public function index() {
-		phpinfo();
+// 		phpinfo();
 		$result = array(
 			'code' => 200,
 			'msg'  => 'ok'

@@ -1,5 +1,5 @@
-/* ---------- Common ---------- */
 @charset "utf-8";
+/* ---------- Common ---------- */
 
 body {
 	_width: expression(document.body.clientWidth <= 850 ? "850px": "auto");

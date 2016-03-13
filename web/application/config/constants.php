@@ -87,7 +87,9 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 
 
 
-defined('WEBSITE_NAME')      OR define('WEBSITE_NAME', '泰州房产网');
+defined('WEBSITE_NAME')      OR define('WEBSITE_NAME', '天和房地产');
+defined('WEBSITE_C_YEAR')      OR define('WEBSITE_C_YEAR', date("Y"));
+defined('WEBSITE_CONTACT')      OR define('WEBSITE_CONTACT', '0000');
 defined('PASS_MIN_LEN')      OR define('PASS_MIN_LEN', 6);
 
 defined('HOUSE_CAT_SELL')      OR define('HOUSE_CAT_SELL', 0);

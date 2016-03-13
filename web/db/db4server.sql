@@ -6,16 +6,18 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 -- -----------------------------------------------------
--- Schema a0123224505
+-- Schema tzfc_db
 -- -----------------------------------------------------
-USE `a0123224505` ;
+DROP SCHEMA IF EXISTS `tzfc_db` ;
+CREATE SCHEMA IF NOT EXISTS `tzfc_db` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
+USE `tzfc_db` ;
 
 -- -----------------------------------------------------
--- Table `a0123224505`.`Tab_UserGroup`
+-- Table `tzfc_db`.`Tab_UserGroup`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `a0123224505`.`Tab_UserGroup` ;
+DROP TABLE IF EXISTS `tzfc_db`.`Tab_UserGroup` ;
 
-CREATE TABLE IF NOT EXISTS `a0123224505`.`Tab_UserGroup` (
+CREATE TABLE IF NOT EXISTS `tzfc_db`.`Tab_UserGroup` (
   `gid` INT NOT NULL AUTO_INCREMENT COMMENT '组ID',
   `group_name` VARCHAR(45) NULL COMMENT '用户组名',
   `level` INT NULL DEFAULT 0 COMMENT '用户的等级，等级越高，权限越大',
@@ -24,15 +26,15 @@ CREATE TABLE IF NOT EXISTS `a0123224505`.`Tab_UserGroup` (
   PRIMARY KEY (`gid`))
 ENGINE = InnoDB;
 
-CREATE UNIQUE INDEX `level_Tab_UserGroup_UNIQUE` ON `a0123224505`.`Tab_UserGroup` (`level` ASC);
+CREATE UNIQUE INDEX `level_Tab_UserGroup_UNIQUE` ON `tzfc_db`.`Tab_UserGroup` (`level` ASC);
 
 
 -- -----------------------------------------------------
--- Table `a0123224505`.`Tab_User`
+-- Table `tzfc_db`.`Tab_User`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `a0123224505`.`Tab_User` ;
+DROP TABLE IF EXISTS `tzfc_db`.`Tab_User` ;
 
-CREATE TABLE IF NOT EXISTS `a0123224505`.`Tab_User` (
+CREATE TABLE IF NOT EXISTS `tzfc_db`.`Tab_User` (
   `uid` INT NOT NULL AUTO_INCREMENT COMMENT '用户ID',
   `user_name` VARCHAR(30) NULL COMMENT '用户名',
   `true_name` VARCHAR(45) NULL DEFAULT '顾客' COMMENT '用户真实姓名，如张三',
@@ -52,123 +54,84 @@ CREATE TABLE IF NOT EXISTS `a0123224505`.`Tab_User` (
   PRIMARY KEY (`uid`))
 ENGINE = InnoDB;
 
-CREATE UNIQUE INDEX `user_name_Tab_User_UNIQUE` ON `a0123224505`.`Tab_User` (`user_name` ASC);
+CREATE UNIQUE INDEX `user_name_Tab_User_UNIQUE` ON `tzfc_db`.`Tab_User` (`user_name` ASC);
 
 
 -- -----------------------------------------------------
--- Table `a0123224505`.`Tab_UserGroup_has_Tab_User`
+-- Table `tzfc_db`.`Tab_UserGroup_has_Tab_User`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `a0123224505`.`Tab_UserGroup_has_Tab_User` ;
+DROP TABLE IF EXISTS `tzfc_db`.`Tab_UserGroup_has_Tab_User` ;
 
-CREATE TABLE IF NOT EXISTS `a0123224505`.`Tab_UserGroup_has_Tab_User` (
+CREATE TABLE IF NOT EXISTS `tzfc_db`.`Tab_UserGroup_has_Tab_User` (
   `gid` INT NOT NULL,
   `uid` INT NOT NULL,
   PRIMARY KEY (`gid`, `uid`),
   CONSTRAINT `fk_Tab_UserGroup_has_Tab_User_Tab_UserGroup`
     FOREIGN KEY (`gid`)
-    REFERENCES `a0123224505`.`Tab_UserGroup` (`gid`)
+    REFERENCES `tzfc_db`.`Tab_UserGroup` (`gid`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Tab_UserGroup_has_Tab_User_Tab_User1`
     FOREIGN KEY (`uid`)
-    REFERENCES `a0123224505`.`Tab_User` (`uid`)
+    REFERENCES `tzfc_db`.`Tab_User` (`uid`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE INDEX `fk_Tab_UserGroup_has_Tab_User_Tab_User_idx` ON `a0123224505`.`Tab_UserGroup_has_Tab_User` (`uid` ASC);
+CREATE INDEX `fk_Tab_UserGroup_has_Tab_User_Tab_User_idx` ON `tzfc_db`.`Tab_UserGroup_has_Tab_User` (`uid` ASC);
 
-CREATE INDEX `fk_Tab_UserGroup_has_Tab_User_Tab_UserGroup_idx` ON `a0123224505`.`Tab_UserGroup_has_Tab_User` (`gid` ASC);
-
-
--- -----------------------------------------------------
--- Table `a0123224505`.`Tab_Operation`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `a0123224505`.`Tab_Operation` ;
-
-CREATE TABLE IF NOT EXISTS `a0123224505`.`Tab_Operation` (
-  `opid` INT UNIQUE NOT NULL AUTO_INCREMENT,
-  `op_name` VARCHAR(100) NULL,
-  `min_level` INT NULL,
-  `create_time` DATETIME NULL,
-  `update_time` DATETIME NULL,
-  PRIMARY KEY (`opid`));
+CREATE INDEX `fk_Tab_UserGroup_has_Tab_User_Tab_UserGroup_idx` ON `tzfc_db`.`Tab_UserGroup_has_Tab_User` (`gid` ASC);
 
 
--- -----------------------------------------------------
--- Table `a0123224505`.`Tab_UserOperation`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `a0123224505`.`Tab_UserOperation` ;
-
-CREATE TABLE IF NOT EXISTS `a0123224505`.`Tab_UserOperation` (
-  `uid` INT NOT NULL,
-  `opid` INT UNIQUE NOT NULL,
-  PRIMARY KEY (`uid`, `opid`),
-  CONSTRAINT `fk_Tab_User_has_Tab_Operation_Tab_User1`
-    FOREIGN KEY (`uid`)
-    REFERENCES `a0123224505`.`Tab_User` (`uid`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Tab_User_has_Tab_Operation_Tab_Operation1`
-    FOREIGN KEY (`opid`)
-    REFERENCES `a0123224505`.`Tab_Operation` (`opid`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-CREATE INDEX `fk_Tab_User_has_Tab_Operation_Tab_Operation_idx` ON `a0123224505`.`Tab_UserOperation` (`opid` ASC);
-
-CREATE INDEX `fk_Tab_User_has_Tab_Operation_Tab_User_idx` ON `a0123224505`.`Tab_UserOperation` (`uid` ASC);
-
-USE `a0123224505`;
+USE `tzfc_db`;
 
 DELIMITER $$
 
-USE `a0123224505`$$
-DROP TRIGGER IF EXISTS `a0123224505`.`Tab_UserGroup_BINS` $$
-USE `a0123224505`$$
+USE `tzfc_db`$$
+DROP TRIGGER IF EXISTS `tzfc_db`.`Tab_UserGroup_BINS` $$
+USE `tzfc_db`$$
 CREATE TRIGGER `Tab_UserGroup_BINS` BEFORE INSERT ON `Tab_UserGroup` FOR EACH ROW
 begin set @temp_now = now(); set new.`create_time` = @temp_now ; set new.`update_time` = @temp_now ;
 end;$$
 
 
-USE `a0123224505`$$
-DROP TRIGGER IF EXISTS `a0123224505`.`Tab_UserGroup_BUPD` $$
-USE `a0123224505`$$
+USE `tzfc_db`$$
+DROP TRIGGER IF EXISTS `tzfc_db`.`Tab_UserGroup_BUPD` $$
+USE `tzfc_db`$$
 CREATE TRIGGER `Tab_UserGroup_BUPD` BEFORE UPDATE ON `Tab_UserGroup` FOR EACH ROW
 begin set new.`update_time` = now() ;
 end;$$
 
 
-USE `a0123224505`$$
-DROP TRIGGER IF EXISTS `a0123224505`.`Tab_User_BINS` $$
-USE `a0123224505`$$
+USE `tzfc_db`$$
+DROP TRIGGER IF EXISTS `tzfc_db`.`Tab_User_BINS` $$
+USE `tzfc_db`$$
 CREATE TRIGGER `Tab_User_BINS` BEFORE INSERT ON `Tab_User` FOR EACH ROW
 begin set @temp_now = now(); set new.`create_time` = @temp_now ; set new.`update_time` = @temp_now ;
 end;
 $$
 
 
-USE `a0123224505`$$
-DROP TRIGGER IF EXISTS `a0123224505`.`Tab_User_BUPD` $$
-USE `a0123224505`$$
+USE `tzfc_db`$$
+DROP TRIGGER IF EXISTS `tzfc_db`.`Tab_User_BUPD` $$
+USE `tzfc_db`$$
 CREATE TRIGGER `Tab_User_BUPD` BEFORE UPDATE ON `Tab_User` FOR EACH ROW
 begin set new.`update_time` = now() ;
 end;
 $$
 
 
-USE `a0123224505`$$
-DROP TRIGGER IF EXISTS `a0123224505`.`Tab_Operation_BINS` $$
-USE `a0123224505`$$
+USE `tzfc_db`$$
+DROP TRIGGER IF EXISTS `tzfc_db`.`Tab_Operation_BINS` $$
+USE `tzfc_db`$$
 CREATE TRIGGER `Tab_Operation_BINS` BEFORE INSERT ON `Tab_Operation` FOR EACH ROW
 begin set @temp_now = now(); set new.`create_time` = @temp_now ; set new.`update_time` = @temp_now ;
 end;$$
 
 
-USE `a0123224505`$$
-DROP TRIGGER IF EXISTS `a0123224505`.`Tab_Operation_BUPD` $$
-USE `a0123224505`$$
+USE `tzfc_db`$$
+DROP TRIGGER IF EXISTS `tzfc_db`.`Tab_Operation_BUPD` $$
+USE `tzfc_db`$$
 CREATE TRIGGER `Tab_Operation_BUPD` BEFORE UPDATE ON `Tab_Operation` FOR EACH ROW
 begin set new.`update_time` = now() ;
 end;
@@ -179,11 +142,11 @@ DELIMITER ;
 
 
 -- -----------------------------------------------------
--- Table `a0123224505`.`Tab_Area`
+-- Table `tzfc_db`.`Tab_Area`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `a0123224505`.`Tab_Area` ;
+DROP TABLE IF EXISTS `tzfc_db`.`Tab_Area` ;
 
-CREATE TABLE IF NOT EXISTS `a0123224505`.`Tab_Area` (
+CREATE TABLE IF NOT EXISTS `tzfc_db`.`Tab_Area` (
   `aid` INT NOT NULL AUTO_INCREMENT COMMENT '区域ID',
   `area_name` VARCHAR(45) NULL COMMENT '区域名',
   `create_time` DATETIME NULL,
@@ -193,11 +156,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `a0123224505`.`Tab_Community`
+-- Table `tzfc_db`.`Tab_Community`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `a0123224505`.`Tab_Community` ;
+DROP TABLE IF EXISTS `tzfc_db`.`Tab_Community` ;
 
-CREATE TABLE IF NOT EXISTS `a0123224505`.`Tab_Community` (
+CREATE TABLE IF NOT EXISTS `tzfc_db`.`Tab_Community` (
   `cid` INT UNIQUE NOT NULL AUTO_INCREMENT COMMENT '小区ID',
   `cname` VARCHAR(45) NULL COMMENT '小区名',
   `pinyin` VARCHAR(45) NULL COMMENT '拼音首字母',
@@ -205,42 +168,42 @@ CREATE TABLE IF NOT EXISTS `a0123224505`.`Tab_Community` (
   `update_time` DATETIME NULL,
   PRIMARY KEY (`cid`));
 
-USE `a0123224505` ;
+USE `tzfc_db` ;
 
 
 DELIMITER $$
 
-USE `a0123224505`$$
-DROP TRIGGER IF EXISTS `a0123224505`.`Tab_Area_BEFORE_INSERT` $$
-USE `a0123224505`$$
-CREATE TRIGGER `a0123224505`.`Tab_Area_BEFORE_INSERT` BEFORE INSERT ON `Tab_Area` FOR EACH ROW
+USE `tzfc_db`$$
+DROP TRIGGER IF EXISTS `tzfc_db`.`Tab_Area_BEFORE_INSERT` $$
+USE `tzfc_db`$$
+CREATE TRIGGER `tzfc_db`.`Tab_Area_BEFORE_INSERT` BEFORE INSERT ON `Tab_Area` FOR EACH ROW
 BEGIN
 set @temp_now = now(); set new.`create_time` = @temp_now ; set new.`update_time` = @temp_now ;
 END$$
 
 
-USE `a0123224505`$$
-DROP TRIGGER IF EXISTS `a0123224505`.`Tab_Area_BEFORE_UPDATE` $$
-USE `a0123224505`$$
-CREATE TRIGGER `a0123224505`.`Tab_Area_BEFORE_UPDATE` BEFORE UPDATE ON `Tab_Area` FOR EACH ROW
+USE `tzfc_db`$$
+DROP TRIGGER IF EXISTS `tzfc_db`.`Tab_Area_BEFORE_UPDATE` $$
+USE `tzfc_db`$$
+CREATE TRIGGER `tzfc_db`.`Tab_Area_BEFORE_UPDATE` BEFORE UPDATE ON `Tab_Area` FOR EACH ROW
 BEGIN
 set new.`update_time` = now() ;
 END$$
 
 
-USE `a0123224505`$$
-DROP TRIGGER IF EXISTS `a0123224505`.`Tab_Community_BEFORE_INSERT` $$
-USE `a0123224505`$$
-CREATE TRIGGER `a0123224505`.`Tab_Community_BEFORE_INSERT` BEFORE INSERT ON `Tab_Community` FOR EACH ROW
+USE `tzfc_db`$$
+DROP TRIGGER IF EXISTS `tzfc_db`.`Tab_Community_BEFORE_INSERT` $$
+USE `tzfc_db`$$
+CREATE TRIGGER `tzfc_db`.`Tab_Community_BEFORE_INSERT` BEFORE INSERT ON `Tab_Community` FOR EACH ROW
 BEGIN
 set @temp_now = now(); set new.`create_time` = @temp_now ; set new.`update_time` = @temp_now ;
 END$$
 
 
-USE `a0123224505`$$
-DROP TRIGGER IF EXISTS `a0123224505`.`Tab_Community_BEFORE_UPDATE` $$
-USE `a0123224505`$$
-CREATE TRIGGER `a0123224505`.`Tab_Community_BEFORE_UPDATE` BEFORE UPDATE ON `Tab_Community` FOR EACH ROW
+USE `tzfc_db`$$
+DROP TRIGGER IF EXISTS `tzfc_db`.`Tab_Community_BEFORE_UPDATE` $$
+USE `tzfc_db`$$
+CREATE TRIGGER `tzfc_db`.`Tab_Community_BEFORE_UPDATE` BEFORE UPDATE ON `Tab_Community` FOR EACH ROW
 BEGIN
 set new.`update_time` = now() ;
 END$$
@@ -249,11 +212,11 @@ END$$
 DELIMITER ;
 
 -- -----------------------------------------------------
--- Table `a0123224505`.`Tab_SellHouse`
+-- Table `tzfc_db`.`Tab_SellHouse`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `a0123224505`.`Tab_SellHouse` ;
+DROP TABLE IF EXISTS `tzfc_db`.`Tab_SellHouse` ;
 
-CREATE TABLE IF NOT EXISTS `a0123224505`.`Tab_SellHouse` (
+CREATE TABLE IF NOT EXISTS `tzfc_db`.`Tab_SellHouse` (
   `hid` INT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(500) NULL,
   `rooms` TINYINT UNSIGNED NULL DEFAULT 0 COMMENT '几室几厅几卫',
@@ -279,28 +242,23 @@ CREATE TABLE IF NOT EXISTS `a0123224505`.`Tab_SellHouse` (
   `details` TEXT NULL COMMENT '详情',
   `create_time` DATETIME NULL,
   `update_time` DATETIME NULL,
-  `uid` INT NOT NULL COMMENT '用户ID',
-  PRIMARY KEY (`hid`),
-  CONSTRAINT `fk_Tab_SellHouse_Tab_User1`
-    FOREIGN KEY (`uid`)
-    REFERENCES `a0123224505`.`Tab_User` (`uid`)
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION)
+  `uid` INT NULL DEFAULT 0 COMMENT '用户ID',
+  `poster_name` VARCHAR(45) NULL COMMENT '直接上传者的信息',
+  `poster_contact` VARCHAR(45) NULL COMMENT '直接上传者的信息',
+  PRIMARY KEY (`hid`))
 ENGINE = InnoDB;
 
-CREATE INDEX `fk_Tab_SellHouse_Tab_User1_idx` ON `a0123224505`.`Tab_SellHouse` (`uid` ASC);
+CREATE INDEX `INDEX_Tab_SellHouse_HOUSE_TYPE` ON `tzfc_db`.`Tab_SellHouse` (`rooms` ASC, `halls` ASC, `bathrooms` ASC);
 
-CREATE INDEX `INDEX_Tab_SellHouse_HOUSE_TYPE` ON `a0123224505`.`Tab_SellHouse` (`rooms` ASC, `halls` ASC, `bathrooms` ASC);
-
-CREATE INDEX `INDEX_Tab_SellHouse_UpdateTime` ON `a0123224505`.`Tab_SellHouse` (`update_time` DESC);
+CREATE INDEX `INDEX_Tab_SellHouse_UpdateTime` ON `tzfc_db`.`Tab_SellHouse` (`update_time` DESC);
 
 
 -- -----------------------------------------------------
--- Table `a0123224505`.`Tab_RentHouse`
+-- Table `tzfc_db`.`Tab_RentHouse`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `a0123224505`.`Tab_RentHouse` ;
+DROP TABLE IF EXISTS `tzfc_db`.`Tab_RentHouse` ;
 
-CREATE TABLE IF NOT EXISTS `a0123224505`.`Tab_RentHouse` (
+CREATE TABLE IF NOT EXISTS `tzfc_db`.`Tab_RentHouse` (
   `hid` INT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(500) NULL,
   `rooms` TINYINT UNSIGNED NULL DEFAULT 0,
@@ -324,57 +282,50 @@ CREATE TABLE IF NOT EXISTS `a0123224505`.`Tab_RentHouse` (
   `create_time` DATETIME NULL,
   `update_time` DATETIME NULL,
   `uid` INT NOT NULL,
-  PRIMARY KEY (`hid`),
-  CONSTRAINT `fk_Tab_RentHouse_Tab_User1`
-    FOREIGN KEY (`uid`)
-    REFERENCES `a0123224505`.`Tab_User` (`uid`)
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION)
+  PRIMARY KEY (`hid`))
 ENGINE = InnoDB;
 
-CREATE INDEX `fk_Tab_RentHouse_Tab_User1_idx` ON `a0123224505`.`Tab_RentHouse` (`uid` ASC);
+CREATE INDEX `INDEX_Tab_RentHouse_HOUSE_TYPE` ON `tzfc_db`.`Tab_RentHouse` (`rooms` ASC, `halls` ASC, `bathrooms` ASC);
 
-CREATE INDEX `INDEX_Tab_RentHouse_HOUSE_TYPE` ON `a0123224505`.`Tab_RentHouse` (`rooms` ASC, `halls` ASC, `bathrooms` ASC);
-
-CREATE INDEX `INDEX_Tab_RentHouse_UpdateTime` ON `a0123224505`.`Tab_RentHouse` (`update_time` DESC);
+CREATE INDEX `INDEX_Tab_RentHouse_UpdateTime` ON `tzfc_db`.`Tab_RentHouse` (`update_time` DESC);
 
 
 
-USE `a0123224505`;
+USE `tzfc_db`;
 
 DELIMITER $$
 
-USE `a0123224505`$$
-DROP TRIGGER IF EXISTS `a0123224505`.`Tab_SellHouse_BEFORE_INSERT` $$
-USE `a0123224505`$$
-CREATE TRIGGER `a0123224505`.`Tab_SellHouse_BEFORE_INSERT` BEFORE INSERT ON `Tab_SellHouse` FOR EACH ROW
+USE `tzfc_db`$$
+DROP TRIGGER IF EXISTS `tzfc_db`.`Tab_SellHouse_BEFORE_INSERT` $$
+USE `tzfc_db`$$
+CREATE TRIGGER `tzfc_db`.`Tab_SellHouse_BEFORE_INSERT` BEFORE INSERT ON `Tab_SellHouse` FOR EACH ROW
 BEGIN
 set @temp_now = now(); set new.`create_time` = @temp_now ; set new.`update_time` = @temp_now ;
 END$$
 
 
-USE `a0123224505`$$
-DROP TRIGGER IF EXISTS `a0123224505`.`Tab_SellHouse_BEFORE_UPDATE` $$
-USE `a0123224505`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `a0123224505`.`Tab_SellHouse_BEFORE_UPDATE` BEFORE UPDATE ON `Tab_SellHouse` FOR EACH ROW
+USE `tzfc_db`$$
+DROP TRIGGER IF EXISTS `tzfc_db`.`Tab_SellHouse_BEFORE_UPDATE` $$
+USE `tzfc_db`$$
+CREATE DEFINER = CURRENT_USER TRIGGER `tzfc_db`.`Tab_SellHouse_BEFORE_UPDATE` BEFORE UPDATE ON `Tab_SellHouse` FOR EACH ROW
 BEGIN
 set new.`update_time` = now() ;
 END$$
 
 
-USE `a0123224505`$$
-DROP TRIGGER IF EXISTS `a0123224505`.`Tab_RentHouse_BEFORE_INSERT` $$
-USE `a0123224505`$$
-CREATE TRIGGER `a0123224505`.`Tab_RentHouse_BEFORE_INSERT` BEFORE INSERT ON `Tab_RentHouse` FOR EACH ROW
+USE `tzfc_db`$$
+DROP TRIGGER IF EXISTS `tzfc_db`.`Tab_RentHouse_BEFORE_INSERT` $$
+USE `tzfc_db`$$
+CREATE TRIGGER `tzfc_db`.`Tab_RentHouse_BEFORE_INSERT` BEFORE INSERT ON `Tab_RentHouse` FOR EACH ROW
 BEGIN
 set @temp_now = now(); set new.`create_time` = @temp_now ; set new.`update_time` = @temp_now ;
 END$$
 
 
-USE `a0123224505`$$
-DROP TRIGGER IF EXISTS `a0123224505`.`Tab_RentHouse_BEFORE_UPDATE` $$
-USE `a0123224505`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `a0123224505`.`Tab_RentHouse_BEFORE_UPDATE` BEFORE UPDATE ON `Tab_RentHouse` FOR EACH ROW
+USE `tzfc_db`$$
+DROP TRIGGER IF EXISTS `tzfc_db`.`Tab_RentHouse_BEFORE_UPDATE` $$
+USE `tzfc_db`$$
+CREATE DEFINER = CURRENT_USER TRIGGER `tzfc_db`.`Tab_RentHouse_BEFORE_UPDATE` BEFORE UPDATE ON `Tab_RentHouse` FOR EACH ROW
 BEGIN
 set new.`update_time` = now() ;
 END$$
@@ -402,95 +353,96 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 -- insert data
 -- -----------------------------------------------------
--- Table `a0123224505`.`Tab_UserGroup` data
+-- Table `tzfc_db`.`Tab_UserGroup` data
 -- -----------------------------------------------------
-INSERT INTO `a0123224505`.`Tab_UserGroup`(`group_name`, `level`) VALUES ('超级管理员', 10000);
-INSERT INTO `a0123224505`.`Tab_UserGroup`(`group_name`, `level`) VALUES ('老板', 9999);
-INSERT INTO `a0123224505`.`Tab_UserGroup`(`group_name`, `level`) VALUES ('经纪人', 1);
+INSERT INTO `tzfc_db`.`Tab_UserGroup`(`group_name`, `level`) VALUES ('超级管理员', 10000);
+INSERT INTO `tzfc_db`.`Tab_UserGroup`(`group_name`, `level`) VALUES ('老板', 9999);
+INSERT INTO `tzfc_db`.`Tab_UserGroup`(`group_name`, `level`) VALUES ('经纪人', 1);
+INSERT INTO `tzfc_db`.`Tab_UserGroup`(`group_name`, `level`) VALUES ('个人', 0);
 
 
-
-
--- -----------------------------------------------------
--- Table `a0123224505`.`Tab_Operation` data
--- -----------------------------------------------------
-INSERT INTO `a0123224505`.`Tab_Operation`(`op_name`, `min_level`) VALUES ('管理用户', 10000);
-INSERT INTO `a0123224505`.`Tab_Operation`(`op_name`, `min_level`) VALUES ('管理经纪人', 9999);
-INSERT INTO `a0123224505`.`Tab_Operation`(`op_name`, `min_level`) VALUES ('房源信息管理', 1);
-INSERT INTO `a0123224505`.`Tab_Operation`(`op_name`, `min_level`) VALUES ('修改个人信息', 0);
 
 
 -- -----------------------------------------------------
--- Table `a0123224505`.`Tab_User` data yytest
+-- Table `tzfc_db`.`Tab_Operation` data
+-- -----------------------------------------------------
+INSERT INTO `tzfc_db`.`Tab_Operation`(`op_name`, `min_level`) VALUES ('管理用户', 10000);
+INSERT INTO `tzfc_db`.`Tab_Operation`(`op_name`, `min_level`) VALUES ('管理经纪人', 9999);
+INSERT INTO `tzfc_db`.`Tab_Operation`(`op_name`, `min_level`) VALUES ('房源信息管理', 1);
+INSERT INTO `tzfc_db`.`Tab_Operation`(`op_name`, `min_level`) VALUES ('修改个人信息', 0);
+
+
+-- -----------------------------------------------------
+-- Table `tzfc_db`.`Tab_User` data yytest
 -- -----------------------------------------------------
 -- !+=|-_/';'.system@#$%^&*()19900615
-INSERT INTO `a0123224505`.`Tab_User`(`user_name`, `true_name`, `password`, `contact_mobile`, `qqchat`, `email`, `salt`, `sex`, `permission`) VALUES ('admin', 'YY', 'f853db4d7e78a7dfc8fcd708ec305c7e', '15221543209', '574879667', 'yy15151877621@126.com', 'lQwdhO', '1', '1');
-INSERT INTO `a0123224505`.`Tab_User`(`user_name`, `true_name`, `password`, `contact_mobile`, `qqchat`, `email`, `salt`, `sex`, `permission`) VALUES ('yy', 'YY', '3544d4b0fd2d2f47ec793359b3d626a6', '15221543209', '574879667', 'yy15151877621@126.com', '3RzQxs', '1', '1');
-INSERT INTO `a0123224505`.`Tab_User`(`user_name`, `true_name`, `password`, `contact_mobile`, `qqchat`, `email`, `salt`, `sex`, `permission`) VALUES ('yyyy', 'YY1', '3544d4b0fd2d2f47ec793359b3d626a6', '15221543209', '574879667', 'yy15151877621@126.com', '3RzQxs', '1', '0');
-INSERT INTO `a0123224505`.`Tab_User`(`user_name`, `true_name`, `password`, `contact_mobile`, `qqchat`, `email`, `salt`, `sex`) VALUES ('yunr', 'YY2', '3544d4b0fd2d2f47ec793359b3d626a6', '15221543209', '574879667', 'yy15151877621@126.com', '3RzQxs', '0');
+INSERT INTO `tzfc_db`.`Tab_User`(`user_name`, `true_name`, `password`, `contact_mobile`, `qqchat`, `email`, `salt`, `sex`, `permission`) VALUES ('admin', 'YY', 'f853db4d7e78a7dfc8fcd708ec305c7e', '15221543209', '574879667', 'yy15151877621@126.com', 'lQwdhO', '1', '1');
+INSERT INTO `tzfc_db`.`Tab_User`(`user_name`, `true_name`, `password`, `contact_mobile`, `qqchat`, `email`, `salt`, `sex`, `permission`) VALUES ('yy', 'YY', '3544d4b0fd2d2f47ec793359b3d626a6', '15221543209', '574879667', 'yy15151877621@126.com', '3RzQxs', '1', '1');
+INSERT INTO `tzfc_db`.`Tab_User`(`user_name`, `true_name`, `password`, `contact_mobile`, `qqchat`, `email`, `salt`, `sex`, `permission`) VALUES ('yyyy', 'YY1', '3544d4b0fd2d2f47ec793359b3d626a6', '15221543209', '574879667', 'yy15151877621@126.com', '3RzQxs', '1', '0');
+INSERT INTO `tzfc_db`.`Tab_User`(`user_name`, `true_name`, `password`, `contact_mobile`, `qqchat`, `email`, `salt`, `sex`) VALUES ('yunr', 'YY2', '3544d4b0fd2d2f47ec793359b3d626a6', '15221543209', '574879667', 'yy15151877621@126.com', '3RzQxs', '0');
 
 
 -- -----------------------------------------------------
--- Table `a0123224505`.`Tab_UserGroup_has_Tab_User` data
+-- Table `tzfc_db`.`Tab_UserGroup_has_Tab_User` data
 -- -----------------------------------------------------
-INSERT INTO `a0123224505`.`Tab_UserGroup_has_Tab_User`(`gid`, `uid`) VALUES (1, 1);
+INSERT INTO `tzfc_db`.`Tab_UserGroup_has_Tab_User`(`gid`, `uid`) VALUES (1, 1);
 
 
 
 
 
 
-
-
-
-
--- -----------------------------------------------------
--- Table `a0123224505`.`Tab_Area` data
--- -----------------------------------------------------
-INSERT INTO `a0123224505`.`Tab_Area`(`area_name`) VALUES ('市区');
-INSERT INTO `a0123224505`.`Tab_Area`(`area_name`) VALUES ('城中');
-INSERT INTO `a0123224505`.`Tab_Area`(`area_name`) VALUES ('城东');
-INSERT INTO `a0123224505`.`Tab_Area`(`area_name`) VALUES ('城南');
-INSERT INTO `a0123224505`.`Tab_Area`(`area_name`) VALUES ('城西');
-INSERT INTO `a0123224505`.`Tab_Area`(`area_name`) VALUES ('城北');
-INSERT INTO `a0123224505`.`Tab_Area`(`area_name`) VALUES ('其他地区');
 
 
 
 
 -- -----------------------------------------------------
--- Table `a0123224505`.`Tab_Community` data
+-- Table `tzfc_db`.`Tab_Area` data
 -- -----------------------------------------------------
-INSERT INTO `a0123224505`.`Tab_Community`(`cname`, `pinyin`) VALUES ('美好上郡', 'mhsj');
-INSERT INTO `a0123224505`.`Tab_Community`(`cname`, `pinyin`) VALUES ('碧桂园', 'bgy');
-INSERT INTO `a0123224505`.`Tab_Community`(`cname`, `pinyin`) VALUES ('永兴花园', 'yxhy');
-INSERT INTO `a0123224505`.`Tab_Community`(`cname`, `pinyin`) VALUES ('祥云花园', 'xyhy');
-INSERT INTO `a0123224505`.`Tab_Community`(`cname`, `pinyin`) VALUES ('宏基花园', 'hjhy');
-INSERT INTO `a0123224505`.`Tab_Community`(`cname`, `pinyin`) VALUES ('华辰尊园', 'hczy');
-INSERT INTO `a0123224505`.`Tab_Community`(`cname`, `pinyin`) VALUES ('莲花六区', 'lhlq');
-INSERT INTO `a0123224505`.`Tab_Community`(`cname`, `pinyin`) VALUES ('莲花五区', 'lhwq');
-INSERT INTO `a0123224505`.`Tab_Community`(`cname`, `pinyin`) VALUES ('水岸豪庭', 'saht');
-INSERT INTO `a0123224505`.`Tab_Community`(`cname`, `pinyin`) VALUES ('东河阳光', 'dhyg');
-INSERT INTO `a0123224505`.`Tab_Community`(`cname`, `pinyin`) VALUES ('阳光新城', 'ygxc');
-INSERT INTO `a0123224505`.`Tab_Community`(`cname`, `pinyin`) VALUES ('稻河湾', 'dhw');
-INSERT INTO `a0123224505`.`Tab_Community`(`cname`, `pinyin`) VALUES ('森园小区', 'syxq');
-INSERT INTO `a0123224505`.`Tab_Community`(`cname`, `pinyin`) VALUES ('玉堂花园', 'ythy');
-INSERT INTO `a0123224505`.`Tab_Community`(`cname`, `pinyin`) VALUES ('鹏欣丽都', 'pxld');
-INSERT INTO `a0123224505`.`Tab_Community`(`cname`, `pinyin`) VALUES ('教工三村', 'jgsc');
-INSERT INTO `a0123224505`.`Tab_Community`(`cname`, `pinyin`) VALUES ('财富广场', 'cfgc');
-INSERT INTO `a0123224505`.`Tab_Community`(`cname`, `pinyin`) VALUES ('五一路', 'wyl');
-INSERT INTO `a0123224505`.`Tab_Community`(`cname`, `pinyin`) VALUES ('工人新村', 'grxc');
-INSERT INTO `a0123224505`.`Tab_Community`(`cname`, `pinyin`) VALUES ('福寿苑', 'fsy');
-INSERT INTO `a0123224505`.`Tab_Community`(`cname`, `pinyin`) VALUES ('怡和花园', 'yhhy');
-INSERT INTO `a0123224505`.`Tab_Community`(`cname`, `pinyin`) VALUES ('新世界花园', 'xsjhy');
-INSERT INTO `a0123224505`.`Tab_Community`(`cname`, `pinyin`) VALUES ('宫涵花园', 'ghhy');
-INSERT INTO `a0123224505`.`Tab_Community`(`cname`, `pinyin`) VALUES ('供电新苑', 'gdxy');
-INSERT INTO `a0123224505`.`Tab_Community`(`cname`, `pinyin`) VALUES ('西域绿洲', 'xylz');
-INSERT INTO `a0123224505`.`Tab_Community`(`cname`, `pinyin`) VALUES ('盛塘花苑', 'sthy');
-INSERT INTO `a0123224505`.`Tab_Community`(`cname`, `pinyin`) VALUES ('金水湾', 'jsw');
-INSERT INTO `a0123224505`.`Tab_Community`(`cname`, `pinyin`) VALUES ('莲花八区', 'lhbq');
-INSERT INTO `a0123224505`.`Tab_Community`(`cname`, `pinyin`) VALUES ('坡子街', 'pzj');
-INSERT INTO `a0123224505`.`Tab_Community`(`cname`, `pinyin`) VALUES ('凤城国际', 'fhfj');
+INSERT INTO `tzfc_db`.`Tab_Area`(`area_name`) VALUES ('市区');
+INSERT INTO `tzfc_db`.`Tab_Area`(`area_name`) VALUES ('城中');
+INSERT INTO `tzfc_db`.`Tab_Area`(`area_name`) VALUES ('城东');
+INSERT INTO `tzfc_db`.`Tab_Area`(`area_name`) VALUES ('城南');
+INSERT INTO `tzfc_db`.`Tab_Area`(`area_name`) VALUES ('城西');
+INSERT INTO `tzfc_db`.`Tab_Area`(`area_name`) VALUES ('城北');
+INSERT INTO `tzfc_db`.`Tab_Area`(`area_name`) VALUES ('其他地区');
+
+
+
+
+-- -----------------------------------------------------
+-- Table `tzfc_db`.`Tab_Community` data
+-- -----------------------------------------------------
+INSERT INTO `tzfc_db`.`Tab_Community`(`cname`, `pinyin`) VALUES ('美好上郡', 'mhsj');
+INSERT INTO `tzfc_db`.`Tab_Community`(`cname`, `pinyin`) VALUES ('碧桂园', 'bgy');
+INSERT INTO `tzfc_db`.`Tab_Community`(`cname`, `pinyin`) VALUES ('永兴花园', 'yxhy');
+INSERT INTO `tzfc_db`.`Tab_Community`(`cname`, `pinyin`) VALUES ('祥云花园', 'xyhy');
+INSERT INTO `tzfc_db`.`Tab_Community`(`cname`, `pinyin`) VALUES ('宏基花园', 'hjhy');
+INSERT INTO `tzfc_db`.`Tab_Community`(`cname`, `pinyin`) VALUES ('华辰尊园', 'hczy');
+INSERT INTO `tzfc_db`.`Tab_Community`(`cname`, `pinyin`) VALUES ('莲花六区', 'lhlq');
+INSERT INTO `tzfc_db`.`Tab_Community`(`cname`, `pinyin`) VALUES ('莲花五区', 'lhwq');
+INSERT INTO `tzfc_db`.`Tab_Community`(`cname`, `pinyin`) VALUES ('水岸豪庭', 'saht');
+INSERT INTO `tzfc_db`.`Tab_Community`(`cname`, `pinyin`) VALUES ('东河阳光', 'dhyg');
+INSERT INTO `tzfc_db`.`Tab_Community`(`cname`, `pinyin`) VALUES ('阳光新城', 'ygxc');
+INSERT INTO `tzfc_db`.`Tab_Community`(`cname`, `pinyin`) VALUES ('稻河湾', 'dhw');
+INSERT INTO `tzfc_db`.`Tab_Community`(`cname`, `pinyin`) VALUES ('森园小区', 'syxq');
+INSERT INTO `tzfc_db`.`Tab_Community`(`cname`, `pinyin`) VALUES ('玉堂花园', 'ythy');
+INSERT INTO `tzfc_db`.`Tab_Community`(`cname`, `pinyin`) VALUES ('鹏欣丽都', 'pxld');
+INSERT INTO `tzfc_db`.`Tab_Community`(`cname`, `pinyin`) VALUES ('教工三村', 'jgsc');
+INSERT INTO `tzfc_db`.`Tab_Community`(`cname`, `pinyin`) VALUES ('财富广场', 'cfgc');
+INSERT INTO `tzfc_db`.`Tab_Community`(`cname`, `pinyin`) VALUES ('五一路', 'wyl');
+INSERT INTO `tzfc_db`.`Tab_Community`(`cname`, `pinyin`) VALUES ('工人新村', 'grxc');
+INSERT INTO `tzfc_db`.`Tab_Community`(`cname`, `pinyin`) VALUES ('福寿苑', 'fsy');
+INSERT INTO `tzfc_db`.`Tab_Community`(`cname`, `pinyin`) VALUES ('怡和花园', 'yhhy');
+INSERT INTO `tzfc_db`.`Tab_Community`(`cname`, `pinyin`) VALUES ('新世界花园', 'xsjhy');
+INSERT INTO `tzfc_db`.`Tab_Community`(`cname`, `pinyin`) VALUES ('宫涵花园', 'ghhy');
+INSERT INTO `tzfc_db`.`Tab_Community`(`cname`, `pinyin`) VALUES ('供电新苑', 'gdxy');
+INSERT INTO `tzfc_db`.`Tab_Community`(`cname`, `pinyin`) VALUES ('西域绿洲', 'xylz');
+INSERT INTO `tzfc_db`.`Tab_Community`(`cname`, `pinyin`) VALUES ('盛塘花苑', 'sthy');
+INSERT INTO `tzfc_db`.`Tab_Community`(`cname`, `pinyin`) VALUES ('金水湾', 'jsw');
+INSERT INTO `tzfc_db`.`Tab_Community`(`cname`, `pinyin`) VALUES ('莲花八区', 'lhbq');
+INSERT INTO `tzfc_db`.`Tab_Community`(`cname`, `pinyin`) VALUES ('坡子街', 'pzj');
+INSERT INTO `tzfc_db`.`Tab_Community`(`cname`, `pinyin`) VALUES ('凤城国际', 'fhfj');
 
 
 
@@ -499,7 +451,7 @@ INSERT INTO `a0123224505`.`Tab_Community`(`cname`, `pinyin`) VALUES ('凤城国�
 
 
 /*
--- Query: SELECT * FROM a0123224505.Tab_SellHouse
+-- Query: SELECT * FROM tzfc_db.Tab_SellHouse
 LIMIT 0, 1000
 
 -- Date: 2016-01-22 15:00
@@ -512,7 +464,7 @@ INSERT INTO `Tab_SellHouse` (`title`,`rooms`,`halls`,`bathrooms`,`size`,`price`,
 
 
 /*
--- Query: SELECT * FROM a0123224505.Tab_RentHouse
+-- Query: SELECT * FROM tzfc_db.Tab_RentHouse
 LIMIT 0, 1000
 
 -- Date: 2016-01-14 13:06

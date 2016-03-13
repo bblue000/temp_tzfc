@@ -17,7 +17,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | environments.
 |
 */
-$config['base_url'] = 'http://bblue000.op85.zuji-105.com/';
+$config['base_url'] = 'http://www.tzthfdc.com/';
 
 /*
 |--------------------------------------------------------------------------
@@ -29,7 +29,7 @@ $config['base_url'] = 'http://bblue000.op85.zuji-105.com/';
 | variable so that it is blank.
 |
 */
-$config['index_page'] = '';
+$config['index_page'] = '';//'index.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -366,7 +366,7 @@ $config['sess_cookie_name'] = 'tzfc_session';
 $config['sess_expiration'] = 7200;
 $config['sess_save_path'] = FCPATH.'tzfc_sessions';
 $config['sess_match_ip'] = FALSE;
-$config['sess_time_to_update'] = 300;
+$config['sess_time_to_update'] = 1800;
 $config['sess_regenerate_destroy'] = FALSE;
 
 /*

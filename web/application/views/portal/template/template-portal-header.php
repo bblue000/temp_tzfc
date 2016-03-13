@@ -32,10 +32,10 @@
 	<body>
 		<header class="welcome">
 			<div class="fixed-sub-container">
-			您好！欢迎访问&nbsp;<a href="/" target="_self">泰州房产网</a>&nbsp;。
+			您好！欢迎访问&nbsp;<a href="/" target="_self"><?php echo WEBSITE_NAME; ?></a>&nbsp;。
 			&nbsp;&nbsp;&nbsp;&nbsp;
 			<img src="public/img/portal/ic_call.png" style="width: 25px; height: 25px; margin-top: -5px;" />
-			<span class="highlight call">0523-8888888&nbsp;/&nbsp;6666666</span>
+			<span class="highlight call"><?php print_r(WEBSITE_CONTACT); ?></span>
 			</div>
 		</header>
 
